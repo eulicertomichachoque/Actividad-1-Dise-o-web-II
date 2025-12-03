@@ -1,1 +1,172 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio Paddings | Box Model</title>
+
+    <!-- Nueva fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="stylos.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Experimentando con Paddings</h1>
+        <p class="subtitle">Entendiendo cómo el padding afecta el espacio interno de los elementos</p>
+
+        <!-- Sección 1 -->
+        <section class="demo-section">
+            <h2>1. Padding Uniforme</h2>
+            <div class="examples-grid">
+                <div class="box">
+                    <div class="content padding-none">
+                        <p><strong>Sin padding</strong></p>
+                        <p>padding: 0;</p>
+                    </div>
+                </div>
+                
+                <div class="box">
+                    <div class="content padding-small">
+                        <p><strong>Padding pequeño</strong></p>
+                        <p>padding: 10px;</p>
+                    </div>
+                </div>
+                
+                <div class="box">
+                    <div class="content padding-medium">
+                        <p><strong>Padding mediano</strong></p>
+                        <p>padding: 20px;</p>
+                    </div>
+                </div>
+                
+                <div class="box">
+                    <div class="content padding-large">
+                        <p><strong>Padding grande</strong></p>
+                        <p>padding: 40px;</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2 -->
+        <section class="demo-section">
+            <h2>2. Padding Asimétrico</h2>
+            <div class="examples-grid">
+                <div class="box">
+                    <div class="content padding-vertical">
+                        <p><strong>Vertical</strong></p>
+                        <p>padding: 30px 10px;</p>
+                    </div>
+                </div>
+                
+                <div class="box">
+                    <div class="content padding-horizontal">
+                        <p><strong>Horizontal</strong></p>
+                        <p>padding: 10px 40px;</p>
+                    </div>
+                </div>
+                
+                <div class="box">
+                    <div class="content padding-custom">
+                        <p><strong>Personalizado</strong></p>
+                        <p>padding: 10px 20px 30px 40px;</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3 -->
+        <section class="demo-section">
+            <h2>3. Casos de Uso Prácticos</h2>
+            
+            <h3>Botones</h3>
+            <div class="buttons-demo">
+                <button class="btn btn-small">Pequeño</button>
+                <button class="btn btn-medium">Mediano</button>
+                <button class="btn btn-large">Grande</button>
+            </div>
+
+            <h3>Inputs</h3>
+            <div class="inputs-demo">
+                <input type="text" class="input input-small" placeholder="Input pequeño">
+                <input type="text" class="input input-medium" placeholder="Input mediano">
+                <input type="text" class="input input-large" placeholder="Input grande">
+            </div>
+
+            <h3>Cards</h3>
+            <div class="cards-demo">
+                <div class="card card-compact">
+                    <h4>Card Compacta</h4>
+                    <p>padding: 10px;</p>
+                </div>
+                <div class="card card-comfortable">
+                    <h4>Card Cómoda</h4>
+                    <p>padding: 20px;</p>
+                </div>
+                <div class="card card-spacious">
+                    <h4>Card Espaciosa</h4>
+                    <p>padding: 40px;</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4 -->
+        <section class="demo-section">
+            <h2>4. Padding y Backgrounds</h2>
+            <p class="info">💡 <strong>Importante:</strong> El background se extiende hasta el borde, incluyendo el padding</p>
+            
+            <div class="bg-demo">
+                <div class="bg-box bg-no-padding">
+                    <div class="inner-content">Sin padding</div>
+                </div>
+                <div class="bg-box bg-with-padding">
+                    <div class="inner-content">Con padding: 30px</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 5 -->
+        <section class="demo-section">
+            <h2>5. Padding y Box-Sizing</h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-box">
+                    <h3>content-box (defecto)</h3>
+                    <div class="sized-box content-box-demo">
+                        <p>width: 200px</p>
+                        <p>padding: 20px</p>
+                        <p class="highlight">Tamaño total: 240px</p>
+                    </div>
+                </div>
+
+                <div class="comparison-box">
+                    <h3>border-box (recomendado)</h3>
+                    <div class="sized-box border-box-demo">
+                        <p>width: 200px</p>
+                        <p>padding: 20px</p>
+                        <p class="highlight">Tamaño total: 200px</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 6 -->
+        <section class="demo-section">
+            <h2>6. Padding en Inline vs Block</h2>
+            
+            <h3>Inline (span)</h3>
+            <p>Texto con <span class="inline-padded">padding</span> aplicado.</p>
+
+            <h3>Inline-block</h3>
+            <p><span class="inline-block-padded">Elemento inline-block</span></p>
+
+            <h3>Block</h3>
+            <div class="block-padded">
+                Elemento block con padding.
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
 
