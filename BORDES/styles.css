@@ -1,0 +1,500 @@
+/* =====================================
+   RESET
+   ===================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* -----------------------------
+   NUEVAS UTILS & FONDO
+   ----------------------------- */
+.with-new-bg .page-bg{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    /* Fondo principal: degradado + sutil ruido con radial-gradients */
+    background-image: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.02), transparent 18%),
+                      radial-gradient(circle at 90% 90%, rgba(255,255,255,0.01), transparent 18%),
+                      linear-gradient(120deg, #071133 0%, #0f172a 100%);
+    background-attachment: fixed;
+}
+
+/* Colores utilitarios para aplicar desde HTML */
+.color-primary{ background: linear-gradient(135deg,#06b6d4 0%, #3b82f6 100%); color: #041028; border-color: #06b6d4; }
+.color-secondary{ background: linear-gradient(135deg,#7c3aed 0%, #8b5cf6 100%); color: #fff; border-color: #7c3aed; }
+.color-accent{ background: linear-gradient(135deg,#f97316 0%, #f59e0b 100%); color: #041028; border-color: #f97316; }
+.color-purple{ background: linear-gradient(135deg,#9b59b6 0%, #8b5cf6 100%); color: #fff; border-color: #9b59b6; }
+.color-ink{ background: linear-gradient(135deg,#34495e 0%, #2f3b52 100%); color: #fff; border-color: #34495e; }
+.color-teal{ background: linear-gradient(135deg,#14b8a6 0%, #06b6d4 100%); color: #041028; border-color: #14b8a6; }
+.color-orange{ background: linear-gradient(135deg,#fb923c 0%, #f97316 100%); color: #041028; border-color: #fb923c; }
+.color-amber{ background: linear-gradient(135deg,#f59e0b 0%, #f97316 100%); color: #041028; border-color: #f59e0b; }
+.color-blue{ background: linear-gradient(135deg,#3b82f6 0%, #06b6d4 100%); color: #041028; border-color: #3b82f6; }
+.color-surface{ background: linear-gradient(180deg,#ffffff 0%, #f8fafc 100%); color: #041028; border-color: rgba(0,0,0,0.04); }
+
+/* -----------------------------
+   Body / Tipografías
+   ----------------------------- */
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: #e6eef8; /* texto claro sobre fondo oscuro */
+    line-height: 1.6;
+    padding: 2rem 0;
+    /* keep fallback background for non-with-new-bg users */
+    background: #f5f7fa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+h1 {
+    text-align: center;
+    color: #06b6d4; /* primary accent */
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+}
+
+.subtitle {
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+}
+
+h3 {
+    margin: 1.5rem 0 1rem 0;
+    color: #cbd5e1;
+}
+
+code {
+    background: rgba(255,255,255,0.03);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #f97316;
+}
+
+/* =====================================
+   SECCIONES DEMO
+   ===================================== */
+
+.demo-section {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 22px rgba(2,6,23,0.5);
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+.demo-section h2 {
+    color: #e6eef8;
+    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+}
+
+/* =====================================
+   SECCIÓN 1: ESTILOS DE BORDER
+   ===================================== */
+
+.border-styles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.border-box {
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.28s ease;
+    color: var(--box-text, #e6eef8);
+}
+
+.border-box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(2,6,23,0.45);
+}
+
+.border-box strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #e6eef8;
+    font-size: 1.1rem;
+}
+
+.border-box p {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin: 0.25rem 0;
+}
+
+/* ⭐ ESTILOS DE BORDER (se mantienen) */
+.border-solid {
+    border: 3px solid #06b6d4;
+}
+
+.border-dashed {
+    border: 3px dashed #7c3aed;
+}
+
+.border-dotted {
+    border: 3px dotted #f97316;
+}
+
+.border-double {
+    border: 5px double #9b59b6;
+}
+
+.border-groove {
+    border: 5px groove #34495e;
+}
+
+.border-ridge {
+    border: 5px ridge #14b8a6;
+}
+
+.border-inset {
+    border: 5px inset #fb923c;
+}
+
+.border-outset {
+    border: 5px outset #f59e0b;
+}
+
+/* Cuando se aplica una clase color-* queremos sobrescribir fondo/borde */
+.border-box.color-primary{ background: linear-gradient(135deg,#06b6d4 0%, #3b82f6 100%); color:#041028; }
+.border-box.color-secondary{ background: linear-gradient(135deg,#7c3aed 0%, #8b5cf6 100%); color:#ffffff; }
+.border-box.color-accent{ background: linear-gradient(135deg,#f97316 0%, #f59e0b 100%); color:#041028; }
+.border-box.color-purple{ background: linear-gradient(135deg,#9b59b6 0%, #8b5cf6 100%); color:#ffffff; }
+.border-box.color-ink{ background: linear-gradient(135deg,#34495e 0%, #2f3b52 100%); color:#ffffff; }
+
+/* =====================================
+   SECCIÓN 2: BORDES INDIVIDUALES
+   ===================================== */
+
+.individual-borders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.border-top-only {
+    border-top: 4px solid #06b6d4;
+}
+
+.border-bottom-only {
+    border-bottom: 4px solid #7c3aed;
+}
+
+.border-left-only {
+    border-left: 4px solid #f97316;
+}
+
+.border-mixed {
+    border-top: 3px solid #3b82f6;
+    border-bottom: 3px solid #ef4444;
+}
+
+/* =====================================
+   SECCIÓN 3: BORDER-RADIUS
+   ===================================== */
+
+.radius-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+}
+
+.radius-box {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    border: 3px solid white;
+}
+
+.radius-small {
+    border-radius: 5px;
+}
+
+.radius-medium {
+    border-radius: 15px;
+}
+
+.radius-large {
+    border-radius: 30px;
+}
+
+.radius-pill {
+    border-radius: 999px;
+}
+
+/* =====================================
+   SECCIÓN 4: FORMAS
+   ===================================== */
+
+.shapes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.shape-container {
+    text-align: center;
+}
+
+.shape-container p {
+    margin: 1rem 0 0.5rem 0;
+    font-weight: 600;
+}
+
+.shape {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 3px solid #5568d3;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+.rounded-square {
+    border-radius: 20px;
+}
+
+.top-rounded {
+    border-radius: 50% 50% 0 0;
+}
+
+.leaf {
+    border-radius: 0 100% 0 100%;
+}
+
+.rectangle{
+    width: 120px;
+    height: 60px;
+}
+/* Aplicar colores utilitarios a shapes cuando se usan las clases */
+.shape.color-primary{ background: linear-gradient(135deg,#06b6d4 0%, #3b82f6 100%); border-color: #06b6d4; }
+.shape.color-secondary{ background: linear-gradient(135deg,#7c3aed 0%, #8b5cf6 100%); border-color: #7c3aed; }
+.shape.color-accent{ background: linear-gradient(135deg,#f97316 0%, #f59e0b 100%); border-color: #f97316; }
+.shape.color-teal{ background: linear-gradient(135deg,#14b8a6 0%, #06b6d4 100%); border-color: #14b8a6; }
+
+/* =====================================
+   SECCIÓN 5: BOTONES
+   ===================================== */
+
+.buttons-demo {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 1rem 0 2rem 0;
+}
+
+.btn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.28s cubic-bezier(.2,.9,.2,1);
+}
+
+/* Nuevas clases semánticas que pediste */
+.btn-primary{
+    background: linear-gradient(90deg,#06b6d4,#3b82f6);
+    color: #041028;
+    border: 2px solid rgba(255,255,255,0.06);
+    box-shadow: 0 8px 20px rgba(3,7,18,0.6);
+}
+.btn-primary:hover{ transform: translateY(-3px); filter:brightness(1.03); }
+
+.btn-secondary{
+    background: transparent;
+    color: #7c3aed;
+    border: 2px solid #7c3aed;
+}
+.btn-secondary:hover{ background: rgba(124,58,237,0.08); color:#fff; }
+
+.btn-muted{
+    background: transparent;
+    color: #94a3b8;
+    border: 2px dashed rgba(255,255,255,0.04);
+}
+.btn-muted:hover{ color:#e6eef8; border-color:#7c3aed }
+
+.btn-accent{
+    background: linear-gradient(90deg,#f59e0b,#fb923c);
+    color:#041028;
+    border:2px solid rgba(255,255,255,0.06);
+}
+
+/* Mapear los estilos antiguos por compatibilidad */
+.btn-filled{ /* legacy - map to primary */ }
+.btn-outline{ /* legacy - leave as-is */ }
+.btn-ghost{ /* legacy - leave as-is */ }
+
+/* Botones con efectos (se mantienen) */
+.btn-border-grow {
+    background: white;
+    color: #9b59b6;
+    border: 2px solid #9b59b6;
+    position: relative; overflow:hidden;
+}
+.btn-border-grow:hover { border-width: 4px; }
+
+.btn-border-spin {
+    background: white;
+    color: #1abc9c;
+    border: 3px dashed #1abc9c;
+    border-radius: 50px;
+}
+.btn-border-spin:hover { border-style: solid; transform: rotate(360deg); }
+
+.btn-slide-border { background: white; color: #e67e22; border: none; border-bottom: 3px solid transparent; }
+.btn-slide-border:hover { border-bottom-color: #e67e22; }
+
+/* =====================================
+   SECCIÓN 6: CARDS
+   ===================================== */
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    padding: 1.5rem;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+.card:hover { transform: translateY(-5px); box-shadow: 0 12px 26px rgba(2,6,23,0.45); }
+
+.card h3 { color: #e6eef8; margin: 0 0 1rem 0; font-size: 1.1rem; }
+.card p { color: #94a3b8; font-size: 0.9rem; margin: 0.25rem 0; }
+
+.card-simple { border: 1px solid rgba(255,255,255,0.03); }
+.card-thick { border: 3px solid #06b6d4; }
+.card-accent { border: 1px solid rgba(255,255,255,0.03); border-left: 5px solid #7c3aed; }
+.card-dashed { border: 2px dashed #9b59b6; }
+
+/* =====================================
+   SECCIÓN 7: AVATARES
+   ===================================== */
+
+.avatars-demo { display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap; }
+.avatar-container { text-align: center; }
+.avatar-container p { margin-top: 0.5rem; font-weight: 600; color: #e6eef8 }
+.avatar { width: 100px; height: 100px; overflow: hidden; border: 3px solid #06b6d4; border-radius: 12px }
+.avatar img { width: 100%; height: 100%; object-fit: cover; display:block }
+.avatar-circle { border-radius: 50%; }
+.avatar-rounded { border-radius: 20px; }
+.avatar-square { border-radius: 4px; }
+
+/* =====================================
+   SECCIÓN 8: EFECTOS AVANZADOS
+   ===================================== */
+
+.advanced-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+.advanced-box { padding: 2rem; text-align: center; border-radius: 12px; transition: all 0.3s ease; }
+.advanced-box p { margin: 0.5rem 0; }
+
+.gradient-border {
+    background: linear-gradient(white, white) padding-box, linear-gradient(135deg, #667eea, #764ba2) border-box;
+    border: 4px solid transparent;
+}
+
+.glow-border { border: 2px solid #06b6d4; box-shadow: 0 0 28px rgba(6,182,212,0.12); }
+.glow-border:hover { box-shadow: 0 0 36px rgba(6,182,212,0.18); }
+
+.animated-border { border: 3px solid #14b8a6; position: relative; }
+.animated-border:hover { border-color: #e74c3c; }
+
+/* =====================================
+   CÓDIGO DE REFERENCIA
+   ===================================== */
+
+.code-section { background: rgba(2,6,23,0.7); color: #ecf0f1; }
+.code-section h2 { color: #06b6d4; }
+pre { background: rgba(12,18,40,0.6); padding: 1.5rem; border-radius: 8px; overflow-x: auto; font-family: 'Courier New', monospace; line-height: 1.8; margin-top: 1rem; }
+pre code { color: #1abc9c; font-size: 0.95rem; background: none; }
+
+/* =====================================
+   RESPONSIVE
+   ===================================== */
+
+@media (max-width: 768px) {
+    .container { padding: 0 1rem; }
+    h1 { font-size: 2rem; }
+    .demo-section { padding: 1.5rem 1rem; }
+    .border-styles-grid, .radius-grid, .cards-grid { grid-template-columns: 1fr; }
+    .buttons-demo { flex-direction: column; }
+    .btn { width: 100%; }
+}
+
+/* =====================================
+   NOTAS EDUCATIVAS (mantener)
+   ===================================== */
+
+/*
+📚 CONCEPTOS CLAVE DE BORDERS:
+
+1. SINTAXIS BÁSICA:
+   border: width style color;
+   border: 2px solid #3498db;
+
+2. ESTILOS DISPONIBLES:
+   - solid: Línea sólida
+   - dashed: Línea discontinua
+   - dotted: Puntos
+   - double: Línea doble
+   - groove: 3D hundido
+   - ridge: 3D elevado
+   - inset: 3D contenido hundido
+   - outset: 3D contenido elevado
+   - none: Sin borde
+   - hidden: Oculto (igual a none)
+
+3. BORDES INDIVIDUALES:
+   border-top: 1px solid black;
+   border-right: 2px dashed blue;
+   border-bottom: 3px dotted red;
+   border-left: 4px double green;
+
+4. BORDER-RADIUS:
+   - border-radius: 10px; (todos iguales)
+   - border-radius: 10px 20px 30px 40px; (TL TR BR BL)
+   - border-radius: 50%; (círculo)
+   - border-radius: 50% 50% 0 0; (top redondeado)
+
+5. EL BORDER AFECTA EL TAMAÑO:
+   Con box-sizing: content-box:
+   - width: 200px + border: 5px = 210px total
+   
+   Con box-sizing: border-box:
+   - width: 200px + border: 5px = 200px total
+
+6. TRUCOS:
+   - Triángulos con borders transparentes
+   - Gradientes con background-clip
+   - Efectos glow con box-shadow
+
+⭐ BEST PRACTICE:
+- Usa border-radius para esquinas redondeadas
+- Considera box-sizing: border-box
+- Usa rem/em para borders escalables
+- Combina con transition para efectos hover
+*/
