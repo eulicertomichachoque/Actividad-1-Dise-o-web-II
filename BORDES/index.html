@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bordes y Border-Radius | Box Model</title>
+    <link rel="stylesheet" href="sytlos.css">
+</head>
+<body class="theme-modern with-new-bg">
+    <!-- Nuevo fondo: estilizar desde CSS (ej: .page-bg { position: fixed; inset:0; background: ...; z-index:-1 }) -->
+    <div class="page-bg" aria-hidden="true"></div>
+
+    <div class="container">
+        <h1>Bordes y Border-Radius</h1>
+        <p class="subtitle">Dominando las propiedades de border en CSS</p>
+
+        <!-- Sección 1: Estilos de Border -->
+        <section class="demo-section">
+            <h2>1. Estilos de Border</h2>
+            <div class="border-styles-grid">
+                <div class="border-box border-solid color-primary">
+                    <strong>solid</strong>
+                    <p>border: 3px solid #3498db;</p>
+                </div>
+                
+                <div class="border-box border-dashed color-secondary">
+                    <strong>dashed</strong>
+                    <p>border: 3px dashed #2ecc71;</p>
+                </div>
+                
+                <div class="border-box border-dotted color-accent">
+                    <strong>dotted</strong>
+                    <p>border: 3px dotted #e74c3c;</p>
+                </div>
+                
+                <div class="border-box border-double color-purple">
+                    <strong>double</strong>
+                    <p>border: 5px double #9b59b6;</p>
+                </div>
+                
+                <div class="border-box border-groove color-ink">
+                    <strong>groove</strong>
+                    <p>border: 5px groove #34495e;</p>
+                </div>
+                
+                <div class="border-box border-ridge color-teal">
+                    <strong>ridge</strong>
+                    <p>border: 5px ridge #1abc9c;</p>
+                </div>
+                
+                <div class="border-box border-inset color-orange">
+                    <strong>inset</strong>
+                    <p>border: 5px inset #e67e22;</p>
+                </div>
+                
+                <div class="border-box border-outset color-amber">
+                    <strong>outset</strong>
+                    <p>border: 5px outset #f39c12;</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 2: Border por Lados -->
+        <section class="demo-section">
+            <h2>2. Bordes Individuales por Lado</h2>
+            <div class="individual-borders-grid">
+                <div class="border-box border-top-only color-primary">
+                    <strong>Solo arriba</strong>
+                    <p>border-top: 4px solid #3498db;</p>
+                </div>
+                
+                <div class="border-box border-bottom-only color-secondary">
+                    <strong>Solo abajo</strong>
+                    <p>border-bottom: 4px solid #2ecc71;</p>
+                </div>
+                
+                <div class="border-box border-left-only color-accent">
+                    <strong>Solo izquierda</strong>
+                    <p>border-left: 4px solid #e74c3c;</p>
+                </div>
+                
+                <div class="border-box border-mixed color-blue">
+                    <strong>Múltiples lados</strong>
+                    <p>border-top: 3px solid blue;</p>
+                    <p>border-bottom: 3px solid red;</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 3: Border-Radius -->
+        <section class="demo-section">
+            <h2>3. Border-Radius (Esquinas Redondeadas)</h2>
+            <div class="radius-grid">
+                <div class="radius-box radius-small color-surface">
+                    <strong>Pequeño</strong>
+                    <p>border-radius: 5px;</p>
+                </div>
+                
+                <div class="radius-box radius-medium color-surface">
+                    <strong>Mediano</strong>
+                    <p>border-radius: 15px;</p>
+                </div>
+                
+                <div class="radius-box radius-large color-surface">
+                    <strong>Grande</strong>
+                    <p>border-radius: 30px;</p>
+                </div>
+                
+                <div class="radius-box radius-pill color-surface">
+                    <strong>Pill (Pastilla)</strong>
+                    <p>border-radius: 999px;</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 4: Formas con Border-Radius -->
+        <section class="demo-section">
+            <h2>4. Creando Formas</h2>
+            <div class="shapes-grid">
+                <div class="shape-container">
+                    <div class="shape circle color-primary"></div>
+                    <p><strong>Círculo</strong></p>
+                    <code>border-radius: 50%;</code>
+                </div>
+                
+                <div class="shape-container">
+                    <div class="shape rounded-square color-secondary"></div>
+                    <p><strong>Cuadrado Redondeado</strong></p>
+                    <code>border-radius: 20px;</code>
+                </div>
+                
+                <div class="shape-container">
+                    <div class="shape top-rounded color-accent"></div>
+                    <p><strong>Top Redondeado</strong></p>
+                    <code>border-radius: 50% 50% 0 0;</code>
+                </div>
+                
+                <div class="shape-container">
+                    <div class="shape leaf color-teal"></div>
+                    <p><strong>Hoja</strong></p>
+                    <code>border-radius: 0 100% 0 100%;</code> 
+                </div>
+
+                <div class="shape-container">
+                     <div class="shape rectangle color-yellow"> </div>
+                     <p><strong>rectangle</strong></p>
+                     <code>width: 120px; height: 60;</code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 5: Botones con Bordes -->
+        <section class="demo-section">
+            <h2>5. Botones con Diferentes Estilos de Borde</h2>
+            
+            <h3>Botones Sólidos</h3>
+            <div class="buttons-demo">
+                <!-- reasigné clases semánticas para que el CSS pueda cambiar colores fácilmente -->
+                <button class="btn btn-primary">Filled</button>
+                <button class="btn btn-secondary">Outline</button>
+                <button class="btn btn-muted">Ghost</button>
+            </div>
+
+            <h3>Botones con Efectos</h3>
+            <div class="buttons-demo">
+                <button class="btn btn-accent btn-border-grow">Border Grow</button>
+                <button class="btn btn-primary btn-border-spin">Border Spin</button>
+                <button class="btn btn-secondary btn-slide-border">Slide Border</button>
+            </div>
+        </section>
+
+        <!-- Sección 6: Cards con Bordes -->
+        <section class="demo-section">
+            <h2>6. Cards con Estilos de Borde</h2>
+            <div class="cards-grid">
+                <div class="card card-simple color-surface">
+                    <h3>Card Simple</h3>
+                    <p>border: 1px solid #e0e0e0;</p>
+                    <p>border-radius: 8px;</p>
+                </div>
+                
+                <div class="card card-thick color-primary">
+                    <h3>Card con Borde Grueso</h3>
+                    <p>border: 3px solid #3498db;</p>
+                    <p>border-radius: 12px;</p>
+                </div>
+                
+                <div class="card card-accent color-secondary">
+                    <h3>Card con Acento</h3>
+                    <p>border-left: 5px solid #2ecc71;</p>
+                    <p>border-radius: 4px;</p>
+                </div>
+                
+                <div class="card card-dashed color-purple">
+                    <h3>Card con Borde Punteado</h3>
+                    <p>border: 2px dashed #9b59b6;</p>
+                    <p>border-radius: 10px;</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 7: Avatares -->
+        <section class="demo-section">
+            <h2>7. Avatares y Badges</h2>
+            <div class="avatars-demo">
+                <div class="avatar-container">
+                    <div class="avatar avatar-circle color-primary">
+                        <img src="https://i.pravatar.cc/100?img=1" alt="Avatar">
+                    </div>
+                    <p>Circular</p>
+                </div>
+                
+                <div class="avatar-container">
+                    <div class="avatar avatar-rounded color-secondary">
+                        <img src="https://i.pravatar.cc/100?img=2" alt="Avatar">
+                    </div>
+                    <p>Redondeado</p>
+                </div>
+                
+                <div class="avatar-container">
+                    <div class="avatar avatar-square color-accent">
+                        <img src="https://i.pravatar.cc/100?img=3" alt="Avatar">
+                    </div>
+                    <p>Cuadrado</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección 8: Border con Gradientes (Trucos) -->
+        <section class="demo-section">
+            <h2>8. Efectos Avanzados con Bordes</h2>
+            <div class="advanced-grid">
+                <div class="advanced-box gradient-border color-surface">
+                    <p><strong>Border con Gradiente</strong></p>
+                    <p>Usando background y padding</p>
+                </div>
+                
+                <div class="advanced-box glow-border color-primary">
+                    <p><strong>Border con Glow</strong></p>
+                    <p>Usando box-shadow</p>
+                </div>
+                
+                <div class="advanced-box animated-border color-surface">
+                    <p><strong>Border Animado</strong></p>
+                    <p>Transición en hover</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Código de Referencia -->
+        <section class="demo-section code-section">
+            <h2>📝 Referencia Rápida de Borders</h2>
+            <pre><code>/* Border completo (width style color) */
+border: 2px solid #3498db;
+
+/* Bordes individuales */
+border-top: 1px solid black;
+border-right: 2px dashed blue;
+border-bottom: 3px dotted red;
+border-left: 4px double green;
+
+/* Border-radius */
+border-radius: 10px; /* Todos los lados */
+border-radius: 10px 20px 30px 40px; /* TL TR BR BL */
+border-radius: 50%; /* Círculo */
+
+/* Solo algunas esquinas */
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+border-bottom-right-radius: 10px;
+border-bottom-left-radius: 10px;
+
+/* Estilos: solid | dashed | dotted | double | groove | ridge | inset | outset | none */</code></pre>
+        </section>
+    </div>
+</body>
+</html>
