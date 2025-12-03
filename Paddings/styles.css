@@ -1,0 +1,149 @@
+/* General */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #0a0f24;
+    color: #e6f7ff;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #4db8ff;
+}
+
+/* Secciones */
+.demo-section {
+    margin-top: 40px;
+    background: #101830;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,255,255,0.1);
+}
+
+/* Grid */
+.examples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.box {
+    background: #16203b;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.content {
+    background: #1b2a4a;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Paddings */
+.padding-none { padding: 0; background: #2d3b55; }
+.padding-small { padding: 10px; background: #354a72; }
+.padding-medium { padding: 20px; background: #3f5c96; }
+.padding-large { padding: 40px; background: #4b6cb7; }
+
+.padding-vertical { padding: 30px 10px; background: #5a5ed3; }
+.padding-horizontal { padding: 10px 40px; background: #6b6cf3; }
+.padding-custom { padding: 10px 20px 30px 40px; background: #7a5bf3; }
+
+/* Botones */
+.btn {
+    border: none;
+    border-radius: 6px;
+    background: #4db8ff;
+    color: #001526;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #77ccff;
+}
+
+.btn-small { padding: 5px 12px; }
+.btn-medium { padding: 10px 20px; }
+.btn-large { padding: 15px 28px; }
+
+/* Inputs */
+.input {
+    border: none;
+    border-radius: 5px;
+    background: #e6f7ff;
+    padding: 8px;
+    margin: 5px;
+    width: 180px;
+}
+
+.input-small { padding: 5px; }
+.input-medium { padding: 10px; }
+.input-large { padding: 15px; }
+
+/* Cards */
+.card {
+    background: #16203b;
+    border-radius: 10px;
+    width: 200px;
+    padding: 10px;
+}
+
+.card-comfortable { padding: 20px; background: #21345d; }
+.card-spacious { padding: 40px; background: #2d4a7d; }
+
+/* Background demo */
+.bg-box {
+    margin: 10px;
+    background: #4db8ff;
+    border-radius: 10px;
+}
+
+.bg-no-padding .inner-content { padding: 0; }
+.bg-with-padding .inner-content { padding: 30px; }
+
+/* Box sizing */
+.comparison-grid {
+    display: flex;
+    gap: 20px;
+}
+
+.sized-box {
+    background: #16203b;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.content-box-demo {
+    box-sizing: content-box;
+}
+
+.border-box-demo {
+    box-sizing: border-box;
+}
+
+/* Inline / block */
+.inline-padded {
+    padding: 10px;
+    background: #354a72;
+}
+
+.inline-block-padded {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #4b6cb7;
+}
+
+.block-padded {
+    display: block;
+    padding: 20px;
+    background: #3f5c96;
+    margin-top: 10px;
+}
