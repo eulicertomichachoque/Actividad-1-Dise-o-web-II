@@ -1,0 +1,278 @@
+/* Box-Sizing Comparison - Styles Mejorados */
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    color: #fff;
+    transition: background 0.5s ease;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Encabezados */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+}
+
+.intro {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+    line-height: 1.5;
+}
+
+/* Estilo para código */
+code {
+    background: rgba(0,0,0,0.2);
+    padding: 3px 6px;
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Grid de comparación */
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Wrapper de cada caja */
+.box-wrapper {
+    background: rgba(255,255,255,0.95);
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.box-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
+
+.box-wrapper h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    color: #2c3e50;
+}
+
+/* Cajas de ejemplo */
+.box {
+    width: 200px;
+    padding: 20px;
+    border: 10px solid #3498db;
+    background-color: #ecf0f1;
+    margin: 0 auto 1.5rem;
+    min-height: 120px;
+    border-radius: 10px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* Diferencia en box-sizing */
+.content-box {
+    box-sizing: content-box;
+}
+
+.border-box {
+    box-sizing: border-box;
+}
+
+/* Texto dentro de las cajas */
+.box p {
+    margin: 0.3rem 0;
+    font-size: 0.95rem;
+    color: #34495e;
+}
+
+.box .result {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+/* Cálculo del tamaño */
+.calculation {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.calculation p {
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.calculation code {
+    display: block;
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    line-height: 1.8;
+    color: #2c3e50;
+}
+
+.calculation strong {
+    color: #e74c3c;
+    font-size: 1.2em;
+}
+
+/* Secciones adicionales */
+.explanation,
+.best-practice,
+.interactive-demo {
+    background: rgba(255,255,255,0.95);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Títulos de secciones */
+.explanation h2,
+.best-practice h2,
+.interactive-demo h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+/* Grid de beneficios */
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.benefit {
+    padding: 1rem;
+    background: #ecf0f1;
+    border-radius: 10px;
+    border-left: 5px solid #27ae60;
+    transition: transform 0.3s ease;
+}
+
+.benefit:hover {
+    transform: translateY(-5px);
+}
+
+.benefit h3 {
+    margin-bottom: 0.5rem;
+    color: #27ae60;
+}
+
+.benefit p {
+    margin: 0;
+    color: #7f8c8d;
+}
+
+/* Best Practice Code */
+.best-practice pre {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 1.5rem;
+    border-radius: 10px;
+    overflow-x: auto;
+}
+
+.best-practice pre code {
+    background: none;
+    color: #1abc9c;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.tip {
+    background: #fff3cd;
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 5px solid #ffc107;
+    margin-top: 1rem;
+}
+
+/* Controles interactivos */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.controls label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.controls input[type="range"] {
+    flex: 1;
+    accent-color: #3498db;
+}
+
+.controls span {
+    display: inline-block;
+    min-width: 60px;
+    color: #3498db;
+}
+
+/* Demo boxes */
+.demo-boxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.demo-box {
+    box-sizing: content-box;
+    width: 200px;
+    padding: 20px;
+    border: 10px solid #e74c3c;
+    background-color: #ffe6e6;
+    margin: 0 auto;
+    text-align: center;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+.demo-border-box {
+    box-sizing: border-box;
+    border-color: #27ae60;
+    background-color: #e6ffe6;
+}
+
+.demo-box p {
+    margin: 0.5rem 0;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .comparison-grid,
+    .demo-boxes {
+        grid-template-columns: 1fr;
+    }
+
+    .box {
+        width: 100%;
+        max-width: 200px;
+    }
+}
