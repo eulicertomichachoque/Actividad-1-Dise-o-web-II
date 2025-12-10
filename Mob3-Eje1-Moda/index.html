@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solución: Modal Centrado — Rediseñado</title>
+    <!-- Mantén el mismo archivo CSS o cámbialo por styles.css / styles-red.css según prefieras -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="vibrant">
+    <!-- DECORACIÓN GLOBAL: blobs y partículas que el CSS animará -->
+    <div class="page-decor">
+        <span class="blob blob-1" aria-hidden="true"></span>
+        <span class="blob blob-2" aria-hidden="true"></span>
+        <span class="floating-circle" aria-hidden="true"></span>
+        <!-- SVG sutil en background -->
+        <svg class="wave-bg" viewBox="0 0 800 200" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,80 C200,200 400,0 800,80 L800,200 L0,200 Z"></path>
+        </svg>
+    </div>
+
+    <main class="container">
+        <header class="hero">
+            <h1>Ejercicio: Modal Centrado</h1>
+            <p class="subtitle">Haz clic en el botón para abrir el modal y ver el nuevo diseño.</p>
+            <button class="btn btn-open" id="openModal">Abrir Modal</button>
+        </header>
+
+        <section class="info card">
+            <h3>Características del Modal</h3>
+            <ul>
+                <li>Centrado con <code>position: fixed</code></li>
+                <li>Overlay semitransparente</li>
+                <li>Cierre con botón <strong>X</strong></li>
+                <li>Cierre al hacer clic fuera</li>
+                <li>Transiciones suaves y accesibles</li>
+            </ul>
+        </section>
+    </main>
+
+    <!-- Modal overlay -->
+    <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+            <button class="btn-close" id="closeModal" aria-label="Cerrar modal">&times;</button>
+
+            <div class="modal-header">
+                <!-- Icono con gradiente: se estiliza desde CSS -->
+                <div class="modal-icon" aria-hidden="true">
+                    <svg width="72" height="72" viewBox="0 0 24 24" fill="none" class="icon-clock">
+                        <defs>
+                            <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+                                <stop offset="0%" stop-color="currentColor" stop-opacity="0.9"/>
+                                <stop offset="100%" stop-color="currentColor" stop-opacity="0.5"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx="12" cy="12" r="10" stroke="url(#g1)" stroke-width="1.6" fill="none"/>
+                        <path d="M12 7v5l4 2" stroke="url(#g1)" stroke-width="1.6" stroke-linecap="round"/>
+                    </svg>
+                </div>
+
+                <h2 id="modalTitle">¡Bienvenido al Modal!</h2>
+                <p id="modalDesc">Este modal está centrado usando <code>position: fixed</code> y preparado para animaciones y decoración.</p>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-features">
+                    <div class="feature">
+                        <span class="feature-badge">✓</span>
+                        <span class="feature-text">Centrado perfecto</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-badge">✓</span>
+                        <span class="feature-text">Overlay responsive</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-badge">✓</span>
+                        <span class="feature-text">Animaciones suaves</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-primary btn-modal-action" id="acknowledge">Entendido</button>
+                <button class="btn btn-ghost" id="secondaryAction">Quizá luego</button>
+            </div>
+
+            <!-- Pequeñas figuras dentro del modal -->
+            <div class="modal-decor" aria-hidden="true">
+                <span class="mini-circle"></span>
+                <span class="mini-triangle"></span>
+                <span class="mini-square"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enlaza tu script; lo actualizaré cuando me pases el JS -->
+    <script src="script.js"></script>
+</body>
+</html>
