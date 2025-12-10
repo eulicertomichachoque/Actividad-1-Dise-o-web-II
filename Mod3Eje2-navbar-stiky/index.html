@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Demo: Navbar sticky, posicionamiento CSS y ejemplo completo de secciones (features, pricing, testimonios, contacto)." />
+  <title>Navbar Sticky | Posicionamiento CSS</title>
+
+  <!-- Link a tu CSS (reemplázalo luego) -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Skip link para accesibilidad -->
+  <a class="skip-link" href="#main" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Saltar al contenido</a>
+
+  <!-- (Opcional) FIGURAS DECORATIVAS - pega este bloque si vas a usar las blobs en CSS -->
+  <!--
+  <div class="decor-blobs" aria-hidden="true">
+    <span class="blob a"></span>
+    <span class="blob b"></span>
+    <span class="blob c"></span>
+  </div>
+  -->
+
+  <!-- NAVBAR (sticky) -->
+  <header>
+    <nav id="navbar" class="navbar" role="navigation" aria-label="Navegación principal">
+      <div class="container nav-inner">
+        <a href="#inicio" class="logo" aria-label="Ir al inicio">
+          <span class="logo-icon" aria-hidden="true">🚀</span>
+          <span class="logo-text">StickyNav</span>
+        </a>
+
+        <!-- Toggle (hamburger) para mobile -->
+        <button id="navToggle" class="nav-toggle" aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menú de navegación">
+          <span class="hamburger" aria-hidden="true"></span>
+        </button>
+
+        <ul id="navMenu" class="nav-menu" role="menubar" aria-label="Menú principal">
+          <li role="none"><a role="menuitem" class="nav-link" href="#inicio">Inicio</a></li>
+          <li role="none"><a role="menuitem" class="nav-link" href="#features">Features</a></li>
+          <li role="none"><a role="menuitem" class="nav-link" href="#pricing">Precios</a></li>
+          <li role="none"><a role="menuitem" class="nav-link" href="#testimonios">Testimonios</a></li>
+          <li role="none"><a role="menuitem" class="nav-link btn-cta" href="#contacto">Comenzar</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main id="main" tabindex="-1">
+
+    <!-- HERO -->
+    <section id="inicio" class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <h1 id="hero-title">🎯 Navbar con Position: Sticky</h1>
+        <p class="subtitle">Scrollea hacia abajo y observa cómo la navegación se "pega" en la parte superior.</p>
+
+        <div class="scroll-indicator" aria-hidden="true">
+          <p>Scroll Down ↓</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="section" aria-labelledby="features-title">
+      <div class="container">
+        <h2 id="features-title">✨ Características de Position: Sticky</h2>
+        <div class="features-grid">
+          <article class="feature-card" aria-labelledby="f1">
+            <div class="icon" aria-hidden="true">📍</div>
+            <h3 id="f1">Se Pega al Scrollear</h3>
+            <p>Al llegar a <code>top: 0</code>, el navbar se comporta como <code>position: fixed</code>.</p>
+          </article>
+
+          <article class="feature-card" aria-labelledby="f2">
+            <div class="icon" aria-hidden="true">🔄</div>
+            <h3 id="f2">En el Flujo del Documento</h3>
+            <p>A diferencia de <code>fixed</code>, sticky permanece en el flujo normal hasta que se fija.</p>
+          </article>
+
+          <article class="feature-card" aria-labelledby="f3">
+            <div class="icon" aria-hidden="true">⚡</div>
+            <h3 id="f3">Mejor Performance</h3>
+            <p>No requiere JavaScript para funcionar; JS puede mejorar UX visual.</p>
+          </article>
+
+          <article class="feature-card" aria-labelledby="f4">
+            <div class="icon" aria-hidden="true">🎨</div>
+            <h3 id="f4">Estilos Dinámicos</h3>
+            <p>Puedes cambiar la apariencia del navbar cuando está "pegado" con una clase JS.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" class="section section-alt" aria-labelledby="pricing-title">
+      <div class="container">
+        <h2 id="pricing-title">💰 Precios</h2>
+        <div class="pricing-grid" role="list">
+          <article class="pricing-card" role="listitem" aria-labelledby="plan-basic">
+            <h3 id="plan-basic">Básico</h3>
+            <p class="price">$9 <span>/mes</span></p>
+            <ul>
+              <li>✔️ 5 Proyectos</li>
+              <li>✔️ 10GB Almacenamiento</li>
+              <li>✔️ Soporte Email</li>
+            </ul>
+            <button class="btn-pricing" type="button">Seleccionar</button>
+          </article>
+
+          <article class="pricing-card featured" role="listitem" aria-labelledby="plan-pro">
+            <div class="badge" aria-hidden="true">Popular</div>
+            <h3 id="plan-pro">Pro</h3>
+            <p class="price">$29 <span>/mes</span></p>
+            <ul>
+              <li>✔️ Proyectos Ilimitados</li>
+              <li>✔️ 100GB Almacenamiento</li>
+              <li>✔️ Soporte Prioritario</li>
+            </ul>
+            <button class="btn-pricing" type="button">Seleccionar</button>
+          </article>
+
+          <article class="pricing-card" role="listitem" aria-labelledby="plan-enterprise">
+            <h3 id="plan-enterprise">Enterprise</h3>
+            <p class="price">$99 <span>/mes</span></p>
+            <ul>
+              <li>✔️ Todo Ilimitado</li>
+              <li>✔️ 1TB Almacenamiento</li>
+              <li>✔️ Soporte 24/7</li>
+            </ul>
+            <button class="btn-pricing" type="button">Contactar</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonios" class="section" aria-labelledby="testimonios-title">
+      <div class="container">
+        <h2 id="testimonios-title">💬 Lo que Dicen Nuestros Usuarios</h2>
+        <div class="testimonials-grid">
+          <article class="testimonial" aria-labelledby="t1">
+            <p id="t1" class="quote">"El navbar sticky mejoró significativamente la navegación en nuestro sitio. Los usuarios encuentran lo que buscan más rápido."</p>
+            <p class="author">— María García, UX Designer</p>
+          </article>
+
+          <article class="testimonial" aria-labelledby="t2">
+            <p id="t2" class="quote">"Implementar position: sticky fue mucho más fácil de lo que pensaba. El rendimiento es excelente."</p>
+            <p class="author">— Carlos Pérez, Frontend Developer</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contacto" class="section section-alt" aria-labelledby="contacto-title">
+      <div class="container">
+        <h2 id="contacto-title">📧 Contacto</h2>
+        <p>¿Tienes preguntas? ¡Contáctanos!</p>
+
+        <form class="contact-form" action="#" method="post" novalidate>
+          <label class="sr-only" for="name">Nombre</label>
+          <input id="name" name="name" type="text" placeholder="Nombre" required>
+
+          <label class="sr-only" for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="Email" required>
+
+          <label class="sr-only" for="message">Mensaje</label>
+          <textarea id="message" name="message" placeholder="Mensaje" rows="5" required></textarea>
+
+          <button class="btn-submit" type="submit">Enviar Mensaje</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <p>&copy; <span id="year"></span> StickyNav Demo. Ejercicio de Position: Sticky</p>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP BUTTON (fixed) -->
+  <button id="btnTop" class="btn-top" title="Volver arriba" aria-label="Volver arriba" style="display:none;">↑</button>
+
+  <!-- Enlace a tu script JS (lo pegarás luego) -->
+  <script>
+    // pequeño helper para año dinámico (sin tocar tu script.js)
+    document.addEventListener('DOMContentLoaded', () => {
+      const y = new Date().getFullYear();
+      const el = document.getElementById('year');
+      if (el) el.textContent = y;
+    });
+  </script>
+  <script src="script.js" defer></script>
+</body>
+</html>
