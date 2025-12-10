@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Card component demostrando el Box Model de CSS" />
+    <title>Card Component | Box Model</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- FIGURAS DECORATIVAS (blobs rainbow) -->
+    <div class="decor-blobs" aria-hidden="true">
+        <span class="blob blob-1"></span>
+        <span class="blob blob-2"></span>
+        <span class="blob blob-3"></span>
+    </div>
+
+    <div class="container">
+        <h1 class="page-title">Productos Destacados</h1>
+        <p class="subtitle">Ejemplo de Card Component usando Box Model</p>
+        
+        <!-- Grid de Cards -->
+        <div class="cards-grid">
+            
+            <!-- Card 1 -->
+            <article class="card" role="article">
+                <div class="card-image">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&h=600&fit=crop" alt="Auriculares inalámbricos">
+                    <span class="badge">Nuevo</span>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Auriculares Pro X</h2>
+                    <p class="card-price">
+                        <span class="price-current">$199.99</span>
+                        <span class="price-old">$249.99</span>
+                    </p>
+                    <p class="card-description">
+                        Auriculares inalámbricos con cancelación de ruido activa y 
+                        batería de hasta 30 horas.
+                    </p>
+                    <div class="card-footer">
+                        <button class="btn btn-primary">Añadir al Carrito</button>
+                        <button class="btn btn-ghost">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="card" role="article">
+                <div class="card-image">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&h=600&fit=crop" alt="Reloj inteligente">
+                    <span class="badge badge-sale">-20%</span>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Smartwatch Elite</h2>
+                    <p class="card-price">
+                        <span class="price-current">$159.99</span>
+                        <span class="price-old">$199.99</span>
+                    </p>
+                    <p class="card-description">
+                        Reloj inteligente con monitoreo de salud, GPS integrado y 
+                        resistente al agua.
+                    </p>
+                    <div class="card-footer">
+                        <button class="btn btn-primary">Añadir al Carrito</button>
+                        <button class="btn btn-ghost">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="card" role="article">
+                <div class="card-image">
+                    <img loading="lazy" src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&h=600&fit=crop" alt="Cámara digital">
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Cámara Digital 4K</h2>
+                    <p class="card-price">
+                        <span class="price-current">$899.99</span>
+                    </p>
+                    <p class="card-description">
+                        Cámara profesional con sensor de 24MP, grabación 4K y 
+                        estabilización de imagen.
+                    </p>
+                    <div class="card-footer">
+                        <button class="btn btn-primary">Añadir al Carrito</button>
+                        <button class="btn btn-ghost">Ver Detalles</button>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Explicación del Box Model -->
+        <div class="box-model-explanation">
+            <h2>🎯 Box Model Aplicado en estas Cards</h2>
+            <div class="explanation-grid">
+                <div class="explanation-item">
+                    <h3>📦 Content</h3>
+                    <p>Imagen, título, precio, descripción y botones</p>
+                </div>
+                <div class="explanation-item">
+                    <h3>📏 Padding</h3>
+                    <p>20px en card-content para dar aire al contenido</p>
+                </div>
+                <div class="explanation-item">
+                    <h3>🖼️ Border</h3>
+                    <p>1px solid con border-radius de 12px</p>
+                </div>
+                <div class="explanation-item">
+                    <h3>🌌 Margin</h3>
+                    <p>Gap de 20px entre cards (usando CSS Grid)</p>
+                </div>
+                <div class="explanation-item">
+                    <h3>📐 Box-Sizing</h3>
+                    <p>border-box para width predecible de 300px</p>
+                </div>
+                <div class="explanation-item">
+                    <h3>🎨 Box-Shadow</h3>
+                    <p>Sombra sutil que se intensifica con hover</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
