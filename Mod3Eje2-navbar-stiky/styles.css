@@ -1,0 +1,265 @@
+/* =====================================
+   RESET + VARIABLES (mejoradas)
+   ===================================== */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root{
+    /* Paleta base (mantengo tus tonos y agrego rainbow variables) */
+    --color-primary: #667eea;
+    --color-primary-dark: #5568d3;
+    --color-secondary: #764ba2;
+    --color-text: #2d3748;
+    --color-text-light: #718096;
+    --color-bg: #ffffff;
+    --color-bg-alt: #f7fafc;
+    --color-border: #e2e8f0;
+
+    /* Rainbow extras */
+    --r-1: #6ec3f4;
+    --r-2: #a78bfa;
+    --r-3: #fca5a5;
+    --r-4: #fcd34d;
+    --r-5: #6ee7b7;
+
+    --gradient-accent: linear-gradient(90deg, var(--r-1), var(--r-2));
+    --conic-rainbow: conic-gradient(from 180deg, var(--r-1), var(--r-2), var(--r-3), var(--r-4), var(--r-5));
+
+    --nav-height: 70px;
+    --transition: all 0.3s ease;
+    --card-radius: 12px;
+
+    --shadow-sm: 0 4px 6px rgba(0,0,0,0.07);
+    --shadow-md: 0 10px 30px rgba(2,6,23,0.12);
+    --shadow-lg: 0 18px 60px rgba(2,6,23,0.18);
+}
+
+/* Respect user motion preference */
+@media (prefers-reduced-motion: reduce) {
+  :root { --transition: none; }
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* ---------- Base + layout ---------- */
+
+html { scroll-behavior: smooth; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    color: var(--color-text);
+    background: linear-gradient(180deg, #fbfdff, #f2f7fb 60%);
+}
+
+/* Container */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+/* Code */
+code {
+    background: #f1f5f9;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: var(--color-primary);
+}
+
+/* =====================================
+   DECORATIVE BLOBS (OPCIONAL)
+   - Pegarlas en HTML: <div class="decor-blobs"><span class="blob a"></span>...</div>
+   ===================================== */
+.decor-blobs { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+.blob { position: absolute; border-radius: 50%; filter: blur(54px); opacity: 0.85; transform: translateZ(0); animation: floaty 10s ease-in-out infinite; }
+.blob.a { width: 460px; height: 460px; left: -140px; top: -120px; background: linear-gradient(135deg, var(--r-2), var(--r-1)); }
+.blob.b { width: 320px; height: 320px; right: -120px; bottom: -80px; background: linear-gradient(135deg, var(--r-3), var(--r-5)); }
+.blob.c { width: 200px; height: 200px; left: 18%; bottom: 8%; background: linear-gradient(135deg, var(--r-4), var(--r-3)); }
+@keyframes floaty { 0%{transform:translateY(0)}50%{transform:translateY(-20px)}100%{transform:translateY(0)} }
+
+/* Hide blobs on small screens to save CPU */
+@media (max-width: 600px) { .decor-blobs { display: none; } }
+
+/* =====================================
+   NAVBAR - STICKY (mejorado con rainbow accent)
+   ===================================== */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    background-color: var(--color-bg);
+    height: var(--nav-height);
+    z-index: 1000;
+    transition: var(--transition);
+    border-bottom: 1px solid transparent;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+/* JS-controlled class when scrolled/pinned */
+.navbar.scrolled {
+    background-color: rgba(255,255,255,0.98);
+    border-bottom-color: var(--color-border);
+    box-shadow: var(--shadow-md);
+}
+
+/* rainbow accent line when scrolled */
+.navbar.scrolled::after{
+    content: "";
+    position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+    background: var(--conic-rainbow);
+    filter: blur(6px) saturate(120%);
+    opacity: 0.95;
+    pointer-events: none;
+}
+
+/* container inside navbar */
+.navbar .container { height: 100%; display: flex; justify-content: space-between; align-items: center; }
+
+/* Logo */
+.logo { display:flex; gap:0.5rem; text-decoration:none; font-size:1.5rem; font-weight:700; color:var(--color-text); transition: var(--transition); }
+.logo:hover { color: var(--color-primary); transform: scale(1.03); }
+.logo-icon { font-size: 2rem; }
+
+/* Hamburger */
+.nav-toggle { display: none; background: transparent; border: 0; cursor: pointer; padding: 8px; border-radius: 8px; }
+.hamburger, .hamburger::before, .hamburger::after { display:block; width:25px; height:3px; background: var(--color-text); border-radius:3px; position:relative; transition: var(--transition); }
+.hamburger::before, .hamburger::after { content:""; position:absolute; left:0; }
+.hamburger::before { top:-8px; } .hamburger::after { top:8px; }
+
+.nav-toggle.active .hamburger { background: transparent; }
+.nav-toggle.active .hamburger::before { top: 0; transform: rotate(45deg); }
+.nav-toggle.active .hamburger::after { top: 0; transform: rotate(-45deg); }
+
+/* Menu */
+.nav-menu { list-style:none; display:flex; gap:0.5rem; align-items:center; margin:0; padding:0; z-index: 1100; }
+.nav-link { display:block; padding:0.5rem 1rem; color:var(--color-text); text-decoration:none; font-weight:500; border-radius:6px; transition: var(--transition); }
+.nav-link:hover { background: var(--color-bg-alt); color: var(--color-primary); }
+.btn-cta { background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); color:#fff; padding:0.75rem 1.5rem; border-radius:25px; box-shadow: 0 6px 20px rgba(102,126,234,0.22); }
+
+/* =====================================
+   HERO
+   ===================================== */
+
+.hero {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    color: white;
+    min-height: 100vh;
+    display:flex; align-items:center; text-align:center; padding: 4rem 0;
+}
+.hero h1 { font-size: 3.2rem; margin-bottom: 1rem; animation: fadeInUp .8s ease; }
+.subtitle { font-size:1.1rem; opacity:0.95; max-width:700px; margin:0 auto 2rem; animation: fadeInUp .8s ease .2s both; }
+
+/* =====================================
+   SECTIONS / CARDS / REINWOB EFFECT
+   ===================================== */
+
+/* Section base */
+.section { padding: 5rem 0; }
+.section-alt { background: var(--color-bg-alt); }
+.section h2 { text-align:center; font-size:2rem; margin-bottom:2.5rem; color:var(--color-text); }
+
+/* Features grid */
+.features-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap:2rem; }
+
+/* Feature card */
+.feature-card {
+    background: var(--color-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden; /* for pseudo rainbow */
+}
+
+/* reinwob: subtle rainbow outline + wobble on hover */
+.feature-card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 14px;
+    background: transparent;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 220ms ease;
+    pointer-events: none;
+}
+.feature-card > * { position: relative; z-index: 1; } /* ensure content above pseudo */
+.feature-card:hover::before {
+    opacity: 1;
+    background: var(--conic-rainbow);
+    filter: blur(10px) saturate(120%);
+    animation: rainbow-rotate 3s linear infinite;
+}
+.feature-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); animation: wobble 900ms ease-in-out; }
+
+/* Keyframes for wobble and rainbow rotate */
+@keyframes wobble {
+  0% { transform: translateY(-8px) rotate(-0.6deg); }
+  25% { transform: translateY(-9px) rotate(0.6deg); }
+  50% { transform: translateY(-8px) rotate(-0.3deg); }
+  75% { transform: translateY(-9px) rotate(0.3deg); }
+  100% { transform: translateY(-8px) rotate(0deg); }
+}
+@keyframes rainbow-rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Pricing grid & cards keep your styles but get subtle rainbow for featured */
+.pricing-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:2rem; max-width:1000px; margin:0 auto; }
+.pricing-card {
+    background: white; padding: 2.5rem 2rem; border-radius:12px; box-shadow: var(--shadow-sm); text-align:center; transition: var(--transition); position:relative;
+}
+.pricing-card:hover { transform: scale(1.02); box-shadow: var(--shadow-md); }
+.pricing-card.featured { border: 2px solid transparent; }
+.pricing-card.featured::after {
+    content: "";
+    position: absolute; inset: -2px; border-radius: 14px; background: linear-gradient(90deg, var(--r-2), var(--r-1)); filter: blur(6px); opacity: 0.8; z-index: 0;
+}
+.pricing-card > * { position: relative; z-index: 1; }
+
+/* Testimonials, contact, etc. (keep your look) */
+.testimonials-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap:2rem; max-width:900px; margin:0 auto; }
+.testimonial { background: white; padding: 2rem; border-radius: 12px; box-shadow: var(--shadow-sm); border-left: 4px solid var(--color-primary); }
+
+/* Contact form keep style but improved focus */
+.contact-form input, .contact-form textarea {
+    width:100%; padding:1rem; margin-bottom:1rem; border:2px solid var(--color-border); border-radius:8px; font-size:1rem; transition: var(--transition);
+}
+.contact-form input:focus, .contact-form textarea:focus { outline:none; border-color: var(--color-primary); box-shadow: 0 6px 20px rgba(102,126,234,0.08); }
+
+/* Footer */
+.footer { background: var(--color-text); color: white; padding: 2rem 0; text-align:center; }
+
+/* =====================================
+   BTN TOP - FIXED (mejorado)
+   ===================================== */
+
+.btn-top {
+    position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background: var(--gradient-accent, var(--color-primary)); color: white; border: none; border-radius: 12px; font-size: 1.25rem; cursor: pointer; box-shadow: var(--shadow-md); transition: var(--transition); z-index: 999; opacity: 0; visibility: hidden;
+}
+.btn-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+
+/* =====================================
+   NAV MOBILE RESPONSIVE
+   ===================================== */
+
+@media (max-width: 768px) {
+    .nav-toggle { display: inline-flex; }
+    .nav-menu { position: fixed; left: -100%; top: var(--nav-height); flex-direction: column; background: white; width: 100%; padding: 2rem 0; box-shadow: var(--shadow-md); transition: left 0.28s ease; z-index: 1200; }
+    .nav-menu.active { left: 0; }
+    .nav-link { width: 100%; text-align:center; padding: 1rem; }
+    .hero h1 { font-size: 2rem; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+}
+
+/* =====================================
+   Responsiveness minor tweaks
+   ===================================== */
+
+@media (max-width: 480px) {
+    .hero { padding: 3rem 0; }
+    .hero h1 { font-size: 1.6rem; }
+    .container { padding: 0 1rem; }
+}
+
+/* =====================================
+   Notas: toques rápidos
+   - Blobs: opcional, pegarlas en HTML (decor-blobs)
+   - JS: .navbar.scrolled, .nav-toggle.active, .nav-menu.active, .btn-top.visible
+   ===================================== */
