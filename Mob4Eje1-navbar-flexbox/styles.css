@@ -1,0 +1,181 @@
+/* ==============================
+   VARIABLES GLOBALES
+   ============================== */
+:root{
+  --bg-navbar: #0f1724;            /* fondo navbar */
+  --accent: #00d1c1;               /* color principal */
+  --accent-2: #00a9ff;             /* gradiente secundario */
+  --muted: #9aa6b2;                /* texto secundario */
+  --white: #ffffff;
+  --card-bg: rgba(255,255,255,0.03);
+  --shadow-sm: 0 6px 18px rgba(3,10,18,0.35);
+  --radius: 10px;
+  --nav-height: 72px;
+  --gap: 1rem;
+  --transition: 300ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* ==============================
+   RESET BÁSICO
+   ============================== */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;line-height:1.6;color:#e6eef6;background:linear-gradient(180deg,#071022 0%, #071a2b 100%);}
+
+/* ==============================
+   NAVBAR PRINCIPAL
+   ============================== */
+.navbar{
+  background: var(--bg-navbar);
+  position: sticky;
+  top:0;
+  z-index:1200;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+}
+
+/* si quieres efecto "compact" cuando scrolleas, añade .navbar.compact con JS */
+.navbar.compact{
+  transform: translateY(-2px) scale(0.995);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.55);
+}
+
+/* contenedor flex */
+.navbar-container{
+  max-width:1200px;margin:0 auto;padding:0 1.25rem;
+  display:flex;align-items:center;justify-content:space-between;min-height:var(--nav-height);
+  gap:var(--gap);
+}
+
+/* LOGO */
+.navbar-logo a{
+  display:flex;align-items:center;gap:.6rem;color:var(--white);text-decoration:none;font-weight:700;font-size:1.1rem;
+  transition: transform var(--transition), color var(--transition);
+}
+.navbar-logo svg{width:34px;height:34px;display:block;fill:none;stroke:var(--accent);stroke-width:1.6}
+.navbar-logo a:hover{transform:translateY(-2px);color:var(--accent-2)}
+
+/* ==============================
+   MENU (ESCRITORIO)
+   ============================== */
+.navbar-menu{
+  list-style:none;display:flex;gap:.25rem;align-items:center;margin-left:1rem;
+}
+.navbar-menu li{display:block}
+.navbar-menu a{
+  display:inline-flex;align-items:center;gap:.4rem;padding:.6rem .95rem;border-radius:8px;color:rgba(230,238,246,0.92);text-decoration:none;font-weight:600;
+  transition:color var(--transition), background var(--transition), transform var(--transition);
+  position:relative;
+}
+.navbar-menu a:hover{color:var(--accent);background:linear-gradient(90deg, rgba(0,209,193,0.06), rgba(0,169,255,0.03));transform:translateY(-2px)}
+
+/* subrayado animado centrado */
+.navbar-menu a::after{
+  content:"";position:absolute;left:50%;bottom:6px;transform:translateX(-50%);height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:2px;transition:width 220ms ease;
+}
+.navbar-menu a:hover::after,
+.navbar-menu a.active::after{width:56%}
+
+/* link activo */
+.navbar-menu a.active{color:var(--accent)}
+
+/* ==============================
+   BOTONES/ACCIONES
+   ============================== */
+.navbar-actions{display:flex;gap:0.75rem;align-items:center}
+.btn{padding:.6rem 1.05rem;border-radius:8px;border:none;cursor:pointer;font-weight:700;font-size:.95rem;transition:all var(--transition)}
+.btn-login{background:transparent;color:var(--white);border:2px solid rgba(255,255,255,0.06)}
+.btn-login:hover{color:var(--accent);border-color:rgba(0,209,193,0.35)}
+.btn-signup{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:var(--white);box-shadow:0 8px 30px rgba(0,169,255,0.08)}
+.btn-signup:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,169,255,0.18)}
+
+/* foco visible accesible */
+a:focus-visible,button:focus-visible{
+  outline:3px solid rgba(0,209,193,0.18);outline-offset:4px;border-radius:8px;
+}
+
+/* ==============================
+   HAMBURGUESA (MÓVIL)
+   ============================== */
+.navbar-toggle{
+  display:none;background:transparent;border:0;padding:.25rem;align-items:center;justify-content:center;cursor:pointer;
+}
+.navbar-toggle .bar{display:block;width:26px;height:3px;background:var(--white);border-radius:6px;transition:all var(--transition);margin:4px 0}
+
+/* estado activo (usa JS para añadir .active) */
+.navbar-toggle.active .bar:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.navbar-toggle.active .bar:nth-child(2){opacity:0}
+.navbar-toggle.active .bar:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ==============================
+   MENÚ MÓVIL (PANEL + OVERLAY)
+   ============================== */
+.mobile-overlay{
+  position:fixed;inset:0;background:rgba(1,6,12,0.6);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity var(--transition);
+  z-index:1100;
+}
+.mobile-overlay.open{opacity:1;visibility:visible}
+
+/* panel lateral centrado desde la izquierda */
+.mobile-panel{
+  position:fixed;top:0;left:-100%;height:100vh;width:100%;max-width:360px;background:linear-gradient(180deg,var(--bg-navbar), rgba(6,10,18,0.95));box-shadow:var(--shadow-sm);padding:2.25rem;transition:left var(--transition);z-index:1201;
+}
+.mobile-panel.open{left:0}
+
+/* dentro del panel */
+.mobile-panel .navbar-menu{flex-direction:column;gap:.25rem;margin:0}
+.mobile-panel .navbar-menu a{padding:1rem;border-radius:10px;width:100%;color:var(--white)}
+.mobile-panel .navbar-actions{flex-direction:column;margin-top:1.25rem}
+.mobile-panel .btn{width:100%}
+
+/* bloquear scroll cuando el panel está abierto (JS toggles class on body) */
+body.menu-open{overflow:hidden}
+
+/* ==============================
+   SECCIONES (estilos básicos)
+   ============================== */
+.section{min-height:100vh;padding:5rem 1.25rem;display:flex;align-items:center;justify-content:center}
+.section-content{max-width:1200px;width:100%}
+.section-hero{background:linear-gradient(135deg,#071028 0%,#0b1a2b 100%);text-align:center;padding:8rem 1.25rem}
+.section-hero h1{color:var(--white);font-size:3rem;margin-bottom:1rem}
+.section-hero p{color:var(--muted);margin-bottom:1.5rem}
+.btn-cta{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:var(--white);padding:.9rem 2rem;border-radius:999px;font-weight:800}
+
+/* cards, portfolio y demás: dejan igual (tu CSS previo funciona bien) */
+
+/* ==============================
+   ACCESSIBILITY & PREFERENCES
+   ============================== */
+/* esconder skip link por defecto y mostrar al focus */
+.skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{position:fixed;left:1rem;top:1rem;background:var(--white);color:var(--bg-navbar);padding:.6rem 1rem;border-radius:6px;box-shadow:0 8px 30px rgba(0,0,0,0.25);z-index:1300}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto}
+}
+
+/* ==============================
+   RESPONSIVE RULES
+   ============================== */
+@media (max-width: 980px){
+  .navbar-menu{display:none}         /* ocultamos el menú desktop */
+  .navbar-actions{display:none}
+  .navbar-toggle{display:flex}
+}
+
+/* si usas panel móvil, se muestran por JS: add .open a .mobile-panel y .mobile-overlay */
+/* ejemplo JS toggles:
+   document.querySelector('.navbar-toggle').addEventListener('click', () => {
+     document.querySelector('.mobile-panel').classList.toggle('open');
+     document.querySelector('.mobile-overlay').classList.toggle('open');
+     document.body.classList.toggle('menu-open');
+   });
+*/
+
+/* pequeños ajustes para pantallas muy pequeñas */
+@media (max-width:560px){
+  .navbar-container{padding:0 .75rem}
+  .section-hero h1{font-size:2rem}
+  .btn-cta{padding:.75rem 1.25rem}
+}
