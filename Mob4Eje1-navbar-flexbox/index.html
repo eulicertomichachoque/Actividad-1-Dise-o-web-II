@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DesignPro — Navbar Flexbox Responsive</title>
+    <meta name="description" content="DesignPro — Diseño y desarrollo web, UI/UX, apps y marketing digital." />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <!-- Skip link para accesibilidad -->
+    <a class="skip-link" href="#mainContent">Saltar al contenido</a>
+
+    <!-- Header / Navegación -->
+    <header class="site-header" role="banner">
+        <nav class="navbar" id="navbar" role="navigation" aria-label="Navegación principal">
+            <div class="navbar-container">
+
+                <!-- Logo -->
+                <div class="navbar-logo">
+                    <a href="#inicio" class="logo-link" aria-label="Ir al inicio de DesignPro">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                        </svg>
+                        <span class="brand">DesignPro</span>
+                    </a>
+                </div>
+
+                <!-- Menú de navegación (lista) -->
+                <ul class="navbar-menu" id="navbarMenu">
+                    <li><a href="#inicio" class="nav-link" aria-current="page">Inicio</a></li>
+                    <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                    <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                    <li><a href="#testimonios" class="nav-link">Testimonios</a></li>
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                </ul>
+
+                <!-- Acciones: botones (se pueden convertir en enlaces si quieres) -->
+                <div class="navbar-actions" aria-hidden="false">
+                    <button type="button" class="btn btn-login" aria-label="Iniciar sesión">Iniciar Sesión</button>
+                    <button type="button" class="btn btn-signup" aria-label="Registrarse">Registrarse</button>
+                </div>
+
+                <!-- Botón hamburguesa para pantallas pequeñas -->
+                <button
+                    type="button"
+                    class="navbar-toggle"
+                    id="navbarToggle"
+                    aria-label="Alternar menú de navegación"
+                    aria-controls="navbarMenu"
+                    aria-expanded="false"
+                    data-target="#navbarMenu"
+                >
+                    <span class="sr-only">Abrir menú</span>
+                    <span class="bar" aria-hidden="true"></span>
+                    <span class="bar" aria-hidden="true"></span>
+                    <span class="bar" aria-hidden="true"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN (contenido principal) -->
+    <main id="mainContent" tabindex="-1">
+        <!-- Sección Inicio / Hero -->
+        <section id="inicio" class="section section-hero" aria-labelledby="heroTitle">
+            <div class="section-content">
+                <h1 id="heroTitle" class="fade-in">Bienvenido a DesignPro</h1>
+                <p class="fade-in">Creamos experiencias digitales excepcionales.</p>
+                <a href="#servicios" class="btn btn-cta fade-in" role="button">Comenzar Ahora</a>
+            </div>
+        </section>
+
+        <!-- Sección Servicios -->
+        <section id="servicios" class="section" aria-labelledby="serviciosTitle">
+            <div class="section-content">
+                <h2 id="serviciosTitle">Nuestros Servicios</h2>
+                <div class="services-grid" role="list">
+                    <article class="service-card" role="listitem">
+                        <div class="service-icon" aria-hidden="true">🎨</div>
+                        <h3>Diseño UI/UX</h3>
+                        <p>Interfaces intuitivas y atractivas que cautivan a tus usuarios.</p>
+                    </article>
+
+                    <article class="service-card" role="listitem">
+                        <div class="service-icon" aria-hidden="true">💻</div>
+                        <h3>Desarrollo Web</h3>
+                        <p>Sitios web modernos y escalables con las últimas tecnologías.</p>
+                    </article>
+
+                    <article class="service-card" role="listitem">
+                        <div class="service-icon" aria-hidden="true">📱</div>
+                        <h3>Apps Móviles</h3>
+                        <p>Aplicaciones móviles nativas y multiplataforma de alta calidad.</p>
+                    </article>
+
+                    <article class="service-card" role="listitem">
+                        <div class="service-icon" aria-hidden="true">🚀</div>
+                        <h3>Marketing Digital</h3>
+                        <p>Estrategias efectivas para hacer crecer tu negocio online.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Portfolio -->
+        <section id="portfolio" class="section section-dark" aria-labelledby="portfolioTitle">
+            <div class="section-content">
+                <h2 id="portfolioTitle">Proyectos Destacados</h2>
+                <div class="portfolio-grid" role="list">
+                    <figure class="portfolio-item" role="listitem">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop" alt="Proyecto: E-commerce Fashion">
+                        <figcaption class="portfolio-overlay">
+                            <h3>E-commerce Fashion</h3>
+                            <p>Tienda online de moda</p>
+                        </figcaption>
+                    </figure>
+
+                    <figure class="portfolio-item" role="listitem">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop" alt="Proyecto: Dashboard Analytics">
+                        <figcaption class="portfolio-overlay">
+                            <h3>Dashboard Analytics</h3>
+                            <p>Panel de control de datos</p>
+                        </figcaption>
+                    </figure>
+
+                    <figure class="portfolio-item" role="listitem">
+                        <img loading="lazy" src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop" alt="Proyecto: App Fitness">
+                        <figcaption class="portfolio-overlay">
+                            <h3>App Fitness</h3>
+                            <p>Aplicación de entrenamiento</p>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Testimonios -->
+        <section id="testimonios" class="section" aria-labelledby="testimoniosTitle">
+            <div class="section-content">
+                <h2 id="testimoniosTitle">Lo Que Dicen Nuestros Clientes</h2>
+                <div class="testimonials-grid">
+                    <blockquote class="testimonial">
+                        <p class="testimonial-text">"Excelente trabajo, superaron todas nuestras expectativas. El diseño es impecable."</p>
+                        <footer class="testimonial-author"><strong>María González</strong> — <span>CEO, TechStart</span></footer>
+                    </blockquote>
+
+                    <blockquote class="testimonial">
+                        <p class="testimonial-text">"Profesionales, creativos y muy atentos a los detalles. Totalmente recomendados."</p>
+                        <footer class="testimonial-author"><strong>Carlos Ramírez</strong> — <span>Director, Innovate Co.</span></footer>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Contacto -->
+        <section id="contacto" class="section section-contact" aria-labelledby="contactoTitle">
+            <div class="section-content">
+                <h2 id="contactoTitle">Hablemos de Tu Proyecto</h2>
+                <p>Estamos listos para hacer realidad tus ideas</p>
+
+                <address class="contact-info" aria-label="Información de contacto">
+                    <div class="contact-item"><span class="contact-icon" aria-hidden="true">📧</span> <a href="mailto:info@designpro.com">info@designpro.com</a></div>
+                    <div class="contact-item"><span class="contact-icon" aria-hidden="true">📱</span> <a href="tel:+15551234567">+1 (555) 123-4567</a></div>
+                    <div class="contact-item"><span class="contact-icon" aria-hidden="true">📍</span> 123 Design Street, Creative City</div>
+                </address>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="container">
+            <p>&copy; <span id="year"></span> DesignPro. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Script mínimo para insertar el año y facilitar progressive enhancement (opcional) -->
+    <script>
+        // progressive enhancement: establecer año actual en el footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // NOTA: el JS que controla el toggle y el comportamiento sticky/menu lo añadiremos cuando pases el archivo script.js
+    </script>
+</body>
+</html>
