@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ejercicio de imágenes responsive con técnicas modernas: srcset, sizes, picture element y background images adaptativas">
+    <meta name="keywords" content="imágenes responsive, srcset, picture element, art direction, web performance, diseño web">
+    <meta name="author" content="Ejercicio 5 - Imágenes Responsive">
+    <title>Ejercicio 5: Imágenes Responsive Avanzadas | Performance Web</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preload" as="image" href="https://placehold.co/400x300?text=Small+400w">
+    <link rel="preload" as="image" href="https://placehold.co/400x400/e74c3c/white?text=Mobile+Square">
+</head>
+<body>
+    <!-- Skip link para accesibilidad -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <!-- Header principal -->
+    <header class="main-header" role="banner">
+        <div class="header-container">
+            <h1 class="page-title">Ejercicio 5: Imágenes Responsive Avanzadas</h1>
+            <p class="page-subtitle">
+                Abre las herramientas de desarrollador (F12) y redimensiona la ventana para ver los cambios en tiempo real.
+                <span class="highlight-text">Técnicas modernas para performance web.</span>
+            </p>
+            
+            <!-- Información de tecnologías utilizadas -->
+            <div class="tech-badges" aria-label="Tecnologías utilizadas">
+                <span class="badge" role="status">
+                    <span class="badge-icon" aria-hidden="true">📱</span>
+                    <span class="badge-text">Responsive</span>
+                </span>
+                <span class="badge" role="status">
+                    <span class="badge-icon" aria-hidden="true">⚡</span>
+                    <span class="badge-text">Performance</span>
+                </span>
+                <span class="badge" role="status">
+                    <span class="badge-icon" aria-hidden="true">♿</span>
+                    <span class="badge-text">Accesible</span>
+                </span>
+                <span class="badge" role="status">
+                    <span class="badge-icon" aria-hidden="true">🎨</span>
+                    <span class="badge-text">Art Direction</span>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main id="main-content" class="container" role="main">
+        <!-- Sección 1: Srcset y Sizes -->
+        <article class="demo-section" id="srcset-demo">
+            <header class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number" aria-hidden="true">1.</span>
+                    <span class="section-text">Srcset y Sizes</span>
+                </h2>
+                <p class="section-description">
+                    <strong>Misma imagen, distintos tamaños:</strong> El navegador elige automáticamente la mejor imagen 
+                    basándose en el ancho de pantalla, densidad de píxeles (DPI) y condiciones del viewport.
+                </p>
+            </header>
+
+            <div class="demo-content">
+                <div class="demo-explanation">
+                    <h3 class="demo-title">¿Cómo funciona?</h3>
+                    <ul class="feature-list" role="list">
+                        <li role="listitem">
+                            <strong>srcset:</strong> Define múltiples fuentes con sus anchos (400w, 800w, 1200w)
+                        </li>
+                        <li role="listitem">
+                            <strong>sizes:</strong> Indica cómo se mostrará la imagen en diferentes breakpoints
+                        </li>
+                        <li role="listitem">
+                            <strong>lazy loading:</strong> Carga diferida para mejorar performance
+                        </li>
+                        <li role="listitem">
+                            <strong>alt descriptivo:</strong> Accesibilidad para lectores de pantalla
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="demo-visual">
+                    <figure class="responsive-figure">
+                        <img 
+                            src="https://placehold.co/400x300?text=Fallback+Img" 
+                            srcset="
+                                https://placehold.co/400x300/3498db/white?text=Small+400w 400w,
+                                https://placehold.co/800x600/2ecc71/white?text=Medium+800w 800w,
+                                https://placehold.co/1200x900/e74c3c/white?text=Large+1200w 1200w
+                            "
+                            sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+                            alt="Demostración de imágenes responsive: gráfico que muestra cómo funciona srcset y sizes en diferentes tamaños de pantalla"
+                            loading="lazy"
+                            width="1200"
+                            height="900"
+                            class="responsive-img"
+                            decoding="async"
+                        >
+                        <figcaption class="figure-caption">
+                            <p class="caption-text">
+                                Imagen responsive con múltiples fuentes. Redimensiona la ventana para ver los cambios.
+                            </p>
+                            <div class="caption-meta">
+                                <span class="meta-item">
+                                    <span class="meta-label" aria-hidden="true">📐</span>
+                                    <span class="meta-text">Densidades: 1x, 2x, 3x</span>
+                                </span>
+                                <span class="meta-item">
+                                    <span class="meta-label" aria-hidden="true">⚡</span>
+                                    <span class="meta-text">Lazy Loading: Activado</span>
+                                </span>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+
+                <!-- Información de debug -->
+                <aside class="demo-debug" aria-label="Información de debug">
+                    <details class="debug-details">
+                        <summary class="debug-summary">
+                            <span class="summary-icon" aria-hidden="true">🔍</span>
+                            Ver detalles técnicos del srcset
+                        </summary>
+                        <div class="debug-content">
+                            <pre class="code-block"><code>&lt;img 
+  src="fallback.jpg" 
+  srcset="
+    small.jpg 400w,
+    medium.jpg 800w,
+    large.jpg 1200w
+  "
+  sizes="(max-width: 600px) 100vw, 
+         (max-width: 900px) 50vw, 
+         33vw"
+  alt="Descripción"
+  loading="lazy"
+  decoding="async"
+&gt;</code></pre>
+                        </div>
+                    </details>
+                </aside>
+            </div>
+        </article>
+
+        <!-- Separador visual -->
+        <div class="section-divider" role="separator" aria-hidden="true">
+            <span class="divider-icon" aria-hidden="true">➡️</span>
+        </div>
+
+        <!-- Sección 2: Picture Element -->
+        <article class="demo-section" id="picture-demo">
+            <header class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number" aria-hidden="true">2.</span>
+                    <span class="section-text">Elemento Picture (Art Direction)</span>
+                </h2>
+                <p class="section-description">
+                    <strong>Diferentes imágenes para diferentes contextos:</strong> Usamos imágenes específicamente 
+                    diseñadas para cada dispositivo (mobile, tablet, desktop) para optimizar la experiencia visual.
+                </p>
+            </header>
+
+            <div class="demo-content">
+                <div class="demo-explanation">
+                    <h3 class="demo-title">Art Direction en Acción</h3>
+                    <ul class="feature-list" role="list">
+                        <li role="listitem">
+                            <strong>Mobile (≤ 768px):</strong> Imagen cuadrada - 400×400px
+                        </li>
+                        <li role="listitem">
+                            <strong>Tablet (769px-1023px):</strong> Imagen rectangular - 800×500px
+                        </li>
+                        <li role="listitem">
+                            <strong>Desktop (≥ 1024px):</strong> Imagen panorámica - 1200×400px
+                        </li>
+                        <li role="listitem">
+                            <strong>Semántica:</strong> Cada imagen está optimizada para su contexto de uso
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="demo-visual">
+                    <figure class="responsive-figure">
+                        <picture>
+                            <!-- Desktop - Panorámica -->
+                            <source 
+                                media="(min-width: 1024px)" 
+                                srcset="
+                                    https://placehold.co/1200x400/9b59b6/white?text=Desktop+Wide+(Art+Direction) 1x,
+                                    https://placehold.co/2400x800/9b59b6/white?text=Desktop+Wide+2x 2x
+                                "
+                                type="image/jpeg"
+                            >
+                            <!-- Tablet - Rectangular -->
+                            <source 
+                                media="(min-width: 768px)" 
+                                srcset="
+                                    https://placehold.co/800x500/3498db/white?text=Tablet+(Art+Direction) 1x,
+                                    https://placehold.co/1600x1000/3498db/white?text=Tablet+2x 2x
+                                "
+                                type="image/jpeg"
+                            >
+                            <!-- Mobile - Cuadrada -->
+                            <source 
+                                srcset="
+                                    https://placehold.co/400x400/e74c3c/white?text=Mobile+Square 1x,
+                                    https://placehold.co/800x800/e74c3c/white?text=Mobile+Square+2x 2x
+                                "
+                                type="image/jpeg"
+                            >
+                            <!-- Fallback y accesibilidad -->
+                            <img 
+                                src="https://placehold.co/400x400/e74c3c/white?text=Mobile+Square" 
+                                alt="Demostración de art direction: imagen que cambia según el dispositivo para optimizar la composición visual"
+                                loading="lazy"
+                                width="1200"
+                                height="400"
+                                class="responsive-img"
+                                decoding="async"
+                            >
+                        </picture>
+                        <figcaption class="figure-caption">
+                            <p class="caption-text">
+                                Art direction adaptativo. La imagen cambia según el tamaño de pantalla.
+                            </p>
+                            <div class="caption-meta">
+                                <span class="meta-item">
+                                    <span class="meta-label" aria-hidden="true">📱</span>
+                                    <span class="meta-text">Mobile: Cuadrado</span>
+                                </span>
+                                <span class="meta-item">
+                                    <span class="meta-label" aria-hidden="true">💻</span>
+                                    <span class="meta-text">Desktop: Panorámica</span>
+                                </span>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+
+                <!-- Selector de vista previa -->
+                <div class="viewport-preview" role="group" aria-label="Vista previa por dispositivo">
+                    <h3 class="preview-title">Vista previa por dispositivo:</h3>
+                    <div class="preview-buttons">
+                        <button class="preview-btn active" data-viewport="mobile" aria-pressed="true">
+                            <span class="btn-icon" aria-hidden="true">📱</span>
+                            Mobile
+                        </button>
+                        <button class="preview-btn" data-viewport="tablet" aria-pressed="false">
+                            <span class="btn-icon" aria-hidden="true">🖥️</span>
+                            Tablet
+                        </button>
+                        <button class="preview-btn" data-viewport="desktop" aria-pressed="false">
+                            <span class="btn-icon" aria-hidden="true">💻</span>
+                            Desktop
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Separador visual -->
+        <div class="section-divider" role="separator" aria-hidden="true">
+            <span class="divider-icon" aria-hidden="true">➡️</span>
+        </div>
+
+        <!-- Sección 3: Background Image Responsive -->
+        <article class="demo-section" id="background-demo">
+            <header class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number" aria-hidden="true">3.</span>
+                    <span class="section-text">Background Image Responsive (CSS)</span>
+                </h2>
+                <p class="section-description">
+                    <strong>Imágenes de fondo adaptativas:</strong> La imagen de fondo de este contenedor cambia dinámicamente 
+                    según media queries en CSS, optimizando carga y visualización.
+                </p>
+            </header>
+
+            <div class="demo-content">
+                <div class="demo-explanation">
+                    <h3 class="demo-title">Técnicas CSS Avanzadas</h3>
+                    <ul class="feature-list" role="list">
+                        <li role="listitem">
+                            <strong>background-size: cover/contain:</strong> Ajuste inteligente del fondo
+                        </li>
+                        <li role="listitem">
+                            <strong>object-fit para contenido:</strong> Mantiene proporciones de imágenes internas
+                        </li>
+                        <li role="listitem">
+                            <strong>media queries nativas:</strong> Cambios de imagen según breakpoints
+                        </li>
+                        <li role="listitem">
+                            <strong>gradientes superpuestos:</strong> Mejora legibilidad sobre imágenes
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="demo-visual">
+                    <div class="hero-background" role="img" aria-label="Fondo responsive que cambia según el tamaño de pantalla">
+                        <div class="hero-content">
+                            <h3 class="hero-title">Contenido sobre fondo adaptativo</h3>
+                            <p class="hero-text">
+                                Este texto mantiene legibilidad gracias a gradientes superpuestos y contrastes optimizados.
+                            </p>
+                            <div class="hero-stats">
+                                <div class="stat-item">
+                                    <span class="stat-number" id="viewport-width">--</span>
+                                    <span class="stat-label">px viewport</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" id="image-loaded">--</span>
+                                    <span class="stat-label">imagen cargada</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number" id="dpi-ratio">--</span>
+                                    <span class="stat-label">ratio DPI</span>
+                                </stat-item>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controles de fondo -->
+                    <div class="background-controls" role="group" aria-label="Controles de imagen de fondo">
+                        <h4 class="controls-title">Simular dispositivo:</h4>
+                        <div class="controls-buttons">
+                            <button class="control-btn" data-bg-size="mobile" aria-label="Vista móvil (vertical)">
+                                <span class="control-icon" aria-hidden="true">📱</span>
+                                Móvil
+                            </button>
+                            <button class="control-btn" data-bg-size="tablet" aria-label="Vista tablet (horizontal)">
+                                <span class="control-icon" aria-hidden="true">🖥️</span>
+                                Tablet
+                            </button>
+                            <button class="control-btn" data-bg-size="desktop" aria-label="Vista desktop (ancha)">
+                                <span class="control-icon" aria-hidden="true">💻</span>
+                                Desktop
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Resumen de técnicas -->
+        <aside class="techniques-summary" aria-labelledby="summary-title">
+            <h3 id="summary-title" class="summary-title">Resumen de Técnicas</h3>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="card-header">
+                        <span class="card-icon" aria-hidden="true">🖼️</span>
+                        <h4 class="card-title">Srcset & Sizes</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Misma imagen, múltiples resoluciones. Ideal para galerías y contenido visual consistente.</p>
+                        <ul class="card-list">
+                            <li>✅ Mejor performance</li>
+                            <li>✅ Ancho dinámico</li>
+                            <li>✅ Soporte DPI</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-header">
+                        <span class="card-icon" aria-hidden="true">🎨</span>
+                        <h4 class="card-title">Picture Element</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Diferentes imágenes por dispositivo. Perfecto para art direction y composiciones específicas.</p>
+                        <ul class="card-list">
+                            <li>✅ Art direction</li>
+                            <li>✅ Formatos modernos</li>
+                            <li>✅ Contexto específico</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="summary-card">
+                    <div class="card-header">
+                        <span class="card-icon" aria-hidden="true">🎭</span>
+                        <h4 class="card-title">Background Images</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Fondos adaptativos CSS. Excelente para headers, heros y elementos decorativos.</p>
+                        <ul class="card-list">
+                            <li>✅ CSS controlado</li>
+                            <li>✅ Overlays fácil</li>
+                            <li>✅ Media queries</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer semántico -->
+    <footer class="main-footer" role="contentinfo">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3 class="footer-title">Imágenes Responsive</h3>
+                    <p class="footer-text">
+                        Ejercicio demostrativo de técnicas modernas para optimización de imágenes en la web.
+                    </p>
+                </div>
+                
+                <div class="footer-meta">
+                    <div class="meta-section">
+                        <h4 class="meta-title">Recursos</h4>
+                        <ul class="meta-list" role="list">
+                            <li role="listitem">
+                                <a href="https://web.dev/learn/design/responsive-images" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   class="meta-link">
+                                    Guía de imágenes responsive
+                                </a>
+                            </li>
+                            <li role="listitem">
+                                <a href="https://developer.mozilla.org/es/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   class="meta-link">
+                                    MDN Web Docs
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="meta-section">
+                        <h4 class="meta-title">Créditos</h4>
+                        <ul class="meta-list" role="list">
+                            <li role="listitem">
+                                <span class="meta-label">Placeholder:</span>
+                                <a href="https://placehold.co" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   class="meta-link">
+                                    Placehold.co
+                                </a>
+                            </li>
+                            <li role="listitem">
+                                <span class="meta-label">Ejercicio:</span>
+                                <span class="meta-text">5 - Imágenes Responsive</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">
+                    <small>
+                        Ejercicio 5: Imágenes Responsive &copy; <time datetime="2024">2024</time> |
+                        <abbr title="HyperText Markup Language">HTML</abbr> semántico + 
+                        <abbr title="Cascading Style Sheets">CSS</abbr> moderno + 
+                        <abbr title="JavaScript">JS</abbr> optimizado
+                    </small>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
