@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3: Navbar Responsive</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- CORRECCIÓN 1: Encapsular navegación en header -->
+    <header>
+        <nav class="navbar" aria-label="Navegación principal">
+            <!-- CORRECCIÓN 2: Logo como enlace semántico -->
+            <a href="/" class="logo" aria-label="Página de inicio">
+                MiMarca
+            </a>
+
+            <!-- CORRECCIÓN 3: Añadir ID para ARIA controls -->
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#portafolio">Portafolio</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+
+            <!-- CORRECCIÓN 4: Cambiar div por button para accesibilidad -->
+            <button class="hamburger" 
+                    aria-label="Abrir menú de navegación"
+                    aria-expanded="false"
+                    aria-controls="nav-menu">
+                <span class="bar" aria-hidden="true"></span>
+                <span class="bar" aria-hidden="true"></span>
+                <span class="bar" aria-hidden="true"></span>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Bienvenido al Ejercicio 3</h1>
+        <p>Redimensiona la ventana para ver el menú cambiar.</p>
+    </main>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
