@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dashboard administrativo DashPro con métricas, estadísticas y gestión de pedidos en tiempo real">
+    <meta name="keywords" content="dashboard, administración, métricas, analytics, tailwind, web app, gestión">
+    <meta name="author" content="DashPro Team">
+    <meta name="theme-color" content="#3b82f6">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Dashboard DashPro | Panel de Administración Moderno">
+    <meta property="og:description" content="Dashboard administrativo con métricas en tiempo real">
+    <meta property="og:type" content="website">
+    
+    <title>Dashboard DashPro | Panel de Administración Moderno</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-in': 'slideIn 0.3s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'shimmer': 'shimmer 2s infinite',
+                        'wave': 'wave 1.5s ease-in-out infinite',
+                        'ripple': 'ripple 1.2s ease-out infinite',
+                        'glitch': 'glitch 0.3s ease-in-out',
+                        'neon-pulse': 'neonPulse 2s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.4s ease-out',
+                        'rotate-3d': 'rotate3d 8s linear infinite',
+                        'particle-float': 'particleFloat 4s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        slideIn: {
+                            '0%': { transform: 'translateX(-20px)', opacity: '0' },
+                            '100%': { transform: 'translateX(0)', opacity: '1' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% center' },
+                            '100%': { backgroundPosition: '200% center' }
+                        },
+                        wave: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        ripple: {
+                            '0%': { transform: 'scale(0.8)', opacity: '1' },
+                            '100%': { transform: 'scale(2)', opacity: '0' }
+                        },
+                        glitch: {
+                            '0%, 100%': { transform: 'translate(0)' },
+                            '20%': { transform: 'translate(-2px, 2px)' },
+                            '40%': { transform: 'translate(-2px, -2px)' },
+                            '60%': { transform: 'translate(2px, 2px)' },
+                            '80%': { transform: 'translate(2px, -2px)' }
+                        },
+                        neonPulse: {
+                            '0%, 100%': { 
+                                textShadow: '0 0 5px #3b82f6, 0 0 10px #3b82f6, 0 0 15px #3b82f6',
+                                opacity: '1'
+                            },
+                            '50%': { 
+                                textShadow: '0 0 10px #60a5fa, 0 0 20px #60a5fa, 0 0 30px #60a5fa',
+                                opacity: '0.8'
+                            }
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' }
+                        },
+                        rotate3d: {
+                            '0%': { transform: 'rotate3d(1, 1, 1, 0deg)' },
+                            '100%': { transform: 'rotate3d(1, 1, 1, 360deg)' }
+                        },
+                        particleFloat: {
+                            '0%': { 
+                                transform: 'translateY(0) translateX(0) rotate(0deg)',
+                                opacity: '1'
+                            },
+                            '100%': { 
+                                transform: 'translateY(-100px) translateX(20px) rotate(180deg)',
+                                opacity: '0'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        /* CSS crítico */
+        :root {
+            --sidebar-width: 16rem;
+            --header-height: 4rem;
+        }
+        
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+        }
+        
+        *::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        *::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        
+        *::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        
+        *::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Focus styles */
+        .focus-ring {
+            @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+        }
+        
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        /* Dark mode */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                color-scheme: dark;
+            }
+            
+            * {
+                scrollbar-color: #475569 #1e293b;
+            }
+            
+            *::-webkit-scrollbar-track {
+                background: #1e293b;
+            }
+            
+            *::-webkit-scrollbar-thumb {
+                background: #475569;
+            }
+            
+            *::-webkit-scrollbar-thumb:hover {
+                background: #64748b;
+            }
+        }
+        
+        /* Reduce motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        
+        /* Nuevas animaciones personalizadas */
+        .stat-card-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card-glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #3b82f6;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s infinite;
+        }
+        
+        .border-gradient {
+            border: 2px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899) border-box;
+            border-radius: 0.75rem;
+        }
+        
+        .icon-rotate:hover {
+            animation: rotate3d 1s ease-in-out;
+        }
+        
+        .data-point {
+            position: relative;
+        }
+        
+        .data-point::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            top: 0;
+            right: 0;
+            animation: pulse-slow 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-gray-900 antialiased min-h-screen flex flex-col" data-theme="light">
+    <!-- Skip link -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-primary-600 focus:text-white focus:px-4 focus:py-3 focus:rounded-lg focus:shadow-lg focus:ring-4 focus:ring-primary-300">
+        🚀 Saltar al contenido
+    </a>
+    
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-40 animate-slide-up" role="banner">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-4">
+                    <button id="mobile-menu-button" 
+                            class="lg:hidden p-2 rounded-lg hover:bg-gray-100 focus-ring"
+                            aria-label="Abrir menú"
+                            aria-expanded="false"
+                            aria-controls="sidebar-navigation">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    
+                    <a href="/" class="flex items-center gap-2 text-2xl font-bold gradient-text hover:animate-glitch focus-ring rounded-lg p-1">
+                        <span role="img" aria-label="Dashboard" class="text-3xl animate-float">📊</span>
+                        <span class="animate-neon-pulse">DashPro</span>
+                    </a>
+                </div>
+                
+                <div class="flex items-center gap-3" role="toolbar" aria-label="Acciones">
+                    <button id="theme-toggle" 
+                            class="p-2 rounded-lg hover:bg-gray-100 focus-ring icon-rotate"
+                            aria-label="Cambiar tema">
+                        <svg id="theme-icon-sun" class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <svg id="theme-icon-moon" class="w-5 h-5 text-gray-600 hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    
+                    <button class="relative p-2 rounded-lg hover:bg-gray-100 focus-ring animate-wave"
+                            aria-label="Notificaciones">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        <span class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse-slow ring-2 ring-white">3</span>
+                    </button>
+                    
+                    <div class="relative">
+                        <button class="flex items-center gap-2 p-1 rounded-full hover:bg-gray-100 focus-ring"
+                                aria-label="Menú usuario">
+                            <img src="https://i.pravatar.cc/40" 
+                                 alt="Usuario" 
+                                 class="w-10 h-10 rounded-full border-2 border-gray-300 hover:border-primary-500 transition-colors duration-200"
+                                 width="40"
+                                 height="40">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar -->
+        <aside id="sidebar-navigation"
+               class="fixed lg:static inset-y-0 left-0 z-30 w-64 bg-white shadow-lg transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out lg:transition-none h-[calc(100vh-4rem)] lg:h-auto overflow-y-auto"
+               aria-label="Navegación"
+               role="navigation">
+            <nav class="mt-8 px-4">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#dashboard" 
+                           class="flex items-center px-4 py-3 text-primary-700 bg-primary-50 border-r-4 border-primary-600 rounded-lg hover:animate-glitch"
+                           aria-current="page">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            <span class="ml-3 font-medium">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#users" 
+                           class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200 hover-lift">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                            <span class="ml-3">Usuarios</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#analytics" 
+                           class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200 hover-lift">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <span class="ml-3">Analíticas</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Overlay móvil -->
+        <div id="sidebar-overlay" 
+             class="fixed inset-0 bg-black/50 z-20 lg:hidden opacity-0 pointer-events-none transition-opacity duration-300"
+             aria-hidden="true"></div>
+
+        <!-- Contenido principal -->
+        <main id="main-content" class="flex-1 p-4 lg:p-8 overflow-y-auto" role="main">
+            <!-- Header -->
+            <header class="mb-8 animate-slide-up" style="animation-delay: 0.1s">
+                <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Panel de Control</h1>
+                <p class="text-gray-600">Dashboard interactivo con métricas en tiempo real</p>
+            </header>
+
+            <!-- Stats Grid con nuevas animaciones -->
+            <section class="mb-8" aria-labelledby="stats-heading">
+                <h2 id="stats-heading" class="sr-only">Estadísticas</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Card 1 con efecto partículas -->
+                    <article class="bg-white rounded-xl shadow-sm p-6 hover-lift stat-card-glow border-gradient animate-slide-up" 
+                             style="animation-delay: 0.2s"
+                             data-particle-effect="true">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Usuarios</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-2 data-point">2,543</p>
+                                <div class="flex items-center mt-3">
+                                    <span class="text-green-500 text-sm font-medium animate-pulse-slow">↑ 12.5%</span>
+                                    <span class="text-gray-500 text-sm ml-2">vs mes pasado</span>
+                                </div>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded-full animate-float">
+                                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 2 con efecto onda -->
+                    <article class="bg-white rounded-xl shadow-sm p-6 hover-lift animate-slide-up animate-wave"
+                             style="animation-delay: 0.3s">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Ingresos</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-2">$45,678</p>
+                                <div class="flex items-center mt-3">
+                                    <span class="text-green-500 text-sm font-medium">↑ 8.2%</span>
+                                    <span class="text-gray-500 text-sm ml-2">vs mes pasado</span>
+                                </div>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-full icon-rotate">
+                                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 3 con efecto ripple -->
+                    <article class="bg-white rounded-xl shadow-sm p-6 hover-lift relative overflow-hidden animate-slide-up"
+                             style="animation-delay: 0.4s">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="ripple-circle absolute w-16 h-16 bg-red-100 rounded-full animate-ripple"></div>
+                            <div class="ripple-circle absolute w-16 h-16 bg-red-100 rounded-full animate-ripple" style="animation-delay: 0.4s"></div>
+                            <div class="ripple-circle absolute w-16 h-16 bg-red-100 rounded-full animate-ripple" style="animation-delay: 0.8s"></div>
+                        </div>
+                        <div class="relative flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Pedidos</p>
+                                <p class="text-3xl font-bold text-gray-800 mt-2">1,234</p>
+                                <div class="flex items-center mt-3">
+                                    <span class="text-red-500 text-sm font-medium animate-pulse-slow">↓ 3.1%</span>
+                                    <span class="text-gray-500 text-sm ml-2">vs mes pasado</span>
+                                </div>
+                            </div>
+                            <div class="bg-orange-100 p-3 rounded-full">
+                                <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Card 4 con gradiente animado -->
+                    <article class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-sm p-6 hover-lift animate-slide-up border-gradient"
+                             style="animation-delay: 0.5s">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Satisfacción</p>
+                                <p class="text-3xl font-bold gradient-text mt-2">4.8</p>
+                                <div class="flex items-center mt-3">
+                                    <span class="text-green-500 text-sm font-medium">↑ 0.3</span>
+                                    <span class="text-gray-500 text-sm ml-2">vs mes pasado</span>
+                                </div>
+                            </div>
+                            <div class="bg-purple-100 p-3 rounded-full animate-bounce-slow">
+                                <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Tabla -->
+            <section class="bg-white rounded-xl shadow-sm overflow-hidden animate-slide-up" 
+                     style="animation-delay: 0.6s"
+                     aria-labelledby="orders-heading">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h2 id="orders-heading" class="text-xl font-semibold text-gray-900">Pedidos Recientes</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cliente</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Producto</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Monto</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                                <td class="px-6 py-4 text-sm text-gray-900">#1234</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">Juan Pérez</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">Laptop Pro</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">2024-01-15</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">$1,299</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full animate-pulse-slow">
+                                        Completado
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                                <td class="px-6 py-4 text-sm text-gray-900">#1235</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">María García</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">Mouse Wireless</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">2024-01-15</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">$49</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">
+                                        Pendiente
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                                <td class="px-6 py-4 text-sm text-gray-900">#1236</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">Carlos López</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">Teclado Mecánico</td>
+                                <td class="px-6 py-4 text-sm text-gray-500">2024-01-14</td>
+                                <td class="px-6 py-4 text-sm text-gray-900">$129</td>
+                                <td class="px-6 py-4">
+                                    <span class="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full">
+                                        Procesando
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-6" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p class="text-gray-600 text-sm">
+                    &copy; 2024 DashPro. Todos los derechos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Dashboard App
+        class DashboardApp {
+            constructor() {
+                this.init();
+            }
+            
+            init() {
+                this.setupMobileMenu();
+                this.setupTheme();
+                this.setupAnimations();
+            }
+            
+            setupMobileMenu() {
+                const menuButton = document.getElementById('mobile-menu-button');
+                const sidebar = document.getElementById('sidebar-navigation');
+                const overlay = document.getElementById('sidebar-overlay');
+                
+                if (menuButton && sidebar && overlay) {
+                    menuButton.addEventListener('click', () => {
+                        const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+                        menuButton.setAttribute('aria-expanded', !isExpanded);
+                        sidebar.classList.toggle('-translate-x-full');
+                        overlay.classList.toggle('opacity-0');
+                        overlay.classList.toggle('pointer-events-none');
+                    });
+                    
+                    overlay.addEventListener('click', () => {
+                        menuButton.setAttribute('aria-expanded', 'false');
+                        sidebar.classList.add('-translate-x-full');
+                        overlay.classList.add('opacity-0');
+                        overlay.classList.add('pointer-events-none');
+                    });
+                }
+            }
+            
+            setupTheme() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const themeIconSun = document.getElementById('theme-icon-sun');
+                const themeIconMoon = document.getElementById('theme-icon-moon');
+                const body = document.body;
+                
+                if (themeToggle && themeIconSun && themeIconMoon) {
+                    // Check saved theme
+                    const savedTheme = localStorage.getItem('theme');
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    
+                    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                        body.classList.add('dark');
+                        themeIconSun.classList.add('hidden');
+                        themeIconMoon.classList.remove('hidden');
+                    }
+                    
+                    themeToggle.addEventListener('click', () => {
+                        const isDark = body.classList.contains('dark');
+                        
+                        if (isDark) {
+                            body.classList.remove('dark');
+                            themeIconSun.classList.remove('hidden');
+                            themeIconMoon.classList.add('hidden');
+                            localStorage.setItem('theme', 'light');
+                        } else {
+                            body.classList.add('dark');
+                            themeIconSun.classList.add('hidden');
+                            themeIconMoon.classList.remove('hidden');
+                            localStorage.setItem('theme', 'dark');
+                        }
+                    });
+                }
+            }
+            
+            setupAnimations() {
+                // Efecto de partículas en cards
+                this.setupParticleEffects();
+                
+                // Animación de números
+                this.animateNumbers();
+                
+                // Efecto hover en cards
+                this.setupHoverEffects();
+            }
+            
+            setupParticleEffects() {
+                const particleCards = document.querySelectorAll('[data-particle-effect="true"]');
+                
+                particleCards.forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        this.createParticles(card);
+                    });
+                });
+            }
+            
+            createParticles(element) {
+                const rect = element.getBoundingClientRect();
+                const particleCount = 8;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = `${Math.random() * rect.width}px`;
+                    particle.style.top = `${Math.random() * rect.height}px`;
+                    particle.style.animationDelay = `${Math.random() * 2}s`;
+                    particle.style.animation = 'particle-float 2s ease-out forwards';
+                    
+                    element.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 2000);
+                }
+            }
+            
+            animateNumbers() {
+                const numberElements = document.querySelectorAll('.data-point');
+                
+                numberElements.forEach(el => {
+                    const originalText = el.textContent;
+                    if (originalText.match(/^\d/)) {
+                        // Simular conteo animado
+                        let count = 0;
+                        const target = parseInt(originalText.replace(/,/g, ''));
+                        const duration = 2000;
+                        const increment = target / (duration / 16);
+                        
+                        const timer = setInterval(() => {
+                            count += increment;
+                            if (count >= target) {
+                                count = target;
+                                clearInterval(timer);
+                            }
+                            el.textContent = Math.floor(count).toLocaleString();
+                        }, 16);
+                    }
+                });
+            }
+            
+            setupHoverEffects() {
+                // Efecto ripple en botones
+                document.querySelectorAll('button, .hover-lift').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        const ripple = document.createElement('span');
+                        const rect = this.getBoundingClientRect();
+                        const size = Math.max(rect.width, rect.height);
+                        const x = e.clientX - rect.left - size / 2;
+                        const y = e.clientY - rect.top - size / 2;
+                        
+                        ripple.style.cssText = `
+                            position: absolute;
+                            border-radius: 50%;
+                            background: rgba(255, 255, 255, 0.7);
+                            transform: scale(0);
+                            animation: ripple 0.6s linear;
+                            width: ${size}px;
+                            height: ${size}px;
+                            top: ${y}px;
+                            left: ${x}px;
+                            pointer-events: none;
+                        `;
+                        
+                        this.appendChild(ripple);
+                        setTimeout(() => ripple.remove(), 600);
+                    });
+                });
+            }
+        }
+        
+        // Inicializar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            new DashboardApp();
+        });
+    </script>
+
+    <!-- Estilos adicionales para nuevas animaciones -->
+    <style>
+        .ripple-circle {
+            transform: scale(0.8);
+            opacity: 1;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #3b82f6;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        /* Efecto de gradiente animado para texto */
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite;
+        }
+        
+        /* Efecto de borde gradiente */
+        .border-gradient {
+            border: 2px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899) border-box;
+            border-radius: 0.75rem;
+        }
+        
+        /* Animación de icono en 3D */
+        @keyframes rotate3d {
+            0% { transform: rotate3d(1, 1, 1, 0deg); }
+            100% { transform: rotate3d(1, 1, 1, 360deg); }
+        }
+        
+        /* Efecto de levitación mejorado */
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        /* Animación de entrada escalonada */
+        .animate-slide-up {
+            animation: slideUp 0.4s ease-out forwards;
+            opacity: 0;
+        }
+        
+        /* Efecto de glitch para elementos importantes */
+        .animate-glitch:hover {
+            animation: glitch 0.3s ease-in-out;
+        }
+        
+        /* Efecto neón para textos importantes */
+        .animate-neon-pulse {
+            animation: neonPulse 2s ease-in-out infinite;
+        }
+        
+        /* Dark mode adjustments */
+        .dark .bg-white {
+            background-color: #1f2937 !important;
+        }
+        
+        .dark .text-gray-900 {
+            color: #f9fafb !important;
+        }
+        
+        .dark .text-gray-600 {
+            color: #d1d5db !important;
+        }
+        
+        .dark .bg-gray-50 {
+            background-color: #374151 !important;
+        }
+        
+        .dark .border-gray-200 {
+            border-color: #4b5563 !important;
+        }
+        
+        .dark .hover\:bg-gray-100:hover {
+            background-color: #4b5563 !important;
+        }
+        
+        .dark .shadow-sm {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        .dark .from-purple-50 {
+            --tw-gradient-from: #3730a3 !important;
+        }
+        
+        .dark .to-pink-50 {
+            --tw-gradient-to: #831843 !important;
+        }
+    </style>
+</body>
+</html>
