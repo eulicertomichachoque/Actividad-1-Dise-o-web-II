@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StartupPro - Soluciones digitales innovadoras para transformar tu negocio con tecnología moderna">
+    <meta name="keywords" content="startup, digital, transformación, negocio, tecnología, web, responsive">
+    <meta name="author" content="StartupPro">
+    <title>StartupPro | Transformación Digital para Empresas Modernas</title>
+    
+    <!-- Preconexión para mejorar performance -->
+    <link rel="preconnect" href="https://images.unsplash.com">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    
+    <!-- Meta Open Graph para redes sociales -->
+    <meta property="og:title" content="StartupPro | Transformación Digital">
+    <meta property="og:description" content="Soluciones digitales innovadoras para empresas modernas">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=630&fit=crop">
+</head>
+<body>
+    <!-- Skip link para accesibilidad -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <!-- Navbar mejorada -->
+    <nav class="navbar" role="navigation" aria-label="Navegación principal">
+        <div class="container">
+            <!-- Logo con enlace a inicio -->
+            <a href="#inicio" class="logo" aria-label="StartupPro - Volver al inicio">
+                <span class="logo-icon" aria-hidden="true">🚀</span>
+                <span class="logo-text">Startup<span class="logo-highlight">Pro</span></span>
+            </a>
+            
+            <!-- Menú de navegación -->
+            <ul class="nav-menu" role="menubar">
+                <li role="none">
+                    <a href="#inicio" class="nav-link" role="menuitem" aria-label="Ir a la sección de inicio">
+                        <span class="nav-icon" aria-hidden="true">🏠</span>
+                        <span class="nav-text">Inicio</span>
+                    </a>
+                </li>
+                <li role="none">
+                    <a href="#features" class="nav-link" role="menuitem" aria-label="Ir a la sección de características">
+                        <span class="nav-icon" aria-hidden="true">⭐</span>
+                        <span class="nav-text">Características</span>
+                    </a>
+                </li>
+                <li role="none">
+                    <a href="#galeria" class="nav-link" role="menuitem" aria-label="Ir a la sección de galería">
+                        <span class="nav-icon" aria-hidden="true">🖼️</span>
+                        <span class="nav-text">Galería</span>
+                    </a>
+                </li>
+                <li role="none">
+                    <a href="#contacto" class="nav-link" role="menuitem" aria-label="Ir a la sección de contacto">
+                        <span class="nav-icon" aria-hidden="true">✉️</span>
+                        <span class="nav-text">Contacto</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <!-- Botones de acción -->
+            <div class="nav-actions">
+                <button class="btn btn-outline" aria-label="Iniciar sesión">
+                    <span class="btn-icon" aria-hidden="true">👤</span>
+                    <span class="btn-text">Ingresar</span>
+                </button>
+                <button class="btn btn-primary" aria-label="Comenzar prueba gratuita">
+                    <span class="btn-icon" aria-hidden="true">🚀</span>
+                    <span class="btn-text">Probar Gratis</span>
+                </button>
+            </div>
+            
+            <!-- Botón menú móvil -->
+            <button class="menu-toggle" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="nav-menu">
+                <span class="menu-icon" aria-hidden="true">☰</span>
+                <span class="menu-close" aria-hidden="true">✕</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section mejorada -->
+    <section id="inicio" class="hero" role="banner" aria-labelledby="hero-title">
+        <div class="container">
+            <!-- Contenedor del contenido del hero -->
+            <div class="hero-content">
+                <!-- Badge destacado -->
+                <div class="hero-badge" aria-label="Nuevo lanzamiento">
+                    <span class="badge-text">🔥 NUEVO</span>
+                    <span class="badge-desc">Plataforma v2.0 lanzada</span>
+                </div>
+                
+                <!-- Título principal -->
+                <h1 id="hero-title" class="hero-title">
+                    <span class="title-line">Transforma Tu</span>
+                    <span class="title-line highlight">Negocio Digital</span>
+                </h1>
+                
+                <!-- Subtítulo -->
+                <p class="hero-subtitle">
+                    Soluciones digitales innovadoras diseñadas para impulsar empresas modernas 
+                    hacia el éxito en la era digital.
+                </p>
+                
+                <!-- CTA y estadísticas -->
+                <div class="hero-actions">
+                    <button class="cta-button" aria-label="Comenzar prueba gratuita de StartupPro">
+                        <span class="cta-text">Comenzar Gratis</span>
+                        <span class="cta-icon" aria-hidden="true">→</span>
+                        <span class="cta-hover" aria-hidden="true"></span>
+                    </button>
+                    
+                    <button class="btn-secondary" aria-label="Ver demo en video">
+                        <span class="btn-icon" aria-hidden="true">▶️</span>
+                        <span class="btn-text">Ver Demo</span>
+                    </button>
+                </div>
+                
+                <!-- Estadísticas de confianza -->
+                <div class="hero-stats" role="group" aria-label="Estadísticas de StartupPro">
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="5000">5000+</span>
+                        <span class="stat-label">Clientes</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="99">99%</span>
+                        <span class="stat-label">Satisfacción</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-count="24">24/7</span>
+                        <span class="stat-label">Soporte</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Imagen/Ilustración del hero -->
+            <div class="hero-visual">
+                <div class="visual-container">
+                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=600&fit=crop" 
+                         alt="Dashboard moderno de StartupPro mostrando métricas y gráficos en tiempo real"
+                         class="hero-image"
+                         loading="eager"
+                         width="600"
+                         height="600">
+                    
+                    <!-- Elementos flotantes decorativos -->
+                    <div class="floating-element element-1" aria-hidden="true">📈</div>
+                    <div class="floating-element element-2" aria-hidden="true">💡</div>
+                    <div class="floating-element element-3" aria-hidden="true">🚀</div>
+                    
+                    <!-- Badge de certificación -->
+                    <div class="certification-badge" aria-label="Certificado de excelencia">
+                        <span class="badge-icon">🏆</span>
+                        <span class="badge-text">Top 2024</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator" role="navigation" aria-label="Indicador de scroll">
+            <span class="sr-only">Desplázate para descubrir más</span>
+            <div class="indicator-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <main id="main-content">
+        <!-- Features Section mejorada -->
+        <section id="features" class="features" aria-labelledby="features-title">
+            <div class="container">
+                <!-- Header de la sección -->
+                <header class="section-header">
+                    <div class="section-badge" aria-hidden="true">✨</div>
+                    <h2 id="features-title" class="section-title">
+                        Potencia Tu <span class="highlight">Productividad</span>
+                    </h2>
+                    <p class="section-subtitle">
+                        Descubre las características que hacen de StartupPro la solución preferida 
+                        por empresas innovadoras alrededor del mundo.
+                    </p>
+                </header>
+
+                <!-- Grid de características -->
+                <div class="features-grid" role="group" aria-label="Características de StartupPro">
+                    <!-- Feature 1 -->
+                    <article class="feature-card" tabindex="0" aria-labelledby="feature-1-title">
+                        <div class="feature-icon" aria-hidden="true">
+                            <span class="icon-emoji">⚡</span>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-content">
+                            <h3 id="feature-1-title" class="feature-title">Ultra Rápido</h3>
+                            <p class="feature-description">
+                                Rendimiento optimizado con carga en menos de 1 segundo. 
+                                Tecnología de vanguardia para máxima velocidad.
+                            </p>
+                            <ul class="feature-list" aria-label="Beneficios de velocidad">
+                                <li>CDN global</li>
+                                <li>Caché inteligente</li>
+                                <li>Optimización avanzada</li>
+                            </ul>
+                        </div>
+                        <div class="feature-badge" aria-hidden="true">+95% velocidad</div>
+                    </article>
+
+                    <!-- Feature 2 -->
+                    <article class="feature-card" tabindex="0" aria-labelledby="feature-2-title">
+                        <div class="feature-icon" aria-hidden="true">
+                            <span class="icon-emoji">🔒</span>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-content">
+                            <h3 id="feature-2-title" class="feature-title">Seguridad Avanzada</h3>
+                            <p class="feature-description">
+                                Protección de datos con encriptación de nivel empresarial 
+                                y protocolos de seguridad certificados.
+                            </p>
+                            <ul class="feature-list" aria-label="Características de seguridad">
+                                <li>SSL 256-bit</li>
+                                <li>2FA obligatorio</li>
+                                <li>Backup automático</li>
+                            </ul>
+                        </div>
+                        <div class="feature-badge" aria-hidden="true">ISO 27001</div>
+                    </article>
+
+                    <!-- Feature 3 -->
+                    <article class="feature-card" tabindex="0" aria-labelledby="feature-3-title">
+                        <div class="feature-icon" aria-hidden="true">
+                            <span class="icon-emoji">📱</span>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-content">
+                            <h3 id="feature-3-title" class="feature-title">Totalmente Responsive</h3>
+                            <p class="feature-description">
+                                Experiencia perfecta en cualquier dispositivo. 
+                                Diseño adaptativo que funciona en móviles, tablets y desktop.
+                            </p>
+                            <ul class="feature-list" aria-label="Dispositivos compatibles">
+                                <li>Mobile First</li>
+                                <li>Tablet optimizado</li>
+                                <li>Desktop perfect</li>
+                            </ul>
+                        </div>
+                        <div class="feature-badge" aria-hidden="true">100% responsive</div>
+                    </article>
+
+                    <!-- Feature 4 -->
+                    <article class="feature-card" tabindex="0" aria-labelledby="feature-4-title">
+                        <div class="feature-icon" aria-hidden="true">
+                            <span class="icon-emoji">🎨</span>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-content">
+                            <h3 id="feature-4-title" class="feature-title">Diseño Moderno</h3>
+                            <p class="feature-description">
+                                Interfaces elegantes basadas en las últimas tendencias de UI/UX 
+                                para una experiencia visual excepcional.
+                            </p>
+                            <ul class="feature-list" aria-label="Características de diseño">
+                                <li>Dark/Light mode</li>
+                                <li>Animaciones fluidas</li>
+                                <li>Accesibilidad AAA</li>
+                            </ul>
+                        </div>
+                        <div class="feature-badge" aria-hidden="true">Premio diseño 2024</div>
+                    </article>
+
+                    <!-- Feature 5 -->
+                    <article class="feature-card" tabindex="0" aria-labelledby="feature-5-title">
+                        <div class="feature-icon" aria-hidden="true">
+                            <span class="icon-emoji">⚙️</span>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-content">
+                            <h3 id="feature-5-title" class="feature-title">Altamente Personalizable</h3>
+                            <p class="feature-description">
+                                Adapta cada aspecto a tus necesidades específicas con nuestro 
+                                sistema de personalización avanzado.
+                            </p>
+                            <ul class="feature-list" aria-label="Opciones de personalización">
+                                <li>Temas custom</li>
+                                <li>API extensible</li>
+                                <li>Plugins ilimitados</li>
+                            </ul>
+                        </div>
+                        <div class="feature-badge" aria-hidden="true">100+ integraciones</div>
+                    </article>
+
+                    <!-- Feature 6 -->
+                    <article class="feature-card" tabindex="0" aria-labelledby="feature-6-title">
+                        <div class="feature-icon" aria-hidden="true">
+                            <span class="icon-emoji">💬</span>
+                            <div class="icon-glow"></div>
+                        </div>
+                        <div class="feature-content">
+                            <h3 id="feature-6-title" class="feature-title">Soporte 24/7 Premium</h3>
+                            <p class="feature-description">
+                                Equipo de soporte especializado disponible las 24 horas para 
+                                resolver cualquier duda o inconveniente.
+                            </p>
+                            <ul class="feature-list" aria-label="Canales de soporte">
+                                <li>Chat en vivo</li>
+                                <li>Teléfono directo</li>
+                                <li>Email prioritario</li>
+                            </ul>
+                        </div>
+                        <div class="feature-badge" aria-hidden="true">Respuesta en 5min</div>
+                    </article>
+                </div>
+
+                <!-- CTA de features -->
+                <div class="features-cta">
+                    <p class="cta-text">¿Listo para experimentar todas estas características?</p>
+                    <button class="btn btn-large btn-gradient" aria-label="Probar todas las características gratis">
+                        <span class="btn-icon" aria-hidden="true">🎯</span>
+                        <span class="btn-text">Probar Todas las Features</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section mejorada -->
+        <section id="galeria" class="gallery" aria-labelledby="gallery-title">
+            <div class="container">
+                <!-- Header de la sección -->
+                <header class="section-header">
+                    <div class="section-badge" aria-hidden="true">🖼️</div>
+                    <h2 id="gallery-title" class="section-title">
+                        Nuestros <span class="highlight">Proyectos</span> en Acción
+                    </h2>
+                    <p class="section-subtitle">
+                        Mira cómo empresas líderes están transformando sus operaciones 
+                        con nuestras soluciones.
+                    </p>
+                </header>
+
+                <!-- Grid de galería -->
+                <div class="gallery-grid" role="group" aria-label="Galería de proyectos">
+                    <!-- Proyecto 1 -->
+                    <article class="gallery-item" tabindex="0" aria-labelledby="project-1-title">
+                        <figure class="project-figure">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop" 
+                                 alt="Dashboard empresarial con métricas financieras en tiempo real"
+                                 class="project-image"
+                                 loading="lazy"
+                                 width="400"
+                                 height="300">
+                            <figcaption class="project-caption">
+                                <h3 id="project-1-title" class="project-title">FinTech Solutions</h3>
+                                <p class="project-description">Dashboard financiero avanzado</p>
+                            </figcaption>
+                        </figure>
+                        <div class="project-overlay">
+                            <div class="overlay-content">
+                                <span class="project-category">Finanzas</span>
+                                <h4 class="overlay-title">Análisis en Tiempo Real</h4>
+                                <p class="overlay-description">
+                                    Plataforma de análisis financiero con machine learning integrado.
+                                </p>
+                                <button class="btn-overlay" aria-label="Ver caso de estudio FinTech Solutions">
+                                    Ver Caso
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 2 -->
+                    <article class="gallery-item" tabindex="0" aria-labelledby="project-2-title">
+                        <figure class="project-figure">
+                            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop" 
+                                 alt="App móvil de e-commerce con interfaz moderna y limpia"
+                                 class="project-image"
+                                 loading="lazy"
+                                 width="400"
+                                 height="300">
+                            <figcaption class="project-caption">
+                                <h3 id="project-2-title" class="project-title">ShopMobile Pro</h3>
+                                <p class="project-description">App de e-commerce móvil</p>
+                            </figcaption>
+                        </figure>
+                        <div class="project-overlay">
+                            <div class="overlay-content">
+                                <span class="project-category">Retail</span>
+                                <h4 class="overlay-title">E-commerce Móvil</h4>
+                                <p class="overlay-description">
+                                    Aplicación móvil de compras con realidad aumentada.
+                                </p>
+                                <button class="btn-overlay" aria-label="Ver caso de estudio ShopMobile Pro">
+                                    Ver Caso
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 3 -->
+                    <article class="gallery-item" tabindex="0" aria-labelledby="project-3-title">
+                        <figure class="project-figure">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300&fit=crop" 
+                                 alt="Panel de control de salud con gráficos de seguimiento de pacientes"
+                                 class="project-image"
+                                 loading="lazy"
+                                 width="400"
+                                 height="300">
+                            <figcaption class="project-caption">
+                                <h3 id="project-3-title" class="project-title">HealthTrack 360</h3>
+                                <p class="project-description">Sistema de salud digital</p>
+                            </figcaption>
+                        </figure>
+                        <div class="project-overlay">
+                            <div class="overlay-content">
+                                <span class="project-category">Salud</span>
+                                <h4 class="overlay-title">Monitoreo de Salud</h4>
+                                <p class="overlay-description">
+                                    Plataforma de telemedicina con IA predictiva.
+                                </p>
+                                <button class="btn-overlay" aria-label="Ver caso de estudio HealthTrack 360">
+                                    Ver Caso
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 4 -->
+                    <article class="gallery-item" tabindex="0" aria-labelledby="project-4-title">
+                        <figure class="project-figure">
+                            <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=400&h=300&fit=crop" 
+                                 alt="Sistema educativo online con videoconferencia y pizarra digital"
+                                 class="project-image"
+                                 loading="lazy"
+                                 width="400"
+                                 height="300">
+                            <figcaption class="project-caption">
+                                <h3 id="project-4-title" class="project-title">EduTech Platform</h3>
+                                <p class="project-description">Plataforma educativa online</p>
+                            </figcaption>
+                        </figure>
+                        <div class="project-overlay">
+                            <div class="overlay-content">
+                                <span class="project-category">Educación</span>
+                                <h4 class="overlay-title">Aprendizaje Digital</h4>
+                                <p class="overlay-description">
+                                    Sistema LMS con gamificación y analíticas avanzadas.
+                                </p>
+                                <button class="btn-overlay" aria-label="Ver caso de estudio EduTech Platform">
+                                    Ver Caso
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- CTA de galería -->
+                <div class="gallery-cta">
+                    <p class="cta-text">¿Interesado en ver más proyectos exitosos?</p>
+                    <button class="btn btn-large btn-outline" aria-label="Ver portafolio completo de proyectos">
+                        <span class="btn-icon" aria-hidden="true">📂</span>
+                        <span class="btn-text">Ver Portafolio Completo</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section mejorada -->
+        <section id="contacto" class="contact" aria-labelledby="contact-title">
+            <div class="container">
+                <div class="contact-wrapper">
+                    <!-- Información de contacto -->
+                    <div class="contact-info">
+                        <header class="contact-header">
+                            <div class="section-badge" aria-hidden="true">✉️</div>
+                            <h2 id="contact-title" class="section-title">
+                                Hablemos de Tu <span class="highlight">Proyecto</span>
+                            </h2>
+                            <p class="contact-subtitle">
+                                Estamos listos para ayudarte a transformar tu visión en realidad. 
+                                Cuéntanos sobre tu proyecto y te responderemos en menos de 24 horas.
+                            </p>
+                        </header>
+
+                        <!-- Información de contacto directo -->
+                        <div class="contact-details" role="group" aria-label="Información de contacto">
+                            <div class="contact-item">
+                                <div class="contact-icon" aria-hidden="true">📍</div>
+                                <div>
+                                    <h3 class="contact-item-title">Oficina Central</h3>
+                                    <p class="contact-item-text">Av. Innovación 1234, Tech District</p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon" aria-hidden="true">📞</div>
+                                <div>
+                                    <h3 class="contact-item-title">Teléfono</h3>
+                                    <p class="contact-item-text">
+                                        <a href="tel:+1234567890" class="contact-link">+1 (234) 567-890</a>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon" aria-hidden="true">✉️</div>
+                                <div>
+                                    <h3 class="contact-item-title">Email</h3>
+                                    <p class="contact-item-text">
+                                        <a href="mailto:hola@startuppro.dev" class="contact-link">hola@startuppro.dev</a>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="contact-item">
+                                <div class="contact-icon" aria-hidden="true">🕒</div>
+                                <div>
+                                    <h3 class="contact-item-title">Horario</h3>
+                                    <p class="contact-item-text">Lun - Vie: 9:00 - 18:00</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Redes sociales -->
+                        <div class="contact-social" role="group" aria-label="Redes sociales">
+                            <h3 class="social-title">Síguenos</h3>
+                            <div class="social-links">
+                                <a href="#" class="social-link" aria-label="Twitter de StartupPro">
+                                    <span class="social-icon" aria-hidden="true">🐦</span>
+                                    <span class="sr-only">Twitter</span>
+                                </a>
+                                <a href="#" class="social-link" aria-label="LinkedIn de StartupPro">
+                                    <span class="social-icon" aria-hidden="true">💼</span>
+                                    <span class="sr-only">LinkedIn</span>
+                                </a>
+                                <a href="#" class="social-link" aria-label="Instagram de StartupPro">
+                                    <span class="social-icon" aria-hidden="true">📸</span>
+                                    <span class="sr-only">Instagram</span>
+                                </a>
+                                <a href="#" class="social-link" aria-label="GitHub de StartupPro">
+                                    <span class="social-icon" aria-hidden="true">💻</span>
+                                    <span class="sr-only">GitHub</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulario de contacto -->
+                    <div class="contact-form-container">
+                        <form class="contact-form" aria-labelledby="form-title">
+                            <h3 id="form-title" class="form-title">Envíanos un Mensaje</h3>
+                            
+                            <div class="form-group">
+                                <label for="name" class="form-label">Nombre Completo *</label>
+                                <input type="text" id="name" class="form-input" required 
+                                       aria-describedby="name-help"
+                                       placeholder="Ej: Juan Pérez">
+                                <div id="name-help" class="form-help">Requerido</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" id="email" class="form-input" required
+                                       aria-describedby="email-help"
+                                       placeholder="ejemplo@empresa.com">
+                                <div id="email-help" class="form-help">Requerido</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="company" class="form-label">Empresa</label>
+                                <input type="text" id="company" class="form-input"
+                                       placeholder="Nombre de tu empresa">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="service" class="form-label">Servicio de Interés</label>
+                                <select id="service" class="form-select" aria-describedby="service-help">
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="web">Desarrollo Web</option>
+                                    <option value="mobile">App Móvil</option>
+                                    <option value="consulting">Consultoría</option>
+                                    <option value="other">Otro</option>
+                                </select>
+                                <div id="service-help" class="form-help">Opcional</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message" class="form-label">Mensaje *</label>
+                                <textarea id="message" class="form-textarea" rows="6" required
+                                          aria-describedby="message-help"
+                                          placeholder="Describe tu proyecto, necesidades o preguntas..."></textarea>
+                                <div id="message-help" class="form-help">Requerido</div>
+                            </div>
+                            
+                            <div class="form-footer">
+                                <button type="submit" class="btn btn-large btn-primary form-submit">
+                                    <span class="btn-icon" aria-hidden="true">🚀</span>
+                                    <span class="btn-text">Enviar Mensaje</span>
+                                    <span class="submit-spinner" aria-hidden="true"></span>
+                                </button>
+                                
+                                <p class="form-note">
+                                    Al enviar, aceptas nuestra 
+                                    <a href="#" class="form-link">Política de Privacidad</a>.
+                                </p>
+                            </div>
+                            
+                            <div id="form-success" class="form-success" role="alert" hidden>
+                                ¡Mensaje enviado con éxito! Te contactaremos pronto.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer mejorado -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Logo y descripción -->
+                <div class="footer-brand">
+                    <a href="#inicio" class="footer-logo" aria-label="StartupPro - Volver al inicio">
+                        <span class="logo-icon" aria-hidden="true">🚀</span>
+                        <span class="logo-text">Startup<span class="logo-highlight">Pro</span></span>
+                    </a>
+                    <p class="footer-description">
+                        Transformamos ideas en soluciones digitales innovadoras 
+                        que impulsan el crecimiento empresarial.
+                    </p>
+                    <div class="footer-newsletter">
+                        <h4 class="newsletter-title">Newsletter</h4>
+                        <form class="newsletter-form" aria-label="Suscripción al newsletter">
+                            <input type="email" placeholder="Tu email" 
+                                   aria-label="Email para suscripción" 
+                                   class="newsletter-input">
+                            <button type="submit" class="newsletter-btn" aria-label="Suscribirse">
+                                <span class="btn-icon" aria-hidden="true">✉️</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Enlaces rápidos -->
+                <div class="footer-links">
+                    <h4 class="links-title">Enlaces Rápidos</h4>
+                    <ul class="links-list" role="list">
+                        <li><a href="#inicio" class="footer-link">Inicio</a></li>
+                        <li><a href="#features" class="footer-link">Características</a></li>
+                        <li><a href="#galeria" class="footer-link">Proyectos</a></li>
+                        <li><a href="#contacto" class="footer-link">Contacto</a></li>
+                        <li><a href="#" class="footer-link">Blog</a></li>
+                        <li><a href="#" class="footer-link">Precios</a></li>
+                    </ul>
+                </div>
+
+                <!-- Recursos -->
+                <div class="footer-resources">
+                    <h4 class="resources-title">Recursos</h4>
+                    <ul class="resources-list" role="list">
+                        <li><a href="#" class="footer-link">Documentación</a></li>
+                        <li><a href="#" class="footer-link">API Reference</a></li>
+                        <li><a href="#" class="footer-link">Guías de Uso</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                        <li><a href="#" class="footer-link">Centro de Ayuda</a></li>
+                        <li><a href="#" class="footer-link">Status</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div class="footer-legal">
+                    <h4 class="legal-title">Legal</h4>
+                    <ul class="legal-list" role="list">
+                        <li><a href="#" class="footer-link">Términos de Servicio</a></li>
+                        <li><a href="#" class="footer-link">Política de Privacidad</a></li>
+                        <li><a href="#" class="footer-link">Cookies</a></li>
+                        <li><a href="#" class="footer-link">Aviso Legal</a></li>
+                        <li><a href="#" class="footer-link">Seguridad</a></li>
+                        <li><a href="#" class="footer-link">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer bottom -->
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; <span id="currentYear"></span> StartupPro. Todos los derechos reservados.</p>
+                    <p class="footer-extra">Made with ❤️ for the digital world.</p>
+                </div>
+                
+                <div class="footer-actions">
+                    <button class="footer-action" aria-label="Cambiar idioma">
+                        <span class="action-icon" aria-hidden="true">🌐</span>
+                        <span class="action-text">Español</span>
+                    </button>
+                    <button class="footer-action" aria-label="Cambiar tema">
+                        <span class="action-icon" aria-hidden="true">🌙</span>
+                        <span class="action-text">Tema</span>
+                    </button>
+                    <a href="#inicio" class="back-to-top" aria-label="Volver al inicio">
+                        <span class="back-icon" aria-hidden="true">↑</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js" defer></script>
+</body>
+</html>
