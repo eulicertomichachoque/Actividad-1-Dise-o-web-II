@@ -1,0 +1,623 @@
+/* ========================================
+   SISTEMA DE DISEÑO: VARIABLES CSS PERSONALIZADAS
+   ======================================== */
+:root {
+    /* ===== PALETA DE COLORES PERSONALIZADA ===== */
+    --color-primary: #2563eb;
+    --color-primary-dark: #1d4ed8;
+    --color-primary-light: #dbeafe;
+    --color-secondary: #7c3aed;
+    --color-accent: #f59e0b;
+    --color-success: #10b981;
+    --color-danger: #ef4444;
+    --color-warning: #fbbf24;
+    --color-info: #0ea5e9;
+    
+    --color-neutral-50: #fafafa;
+    --color-neutral-100: #f5f5f5;
+    --color-neutral-200: #e5e5e5;
+    --color-neutral-300: #d4d4d4;
+    --color-neutral-400: #a3a3a3;
+    --color-neutral-500: #737373;
+    --color-neutral-600: #525252;
+    --color-neutral-700: #404040;
+    --color-neutral-800: #262626;
+    --color-neutral-900: #171717;
+    
+    /* ===== GRADIENTES PERSONALIZADOS ===== */
+    --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-dark: linear-gradient(135deg, var(--color-neutral-900) 0%, var(--color-neutral-800) 100%);
+    --gradient-light: linear-gradient(135deg, var(--color-neutral-50) 0%, var(--color-neutral-100) 100%);
+    
+    /* ===== TIPOGRAFÍA FLUIDA ===== */
+    --font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+    --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+    --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+    --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.5rem);
+    --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.875rem);
+    --font-size-2xl: clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+    --font-size-3xl: clamp(1.875rem, 1.4rem + 2.375vw, 3rem);
+    
+    /* ===== ESPACIADO PERSONALIZADO ===== */
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    --space-4xl: 6rem;
+    
+    /* ===== BORDES Y SOMBRAS ===== */
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+    --radius-2xl: 2rem;
+    --radius-full: 9999px;
+    
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+    
+    /* ===== TRANSICIONES Y ANIMACIONES ===== */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    /* ===== Z-INDEX ===== */
+    --z-sticky: 200;
+    --z-modal: 300;
+    --z-popover: 400;
+}
+
+/* ========================================
+   ESTILOS BASE Y OVERRIDES DE BOOTSTRAP
+   ======================================== */
+
+/* Mejora de fuentes y base */
+body {
+    font-family: var(--font-family-base);
+    line-height: 1.6;
+    color: var(--color-neutral-800);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   UTILIDADES DE ACCESIBILIDAD
+   ======================================== */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: var(--space-md);
+    background: var(--color-primary);
+    color: white;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    z-index: var(--z-popover);
+    transition: top var(--transition-normal);
+}
+
+.skip-link:focus {
+    top: var(--space-md);
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ========================================
+   NAVBAR MEJORADA
+   ======================================== */
+.navbar {
+    --bs-navbar-padding-y: var(--space-md);
+    background: var(--gradient-dark) !important;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal);
+}
+
+.navbar.scrolled {
+    --bs-navbar-padding-y: var(--space-sm);
+    background: rgba(38, 38, 38, 0.95) !important;
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+    font-weight: 800 !important;
+    font-size: var(--font-size-lg);
+    transition: transform var(--transition-normal);
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.nav-link {
+    font-weight: 500;
+    position: relative;
+    padding: var(--space-sm) var(--space-md) !important;
+    transition: color var(--transition-normal);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transition: all var(--transition-normal);
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 80%;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color-accent) !important;
+}
+
+/* ========================================
+   HERO SECTION MEJORADA
+   ======================================== */
+.hero-section {
+    background: var(--gradient-hero);
+    position: relative;
+    overflow: hidden;
+    animation: gradientShift 15s ease infinite;
+    background-size: 200% 200%;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+    opacity: 0.3;
+    animation: patternMove 20s linear infinite;
+}
+
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+/* Imagen de perfil con animación */
+.hero-section img {
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-2xl);
+    transition: all var(--transition-slow);
+    animation: float 6s ease-in-out infinite;
+}
+
+.hero-section img:hover {
+    border-color: var(--color-accent);
+    transform: scale(1.05) rotate(5deg);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   SECCIONES GENERALES
+   ======================================== */
+section {
+    scroll-margin-top: 100px;
+}
+
+/* ========================================
+   CARDS MEJORADAS
+   ======================================== */
+.card {
+    transition: all var(--transition-normal);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    position: relative;
+    will-change: transform;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+    transition: left var(--transition-slow);
+}
+
+.card:hover::before {
+    left: 100%;
+}
+
+.card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: var(--shadow-2xl) !important;
+    border-color: var(--color-primary);
+}
+
+.card-img-top {
+    height: 250px;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.1);
+}
+
+/* Cards de habilidades */
+#skills .card {
+    border: none;
+    background: var(--color-surface);
+}
+
+#skills .card i {
+    transition: transform var(--transition-normal);
+}
+
+#skills .card:hover i {
+    transform: scale(1.2) rotate(10deg);
+}
+
+/* Badges animados */
+.badge {
+    transition: all var(--transition-normal);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.card:hover .badge {
+    transform: scale(1.1) translateY(-2px);
+}
+
+/* ========================================
+   FORMULARIO DE CONTACTO MEJORADO
+   ======================================== */
+#contact form {
+    background: var(--color-surface);
+    padding: var(--space-2xl);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition-normal);
+}
+
+#contact form:hover {
+    box-shadow: var(--shadow-xl);
+    border-color: var(--color-primary-light);
+}
+
+.form-control {
+    border: 2px solid var(--color-border);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-normal);
+    font-size: var(--font-size-base);
+}
+
+.form-control:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
+    transform: translateY(-2px);
+}
+
+.form-label {
+    font-weight: 600;
+    color: var(--color-neutral-700);
+    margin-bottom: var(--space-xs);
+}
+
+/* ========================================
+   FOOTER MEJORADO
+   ======================================== */
+footer {
+    background: var(--gradient-dark) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--color-primary), 
+        var(--color-accent), 
+        var(--color-primary), 
+        transparent);
+}
+
+footer a {
+    transition: all var(--transition-normal);
+    position: relative;
+    display: inline-block;
+    padding: var(--space-xs);
+}
+
+footer a:hover {
+    opacity: 1 !important;
+    transform: translateY(-5px) scale(1.2);
+    color: var(--color-accent) !important;
+}
+
+footer a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--color-accent);
+    transition: all var(--transition-normal);
+    transform: translateX(-50%);
+}
+
+footer a:hover::after {
+    width: 70%;
+}
+
+/* ========================================
+   ANIMACIONES KEYFRAMES PERSONALIZADAS
+   ======================================== */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes patternMove {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 100px 100px;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ========================================
+   MEDIA QUERIES PERSONALIZADAS
+   ======================================== */
+
+/* Tablet */
+@media (max-width: 992px) {
+    .min-vh-75 {
+        min-height: 60vh;
+    }
+    
+    .hero-section h1 {
+        font-size: calc(1.625rem + 4.5vw) !important;
+    }
+    
+    .card-img-top {
+        height: 200px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    :root {
+        --space-xl: 1.5rem;
+        --space-2xl: 2rem;
+    }
+    
+    .min-vh-75 {
+        min-height: 50vh;
+    }
+    
+    .hero-section {
+        text-align: center;
+        padding-top: var(--space-2xl) !important;
+        padding-bottom: var(--space-2xl) !important;
+    }
+    
+    .hero-section .btn {
+        width: 100%;
+        margin-bottom: var(--space-sm);
+    }
+    
+    #contact form {
+        padding: var(--space-xl);
+    }
+    
+    .card:hover {
+        transform: translateY(-8px);
+    }
+}
+
+/* Mobile pequeño */
+@media (max-width: 480px) {
+    .hero-section img {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .card-img-top {
+        height: 180px;
+    }
+}
+
+/* ========================================
+   PREFERENCIAS DE ACCESIBILIDAD
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .hero-section {
+        animation: none;
+        background-size: cover;
+    }
+    
+    .card:hover {
+        transform: none;
+    }
+    
+    footer a:hover {
+        transform: none;
+    }
+}
+
+/* Modo oscuro automático */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-surface: var(--color-neutral-800);
+        --color-border: var(--color-neutral-700);
+    }
+    
+    .card {
+        background: var(--color-neutral-800);
+        border-color: var(--color-neutral-700);
+    }
+    
+    #skills .card {
+        background: var(--color-neutral-900);
+    }
+    
+    #contact form {
+        background: var(--color-neutral-800);
+        border-color: var(--color-neutral-700);
+    }
+    
+    .form-control {
+        background: var(--color-neutral-900);
+        border-color: var(--color-neutral-600);
+        color: var(--color-neutral-100);
+    }
+    
+    .form-control:focus {
+        background: var(--color-neutral-900);
+        border-color: var(--color-primary);
+    }
+}
+
+/* ========================================
+   ESTADOS DE FOCUS MEJORADOS
+   ======================================== */
+.btn:focus-visible,
+.nav-link:focus-visible,
+.form-control:focus-visible,
+footer a:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+}
+
+/* ========================================
+   UTILIDADES ADICIONALES
+   ======================================== */
+
+/* Animaciones de entrada */
+.fade-in-up {
+    animation: fadeInUp var(--transition-normal) ease-out;
+}
+
+.slide-in-left {
+    animation: slideInLeft var(--transition-normal) ease-out;
+}
+
+/* Efecto de brillo en hover para íconos */
+.icon-glow {
+    filter: drop-shadow(0 0 8px currentColor);
+    transition: filter var(--transition-normal);
+}
+
+.icon-glow:hover {
+    filter: drop-shadow(0 0 16px currentColor);
+}
+
+/* Separador decorativo */
+.section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--color-border), 
+        var(--color-border), 
+        transparent);
+    margin: var(--space-3xl) auto;
+    width: 80%;
+    max-width: 400px;
+}
