@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animaciones CSS Avanzadas | Ejemplos Interactivos</title>
+    <!-- Mejoras SEO -->
+    <meta name="description" content="Explora animaciones CSS avanzadas con ejemplos interactivos de hover effects, scroll animations, efectos de texto y más. Aprende técnicas modernas de diseño web.">
+    <meta name="keywords" content="CSS, animaciones, efectos, hover, scroll, diseño web, frontend">
+    <meta name="author" content="Diseño Web Avanzado">
+    
+    <!-- Open Graph para redes sociales -->
+    <meta property="og:title" content="Animaciones CSS Avanzadas">
+    <meta property="og:description" content="Ejemplos interactivos de animaciones CSS modernas">
+    <meta property="og:type" content="website">
+    
+    <link rel="stylesheet" href="styles.css">
+    <!-- Nuevo: Preconexión para fuentes externas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body>
+    <!-- Contenedor principal mejorado semánticamente -->
+    <div class="container" role="main">
+        
+        <!-- Hero con animación - Ahora dentro de header -->
+        <header class="hero" role="banner">
+            <h1 class="hero-title">Animaciones CSS Avanzadas</h1>
+            <p class="hero-subtitle">Explora el poder de las animaciones modernas en diseño web</p>
+            
+            <!-- Nueva: Navegación de saltos para accesibilidad -->
+            <nav class="skip-nav" aria-label="Acceso rápido">
+                <a href="#loaders" class="skip-link">Saltar a Loaders</a>
+                <a href="#hover-effects" class="skip-link">Saltar a Hover Effects</a>
+                <a href="#scroll-animations" class="skip-link">Saltar a Scroll Animations</a>
+            </nav>
+            
+            <div class="scroll-indicator" aria-label="Indicador de desplazamiento">
+                <span>Scroll</span>
+                <div class="arrow" aria-hidden="true"></div>
+            </div>
+        </header>
+
+        <!-- Main content -->
+        <main>
+            <!-- Loading Spinner -->
+            <section class="section" id="loaders" aria-labelledby="loaders-heading">
+                <h2 id="loaders-heading">Loading Animations</h2>
+                <div class="loaders">
+                    <div class="spinner" aria-label="Spinner animado"></div>
+                    <div class="dots">
+                        <div class="dot" aria-hidden="true"></div>
+                        <div class="dot" aria-hidden="true"></div>
+                        <div class="dot" aria-hidden="true"></div>
+                    </div>
+                    <div class="pulse-ring" aria-label="Anillo pulsante"></div>
+                </div>
+            </section>
+
+            <!-- Cards con hover effects -->
+            <section class="section" id="hover-effects" aria-labelledby="hover-heading">
+                <h2 id="hover-heading">Hover Effects Avanzados</h2>
+                <div class="cards-grid">
+                    <article class="card card-flip">
+                        <div class="card-front">
+                            <h3>Flip Card</h3>
+                            <p>Hover para voltear</p>
+                        </div>
+                        <div class="card-back">
+                            <h3>¡Sorpresa!</h3>
+                            <p>Efecto flip 3D con perspectiva</p>
+                        </div>
+                    </article>
+
+                    <article class="card card-slide">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&h=300&fit=crop" 
+                             alt="Computadora portátil mostrando código CSS" 
+                             loading="lazy">
+                        <div class="card-overlay">
+                            <h3>Slide Overlay</h3>
+                            <p>Overlay deslizante con efecto suave</p>
+                        </div>
+                    </article>
+
+                    <article class="card card-zoom">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=400&h=300&fit=crop" 
+                             alt="Persona desarrollando en múltiples pantallas" 
+                             loading="lazy">
+                        <div class="card-content">
+                            <h3>Zoom Effect</h3>
+                            <p>Imagen con zoom progresivo al hover</p>
+                        </div>
+                    </article>
+                    
+                    <!-- NUEVO: Card adicional con efecto morphing -->
+                    <article class="card card-morph">
+                        <div class="morph-shape"></div>
+                        <div class="card-content">
+                            <h3>Morph Effect</h3>
+                            <p>Transformación de formas con CSS</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Animaciones de entrada -->
+            <section class="section" id="scroll-animations" aria-labelledby="scroll-heading">
+                <h2 id="scroll-heading">Scroll Animations</h2>
+                <article class="animate-on-scroll fade-in">
+                    <h3>Fade In</h3>
+                    <p>Aparece suavemente al hacer scroll</p>
+                </article>
+                <article class="animate-on-scroll slide-in-left">
+                    <h3>Slide from Left</h3>
+                    <p>Entra desde la izquierda con easing</p>
+                </article>
+                <article class="animate-on-scroll slide-in-right">
+                    <h3>Slide from Right</h3>
+                    <p>Entra desde la derecha con retardo</p>
+                </article>
+                <article class="animate-on-scroll zoom-in">
+                    <h3>Zoom In</h3>
+                    <p>Crece desde el centro con transformación</p>
+                </article>
+            </section>
+
+            <!-- Buttons con efectos -->
+            <section class="section" aria-labelledby="buttons-heading">
+                <h2 id="buttons-heading">Button Animations</h2>
+                <div class="buttons-grid">
+                    <button class="btn btn-ripple" aria-label="Botón con efecto de ondas">
+                        <span>Ripple Effect</span>
+                    </button>
+                    <button class="btn btn-slide" aria-label="Botón con deslizamiento">
+                        <span>Slide Background</span>
+                    </button>
+                    <button class="btn btn-glow" aria-label="Botón con efecto brillante">
+                        <span>Glow Effect</span>
+                    </button>
+                    <button class="btn btn-bounce" aria-label="Botón con efecto rebote">
+                        <span>Bounce Effect</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Texto animado -->
+            <section class="section" aria-labelledby="text-animations-heading">
+                <h2 id="text-animations-heading">Text Animations</h2>
+                <h1 class="glitch" data-text="GLITCH">GLITCH</h1>
+                <h1 class="gradient-text">Gradient Animation</h1>
+                <h1 class="typing-text">Texto escribiéndose...</h1>
+            </section>
+        </main>
+
+        <!-- NUEVO: Footer semántico -->
+        <footer class="footer" role="contentinfo">
+            <p>Creado con ♥ para demostrar animaciones CSS avanzadas</p>
+            <p class="footer-links">
+                <a href="#top" class="back-to-top">Volver arriba</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
