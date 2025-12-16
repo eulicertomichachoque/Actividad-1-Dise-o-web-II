@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Galería de imágenes responsive utilizando CSS Grid con auto-fit y minmax para un diseño adaptable">
+    <meta name="keywords" content="galería, responsive, CSS Grid, auto-fit, minmax, diseño web, imágenes">
+    <meta name="author" content="Grid Responsive Gallery">
+    <title>Galería Responsive con CSS Grid Auto-fit | Diseño Moderno</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop">
+</head>
+<body>
+    <!-- Skip link para accesibilidad -->
+    <a href="#main-gallery" class="skip-link">Saltar a la galería principal</a>
+    
+    <!-- Contenedor principal -->
+    <main class="container" role="main">
+        <!-- Encabezado semántico -->
+        <header class="page-header">
+            <h1 class="page-title">
+                <span class="icon" role="img" aria-label="Cámara fotográfica">📸</span>
+                Galería Responsive con CSS Grid
+            </h1>
+            <p class="page-subtitle">Grid con auto-fit y minmax para un diseño completamente adaptable</p>
+            
+            <!-- Información de características -->
+            <div class="grid-info" aria-label="Información sobre la galería grid">
+                <ul class="features-list" role="list">
+                    <li role="listitem">
+                        <span class="feature-icon" aria-hidden="true">✨</span>
+                        <strong>Auto-fit:</strong> Ajusta columnas automáticamente
+                    </li>
+                    <li role="listitem">
+                        <span class="feature-icon" aria-hidden="true">📱</span>
+                        <strong>Responsive:</strong> Se adapta a todos los dispositivos
+                    </li>
+                    <li role="listitem">
+                        <span class="feature-icon" aria-hidden="true">🎨</span>
+                        <strong>Accesible:</strong> Navegación completa por teclado
+                    </li>
+                    <li role="listitem">
+                        <span class="feature-icon" aria-hidden="true">⚡</span>
+                        <strong>Optimizada:</strong> Imágenes con lazy loading
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <!-- Galería principal con ARIA labels -->
+        <section id="main-gallery" class="gallery" aria-label="Galería de imágenes">
+            <!-- Controles de filtro (para JavaScript futuro) -->
+            <div class="gallery-controls" role="toolbar" aria-label="Controles de galería">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all" aria-pressed="true">
+                        <span class="btn-icon" aria-hidden="true">🌍</span>
+                        Todas
+                    </button>
+                    <button class="filter-btn" data-filter="nature" aria-pressed="false">
+                        <span class="btn-icon" aria-hidden="true">🌿</span>
+                        Naturaleza
+                    </button>
+                    <button class="filter-btn" data-filter="urban" aria-pressed="false">
+                        <span class="btn-icon" aria-hidden="true">🏙️</span>
+                        Urbano
+                    </button>
+                </div>
+                
+                <div class="view-options">
+                    <button class="view-btn" data-view="grid" aria-label="Vista en grid" title="Vista en grid">
+                        <span class="view-icon" aria-hidden="true">⏹️</span>
+                    </button>
+                    <button class="view-btn" data-view="masonry" aria-label="Vista en mampostería" title="Vista en mampostería">
+                        <span class="view-icon" aria-hidden="true">🧱</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid de galería -->
+            <div class="gallery-grid" role="grid" aria-label="Grid de imágenes">
+                <!-- Item 1 -->
+                <article class="gallery-item" role="gridcell" data-category="nature">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop" 
+                            alt="Montañas cubiertas de nieve bajo un cielo azul despejado" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Montañas Imponentes</h3>
+                            <p class="image-description">Paisaje natural de alta montaña con picos nevados</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Montañas</h3>
+                            <p class="overlay-text">Paisaje natural</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Montañas">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 2 -->
+                <article class="gallery-item" role="gridcell" data-category="nature">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=300&fit=crop" 
+                            alt="Bosque denso con árboles altos y luz del sol filtrándose entre las hojas" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Bosque Encantado</h3>
+                            <p class="image-description">Vegetación densa con efectos de luz natural</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Bosque</h3>
+                            <p class="overlay-text">Naturaleza verde</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Bosque">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 3 -->
+                <article class="gallery-item" role="gridcell" data-category="urban">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&h=300&fit=crop" 
+                            alt="Skyline urbano de una ciudad moderna con rascacielos al atardecer" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Metrópolis Moderna</h3>
+                            <p class="image-description">Panorama urbano con arquitectura contemporánea</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Ciudad</h3>
+                            <p class="overlay-text">Vida urbana</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Ciudad">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 4 -->
+                <article class="gallery-item" role="gridcell" data-category="nature">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&h=300&fit=crop" 
+                            alt="Lago tranquilo rodeado de montañas reflejando el cielo en su superficie" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Lago Sereno</h3>
+                            <p class="image-description">Reflejo perfecto en aguas cristalinas</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Lago</h3>
+                            <p class="overlay-text">Agua tranquila</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Lago">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 5 -->
+                <article class="gallery-item" role="gridcell" data-category="urban">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=400&h=300&fit=crop" 
+                            alt="Carretera sinuosa atravesando un paisaje montañoso con curvas pronunciadas" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Camino de Aventura</h3>
+                            <p class="image-description">Ruta escénica a través de paisajes impresionantes</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Carretera</h3>
+                            <p class="overlay-text">Aventura</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Carretera">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 6 -->
+                <article class="gallery-item" role="gridcell" data-category="urban">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=300&fit=crop" 
+                            alt="Disposición de componentes tecnológicos y circuitos electrónicos en primer plano" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Tecnología Avanzada</h3>
+                            <p class="image-description">Circuitos y componentes electrónicos</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Tech</h3>
+                            <p class="overlay-text">Digital</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Tech">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 7 -->
+                <article class="gallery-item" role="gridcell" data-category="nature">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=300&fit=crop" 
+                            alt="Sendero boscoso rodeado de árboles altos con luz solar creando efectos mágicos" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Sendero Místico</h3>
+                            <p class="image-description">Camino natural entre la vegetación</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Sendero</h3>
+                            <p class="overlay-text">Camino natural</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Sendero">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 8 -->
+                <article class="gallery-item" role="gridcell" data-category="nature">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=400&h=300&fit=crop" 
+                            alt="Playa tropical con arena blanca y aguas turquesa bajo un cielo despejado" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Paraíso Tropical</h3>
+                            <p class="image-description">Costa con aguas cristalinas y arena fina</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Playa</h3>
+                            <p class="overlay-text">Mar y arena</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Playa">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 9 -->
+                <article class="gallery-item" role="gridcell" data-category="nature">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1475924156734-496f6cac6ec1?w=400&h=300&fit=crop" 
+                            alt="Atardecer espectacular con colores naranjas, rosas y púrpuras en el horizonte" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Golden Hour</h3>
+                            <p class="image-description">Puesta de sol con paleta de colores vibrantes</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Atardecer</h3>
+                            <p class="overlay-text">Golden hour</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Atardecer">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 10 -->
+                <article class="gallery-item" role="gridcell" data-category="nature">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&h=300&fit=crop" 
+                            alt="Océano profundo con olas rompiendo contra acantilados rocosos" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Océano Infinito</h3>
+                            <p class="image-description">Fuerza del mar contra la costa rocosa</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Océano</h3>
+                            <p class="overlay-text">Profundo azul</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Océano">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 11 -->
+                <article class="gallery-item" role="gridcell" data-category="nature">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1465146633011-14f8e0781093?w=400&h=300&fit=crop" 
+                            alt="Campo de flores silvestres multicolores en plena floración bajo el sol" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Jardín Silvestre</h3>
+                            <p class="image-description">Diversidad floral en colores vibrantes</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Flores</h3>
+                            <p class="overlay-text">Jardín colorido</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Flores">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Item 12 -->
+                <article class="gallery-item" role="gridcell" data-category="nature">
+                    <figure class="gallery-figure">
+                        <img 
+                            src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=400&h=300&fit=crop" 
+                            alt="Montañas cubiertas de nieve virgen bajo un cielo azul intenso" 
+                            class="gallery-image"
+                            loading="lazy"
+                            width="400"
+                            height="300"
+                        >
+                        <figcaption class="image-caption">
+                            <h3 class="image-title">Cumbres Nevadas</h3>
+                            <p class="image-description">Paisaje alpino con nieve prístina</p>
+                        </figcaption>
+                    </figure>
+                    <div class="image-overlay" aria-hidden="true">
+                        <div class="overlay-content">
+                            <h3 class="overlay-title">Nieve</h3>
+                            <p class="overlay-text">Picos blancos</p>
+                            <button class="overlay-btn" aria-label="Ver detalles de Nieve">
+                                <span class="btn-text">Ver más</span>
+                                <span class="btn-icon" aria-hidden="true">🔍</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Estadísticas de galería -->
+            <footer class="gallery-footer">
+                <div class="gallery-stats">
+                    <p class="stats-item">
+                        <span class="stats-number">12</span>
+                        <span class="stats-label">imágenes</span>
+                    </p>
+                    <p class="stats-item">
+                        <span class="stats-number">2</span>
+                        <span class="stats-label">categorías</span>
+                    </p>
+                    <p class="stats-item">
+                        <span class="stats-number">100%</span>
+                        <span class="stats-label">responsive</span>
+                    </p>
+                </div>
+            </footer>
+        </section>
+    </main>
+
+    <!-- Footer de página -->
+    <footer class="page-footer" role="contentinfo">
+        <div class="footer-content">
+            <p class="footer-text">
+                <small>
+                    Galería Responsive con CSS Grid &copy; <time datetime="2024">2024</time> |
+                    <abbr title="Cascading Style Sheets">CSS</abbr> Grid con auto-fit y minmax
+                </small>
+            </p>
+            <p class="footer-note">
+                Imágenes cortesía de <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Unsplash</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
