@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de tipografía responsive usando CSS Clamp y Custom Properties para diseño fluido">
+    <meta name="keywords" content="tipografía, responsive, clamp, CSS, diseño web, fluido">
+    <meta name="author" content="Ejercicio 4">
+    <title>Ejercicio 4: Tipografía Fluida con Clamp | Diseño Responsive</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preload" href="style.css" as="style">
+</head>
+<body>
+    <!-- Skip link para accesibilidad -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+    
+    <!-- Contenido principal semántico -->
+    <main id="main-content" class="container" role="main">
+        <header class="page-header">
+            <h1 class="page-title">Tipografía Responsive Moderna</h1>
+            <p class="subtitle">Un sistema fluido usando CSS Clamp y Custom Properties</p>
+        </header>
+
+        <!-- Separador semántico con ARIA -->
+        <div class="separator" role="separator" aria-hidden="true"></div>
+
+        <!-- Artículo principal -->
+        <article class="typography-demo">
+            <header class="article-header">
+                <h2 class="article-title">Introducción a la Fluidez Tipográfica</h2>
+            </header>
+            
+            <section class="content-section">
+                <p class="fluid-text">
+                    Este párrafo demuestra el <strong>cuerpo de texto fluido</strong>. 
+                    Si redimensionas la ventana del navegador, notarás que el tamaño de la fuente 
+                    no salta de un tamaño a otro (como pasaría con media queries tradicionales), 
+                    sino que escala matemáticamente gracias a la función <code>clamp()</code>.
+                </p>
+
+                <h3 class="heading-level-3">Subtítulo de Nivel 3</h3>
+                <p class="fluid-text">
+                    <span class="first-letter" aria-hidden="true">L</span>orem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor 
+                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis 
+                    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
+
+                <!-- Cita con atributos de cita -->
+                <figure class="quote-container">
+                    <blockquote class="fluid-quote" cite="#">
+                        <p class="quote-text">
+                            "La tipografía en la web debe ser flexible, no rígida. El control pixel-perfect es una ilusión."
+                        </p>
+                    </blockquote>
+                    <figcaption class="quote-caption">
+                        — Principio del diseño web moderno
+                    </figcaption>
+                </figure>
+
+                <h4 class="heading-level-4">Subtítulo de Nivel 4</h4>
+                <p class="fluid-text">
+                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore 
+                    eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+                </p>
+            </section>
+
+            <!-- Información adicional del artículo -->
+            <footer class="article-footer">
+                <div class="article-meta">
+                    <time datetime="2024-01-01" class="publish-date">Publicado: Enero 2024</time>
+                    <span class="reading-time" aria-label="Tiempo de lectura">
+                        ⏱️ 3 min de lectura
+                    </span>
+                </div>
+            </footer>
+        </article>
+
+        <!-- Demo adicional de tamaños tipográficos -->
+        <aside class="type-scale-demo" aria-label="Escala tipográfica demostrativa">
+            <h2 class="demo-title">Escala Tipográfica Fluida</h2>
+            <div class="scale-items">
+                <div class="scale-item h1-demo">
+                    <span class="scale-label">H1:</span>
+                    <span class="scale-text">Título Principal Fluido</span>
+                </div>
+                <div class="scale-item h2-demo">
+                    <span class="scale-label">H2:</span>
+                    <span class="scale-text">Subtítulo Fluido</span>
+                </div>
+                <div class="scale-item h3-demo">
+                    <span class="scale-label">H3:</span>
+                    <span class="scale-text">Encabezado Fluido</span>
+                </div>
+                <div class="scale-item body-demo">
+                    <span class="scale-label">Body:</span>
+                    <span class="scale-text">Texto de cuerpo fluido</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer semántico -->
+    <footer class="page-footer" role="contentinfo">
+        <div class="footer-content">
+            <p class="footer-text">
+                <small>
+                    Ejercicio 4: Tipografía Fluida con Clamp &copy; <time datetime="2024">2024</time> |
+                    Demostración de <abbr title="Cascading Style Sheets">CSS</abbr> Moderno
+                </small>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Script para funcionalidad adicional -->
+    <script src="script.js" defer></script>
+</body>
+</html>
