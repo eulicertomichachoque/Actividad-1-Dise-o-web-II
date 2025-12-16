@@ -1,0 +1,1311 @@
+/* =========================================
+   1. DEFINICIÓN DE VARIABLES GLOBALES MEJORADAS
+   ========================================= */
+:root {
+    /* Sistema de Espaciado Modular */
+    --space-unit: 0.25rem;
+    --space-xs: calc(var(--space-unit) * 2);   /* 0.5rem */
+    --space-sm: calc(var(--space-unit) * 4);   /* 1rem */
+    --space-md: calc(var(--space-unit) * 6);   /* 1.5rem */
+    --space-lg: calc(var(--space-unit) * 8);   /* 2rem */
+    --space-xl: calc(var(--space-unit) * 12);  /* 3rem */
+    --space-2xl: calc(var(--space-unit) * 16); /* 4rem */
+    
+    /* Tipografía Modular */
+    --font-size-xs: 0.75rem;   /* 12px */
+    --font-size-sm: 0.875rem;  /* 14px */
+    --font-size-md: 1rem;      /* 16px */
+    --font-size-lg: 1.25rem;   /* 20px */
+    --font-size-xl: 1.5rem;    /* 24px */
+    --font-size-2xl: 2rem;     /* 32px */
+    --font-size-3xl: 2.5rem;   /* 40px */
+    --font-size-4xl: 3rem;     /* 48px */
+    
+    /* Pesos de fuente */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
+    
+    /* Bordes y radios */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --border-radius-xl: 16px;
+    --border-radius-full: 9999px;
+    
+    /* Sombras base */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    
+    /* Timing functions personalizadas */
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ease-elastic: cubic-bezier(0.32, 1.25, 0.8, 1);
+    
+    /* Colores Primitivos - Sistema extendido */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    
+    /* Grises */
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    
+    /* Azules */
+    --color-blue-50: #eff6ff;
+    --color-blue-100: #dbeafe;
+    --color-blue-200: #bfdbfe;
+    --color-blue-300: #93c5fd;
+    --color-blue-400: #60a5fa;
+    --color-blue-500: #3b82f6;
+    --color-blue-600: #2563eb;
+    --color-blue-700: #1d4ed8;
+    --color-blue-800: #1e40af;
+    --color-blue-900: #1e3a8a;
+    
+    /* Colores adicionales para temas */
+    --color-purple-500: #8b5cf6;
+    --color-emerald-500: #10b981;
+    --color-rose-500: #f43f5e;
+    --color-amber-500: #f59e0b;
+    
+    /* VARIABLES SEMÁNTICAS PARA TEMA CLARO */
+    --bg-body: var(--color-gray-50);
+    --bg-card: var(--color-white);
+    --bg-header: var(--color-white);
+    --bg-footer: var(--color-gray-100);
+    
+    --text-primary: var(--color-gray-900);
+    --text-secondary: var(--color-gray-600);
+    --text-tertiary: var(--color-gray-400);
+    --text-inverted: var(--color-white);
+    
+    --border-color: var(--color-gray-200);
+    --border-color-hover: var(--color-gray-300);
+    
+    --primary-color: var(--color-blue-600);
+    --primary-color-hover: var(--color-blue-700);
+    --secondary-color: var(--color-purple-500);
+    --accent-color: var(--color-emerald-500);
+    
+    --btn-primary-bg: var(--primary-color);
+    --btn-primary-text: var(--color-white);
+    --btn-secondary-bg: transparent;
+    --btn-secondary-text: var(--primary-color);
+    --btn-secondary-border: var(--primary-color);
+    
+    --shadow-card: var(--shadow-lg);
+    --shadow-nav: var(--shadow-md);
+    
+    --gradient-primary: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    --gradient-secondary: linear-gradient(135deg, var(--color-purple-500), var(--color-rose-500));
+    
+    /* Efectos de filtro */
+    --backdrop-blur: blur(10px);
+    
+    /* NUEVA VARIABLE: Configuración de animaciones */
+    --animation-duration-fast: 200ms;
+    --animation-duration-normal: 300ms;
+    --animation-duration-slow: 500ms;
+    --animation-duration-slower: 1000ms;
+}
+
+/* =========================================
+   2. SISTEMA DE TEMAS EXTENDIDO
+   ========================================= */
+[data-theme="dark"] {
+    --bg-body: #0f172a;
+    --bg-card: #1e293b;
+    --bg-header: rgba(15, 23, 42, 0.8);
+    --bg-footer: rgba(15, 23, 42, 0.9);
+    
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --text-inverted: #0f172a;
+    
+    --border-color: #334155;
+    --border-color-hover: #475569;
+    
+    --primary-color: #60a5fa;
+    --primary-color-hover: #93c5fd;
+    --secondary-color: #a78bfa;
+    --accent-color: #34d399;
+    
+    --btn-primary-bg: var(--primary-color);
+    --btn-primary-text: var(--text-inverted);
+    --btn-secondary-bg: transparent;
+    --btn-secondary-text: var(--primary-color);
+    --btn-secondary-border: var(--primary-color);
+    
+    --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.4);
+    --shadow-nav: 0 4px 6px rgba(0, 0, 0, 0.3);
+    
+    --gradient-primary: linear-gradient(135deg, #60a5fa, #a78bfa);
+    --gradient-secondary: linear-gradient(135deg, #f472b6, #fbbf24);
+}
+
+[data-theme="blue"] {
+    --bg-body: linear-gradient(135deg, #0c4a6e 0%, #0369a1 100%);
+    --bg-card: rgba(255, 255, 255, 0.1);
+    --bg-header: rgba(12, 74, 110, 0.8);
+    --bg-footer: rgba(12, 74, 110, 0.9);
+    
+    --text-primary: #e0f2fe;
+    --text-secondary: #bae6fd;
+    --text-tertiary: #7dd3fc;
+    
+    --border-color: rgba(255, 255, 255, 0.2);
+    --border-color-hover: rgba(255, 255, 255, 0.3);
+    
+    --primary-color: #38bdf8;
+    --secondary-color: #818cf8;
+    --accent-color: #2dd4bf;
+    
+    --gradient-primary: linear-gradient(135deg, #38bdf8, #818cf8);
+}
+
+/* =========================================
+   3. NUEVA ANIMACIÓN: NEON GLOW EFFECT
+   ========================================= */
+@keyframes neonGlow {
+    0%, 100% {
+        box-shadow: 
+            0 0 5px var(--primary-color),
+            0 0 10px var(--primary-color),
+            0 0 15px var(--primary-color),
+            0 0 20px var(--primary-color);
+        filter: brightness(1);
+    }
+    50% {
+        box-shadow: 
+            0 0 10px var(--primary-color),
+            0 0 20px var(--primary-color),
+            0 0 30px var(--primary-color),
+            0 0 40px var(--primary-color);
+        filter: brightness(1.2);
+    }
+}
+
+@keyframes neonPulse {
+    0%, 100% {
+        opacity: 1;
+        text-shadow: 
+            0 0 5px currentColor,
+            0 0 10px currentColor;
+    }
+    50% {
+        opacity: 0.8;
+        text-shadow: 
+            0 0 10px currentColor,
+            0 0 20px currentColor,
+            0 0 30px currentColor;
+    }
+}
+
+@keyframes neonBorder {
+    0%, 100% {
+        border-color: var(--primary-color);
+        box-shadow: 
+            inset 0 0 10px var(--primary-color),
+            0 0 10px var(--primary-color);
+    }
+    50% {
+        border-color: var(--secondary-color);
+        box-shadow: 
+            inset 0 0 20px var(--secondary-color),
+            0 0 20px var(--secondary-color);
+    }
+}
+
+/* =========================================
+   4. ANIMACIONES NUEVAS: FLOATING, PULSE, WAVE
+   ========================================= */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    33% {
+        transform: translateY(-10px) rotate(3deg);
+    }
+    66% {
+        transform: translateY(-5px) rotate(-3deg);
+    }
+}
+
+@keyframes gentlePulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+}
+
+@keyframes wave {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+@keyframes particleFloat {
+    0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(20px) rotate(180deg);
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   5. ESTILOS GENERALES MEJORADOS
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--space-2xl);
+}
+
+body {
+    background: var(--bg-body);
+    color: var(--text-primary);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    overflow-x: hidden;
+}
+
+/* Utilidades */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: var(--space-md);
+    background: var(--primary-color);
+    color: var(--text-inverted);
+    padding: var(--space-sm);
+    border-radius: var(--border-radius-md);
+    text-decoration: none;
+    z-index: 9999;
+    transition: top var(--animation-duration-normal) var(--ease-smooth);
+}
+
+.skip-link:focus {
+    top: var(--space-md);
+}
+
+/* =========================================
+   6. HEADER Y NAVEGACIÓN MEJORADOS
+   ========================================= */
+.main-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--bg-header);
+    backdrop-filter: var(--backdrop-blur);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-nav);
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md) var(--space-lg);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    transition: transform var(--animation-duration-normal) var(--ease-smooth);
+}
+
+.logo:hover .logo-icon {
+    transform: rotate(15deg) scale(1.1);
+    animation: neonPulse 2s infinite;
+}
+
+.logo-text {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-black);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+}
+
+.nav-list {
+    display: flex;
+    gap: var(--space-lg);
+    list-style: none;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--border-radius-md);
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    transform: translateX(-50%);
+}
+
+.nav-link:hover,
+.nav-link:focus,
+.nav-link.active {
+    color: var(--text-primary);
+    background: rgba(var(--primary-color-rgb), 0.1);
+}
+
+.nav-link:hover::before,
+.nav-link.active::before {
+    width: 80%;
+}
+
+.nav-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--animation-duration-normal) var(--ease-smooth);
+}
+
+.nav-link:hover .nav-icon {
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   7. THEME CONTROLS MEJORADOS CON NEON GLOW
+   ========================================= */
+.theme-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.theme-switch-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    cursor: pointer;
+}
+
+.theme-switch-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-switch-slider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 64px;
+    height: 32px;
+    background: var(--gradient-primary);
+    border-radius: var(--border-radius-full);
+    padding: 0 var(--space-xs);
+    cursor: pointer;
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.theme-switch-slider::before {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: var(--color-white);
+    border-radius: 50%;
+    left: 4px;
+    transition: transform var(--animation-duration-normal) var(--ease-smooth);
+    z-index: 2;
+}
+
+.theme-switch-input:checked + .theme-switch-slider::before {
+    transform: translateX(32px);
+}
+
+.theme-switch-input:focus-visible + .theme-switch-slider {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    animation: neonGlow 2s infinite;
+}
+
+.theme-icon {
+    width: 16px;
+    height: 16px;
+    z-index: 1;
+    transition: opacity var(--animation-duration-normal) var(--ease-smooth);
+}
+
+.theme-icon.sun {
+    opacity: 1;
+}
+
+.theme-icon.moon {
+    opacity: 0.5;
+}
+
+.theme-switch-input:checked + .theme-switch-slider .theme-icon.sun {
+    opacity: 0.5;
+}
+
+.theme-switch-input:checked + .theme-switch-slider .theme-icon.moon {
+    opacity: 1;
+}
+
+.theme-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+    transition: color var(--animation-duration-normal) var(--ease-smooth);
+}
+
+.theme-switch-wrapper:hover .theme-label {
+    color: var(--text-primary);
+}
+
+/* Theme Presets */
+.theme-presets {
+    display: flex;
+    gap: var(--space-xs);
+    padding: var(--space-xs);
+    background: rgba(var(--text-primary-rgb), 0.05);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-color);
+}
+
+.theme-preset-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: var(--border-radius-md);
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    position: relative;
+}
+
+.theme-preset-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(var(--text-primary-rgb), 0.1);
+}
+
+.theme-preset-btn.active {
+    background: rgba(var(--primary-color-rgb), 0.2);
+    border: 2px solid var(--primary-color);
+    animation: gentlePulse 2s infinite;
+}
+
+.preset-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.light-dot {
+    background: linear-gradient(135deg, #f3f4f6, #d1d5db);
+}
+
+.dark-dot {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+}
+
+.blue-dot {
+    background: linear-gradient(135deg, #0c4a6e, #0369a1);
+}
+
+/* =========================================
+   8. PROFILE CARD MEJORADA CON NUEVAS ANIMACIONES
+   ========================================= */
+.profile-card {
+    background: var(--bg-card);
+    border-radius: var(--border-radius-xl);
+    padding: var(--space-2xl);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-color);
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+}
+
+.profile-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary-color);
+    animation: neonBorder 3s infinite;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.avatar-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--bg-card);
+    box-shadow: var(--shadow-lg);
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    animation: float 6s ease-in-out infinite;
+}
+
+.avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 0 20px var(--primary-color),
+        0 0 40px var(--primary-color);
+}
+
+.avatar-status {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    border: 3px solid var(--bg-card);
+    animation: gentlePulse 2s infinite;
+}
+
+.profile-info {
+    text-align: center;
+}
+
+.profile-name {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-black);
+    margin-bottom: var(--space-xs);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: neonPulse 3s infinite;
+}
+
+.profile-role {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-sm);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.profile-location {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    color: var(--text-tertiary);
+    font-size: var(--font-size-sm);
+}
+
+.profile-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.profile-description {
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1.8;
+    font-size: var(--font-size-md);
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    gap: var(--space-md);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-md);
+    background: rgba(var(--text-primary-rgb), 0.03);
+    border-radius: var(--border-radius-lg);
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    min-width: 100px;
+}
+
+.stat:hover {
+    background: rgba(var(--primary-color-rgb), 0.1);
+    transform: translateY(-4px);
+    animation: wave 1s ease-in-out;
+}
+
+.stat-number {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* =========================================
+   9. BOTONES MEJORADOS CON EFECTO NEON
+   ========================================= */
+.profile-actions {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: center;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-lg);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-md);
+    cursor: pointer;
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width var(--animation-duration-slow) var(--ease-smooth), 
+                height var(--animation-duration-slow) var(--ease-smooth);
+}
+
+.btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: var(--text-inverted);
+    box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 25px rgba(var(--primary-color-rgb), 0.6),
+        0 0 20px var(--primary-color);
+    animation: neonGlow 2s infinite;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--btn-secondary-text);
+    border: 2px solid var(--btn-secondary-border);
+}
+
+.btn-secondary:hover {
+    background: rgba(var(--primary-color-rgb), 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.2);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--border-color);
+}
+
+.btn-ghost:hover {
+    background: rgba(var(--text-primary-rgb), 0.05);
+    color: var(--text-primary);
+    border-color: var(--primary-color);
+}
+
+/* =========================================
+   10. SOCIAL LINKS CON EFECTO FLOTANTE
+   ========================================= */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius-full);
+    background: rgba(var(--text-primary-rgb), 0.05);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    animation: float 3s ease-in-out infinite;
+    animation-delay: calc(var(--animation-order) * 0.2s);
+}
+
+.social-link:nth-child(1) { --animation-order: 1; }
+.social-link:nth-child(2) { --animation-order: 2; }
+.social-link:nth-child(3) { --animation-order: 3; }
+
+.social-link:hover {
+    background: var(--gradient-primary);
+    color: var(--text-inverted);
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 0 10px 20px rgba(var(--primary-color-rgb), 0.3);
+    animation-play-state: paused;
+}
+
+/* =========================================
+   11. HERO SECTION MEJORADA
+   ========================================= */
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+}
+
+.hero-content {
+    padding: var(--space-xl);
+}
+
+.hero-title {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-black);
+    line-height: 1.2;
+    margin-bottom: var(--space-lg);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--space-xl);
+}
+
+.highlight {
+    color: var(--primary-color);
+    font-weight: var(--font-weight-bold);
+    position: relative;
+}
+
+.highlight::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gradient-primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--animation-duration-normal) var(--ease-smooth);
+}
+
+.highlight:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+.hero-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+.feature {
+    text-align: center;
+    padding: var(--space-lg);
+    background: rgba(var(--text-primary-rgb), 0.03);
+    border-radius: var(--border-radius-lg);
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+}
+
+.feature:hover {
+    background: rgba(var(--primary-color-rgb), 0.1);
+    transform: translateY(-8px);
+    animation: gentlePulse 2s infinite;
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-md);
+    animation: float 4s ease-in-out infinite;
+}
+
+.feature-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-xs);
+    color: var(--text-primary);
+}
+
+.feature-desc {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    line-height: 1.6;
+}
+
+/* =========================================
+   12. SKILLS SECTION CON SHIMMER EFFECT
+   ========================================= */
+.skills-section {
+    padding: var(--space-2xl) 0;
+}
+
+.section-title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-black);
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-2xl);
+}
+
+.skill-category {
+    background: var(--bg-card);
+    padding: var(--space-xl);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-color);
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+}
+
+.skill-category:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary-color);
+    box-shadow: 
+        var(--shadow-xl),
+        0 0 30px rgba(var(--primary-color-rgb), 0.1);
+}
+
+.skill-category-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-lg);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.skill-category-title::before {
+    content: '';
+    width: 8px;
+    height: 24px;
+    background: var(--gradient-primary);
+    border-radius: var(--border-radius-sm);
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.skill-tag {
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(var(--text-primary-rgb), 0.05);
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-tag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.skill-tag:hover::before {
+    left: 100%;
+}
+
+.skill-tag[data-level="advanced"] {
+    background: rgba(var(--color-emerald-500-rgb), 0.1);
+    color: var(--color-emerald-500);
+    border-color: var(--color-emerald-500);
+}
+
+.skill-tag[data-level="intermediate"] {
+    background: rgba(var(--color-amber-500-rgb), 0.1);
+    color: var(--color-amber-500);
+    border-color: var(--color-amber-500);
+}
+
+.skill-tag[data-level="basic"] {
+    background: rgba(var(--color-gray-500-rgb), 0.1);
+    color: var(--color-gray-500);
+    border-color: var(--color-gray-500);
+}
+
+/* =========================================
+   13. FOOTER MEJORADO
+   ========================================= */
+.main-footer {
+    margin-top: auto;
+    padding: var(--space-xl) 0;
+    background: var(--bg-footer);
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    text-align: center;
+}
+
+.footer-copyright {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.footer-note {
+    color: var(--text-tertiary);
+    font-size: var(--font-size-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.heart {
+    color: var(--color-rose-500);
+    animation: gentlePulse 1.5s infinite;
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: var(--space-xl);
+    right: var(--space-xl);
+    width: 48px;
+    height: 48px;
+    background: var(--gradient-primary);
+    border: none;
+    border-radius: var(--border-radius-full);
+    color: var(--text-inverted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--animation-duration-normal) var(--ease-smooth);
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    transform: translateY(-4px) scale(1.1);
+    box-shadow: 
+        var(--shadow-xl),
+        0 0 20px var(--primary-color);
+    animation: neonGlow 2s infinite;
+}
+
+/* =========================================
+   14. PARTICULAS FLOTANTES (Background effect)
+   ========================================= */
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: particleFloat 4s linear infinite;
+}
+
+/* =========================================
+   15. RESPONSIVE DESIGN
+   ========================================= */
+@media (max-width: 1024px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .hero-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .nav-list {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: var(--space-sm);
+    }
+    
+    .hero-title {
+        font-size: var(--font-size-3xl);
+    }
+    
+    .hero-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .theme-controls {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--space-md);
+    }
+    
+    .profile-card {
+        padding: var(--space-lg);
+    }
+    
+    .btn {
+        padding: var(--space-sm) var(--space-md);
+        font-size: var(--font-size-sm);
+    }
+    
+    .hero-title {
+        font-size: var(--font-size-2xl);
+    }
+    
+    .section-title {
+        font-size: var(--font-size-2xl);
+    }
+}
+
+/* =========================================
+   16. UTILIDADES DE ANIMACIÓN
+   ========================================= */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all var(--animation-duration-slow) var(--ease-smooth);
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-in {
+    animation: fadeIn var(--animation-duration-slow) var(--ease-smooth);
+}
+
+.slide-in-left {
+    animation: slideInLeft var(--animation-duration-slow) var(--ease-smooth);
+}
+
+.slide-in-right {
+    animation: slideInRight var(--animation-duration-slow) var(--ease-smooth);
+}
+
+.scale-in {
+    animation: scaleIn var(--animation-duration-slow) var(--ease-bounce);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
