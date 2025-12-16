@@ -1,0 +1,1251 @@
+/* =========================================
+   1. VARIABLES CSS PARA GALERÍA MASONRY
+   ========================================= */
+:root {
+    /* Sistema de grid masonry */
+    --gallery-gap: 15px;
+    --gallery-row-height: 10px;
+    --card-min-width: 240px;
+    
+    /* Alturas de cards (en filas de 10px) */
+    --card-height-normal: 26;
+    --card-height-tall: 42;
+    --card-height-big: 42;
+    
+    /* Animaciones y transiciones */
+    --animation-stagger: 100ms;
+    --parallax-speed: 0.5;
+    --hover-elevation: 10px;
+    --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    /* Colores específicos para galería */
+    --gallery-bg: #f0f2f5;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --card-shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.15);
+    --card-border: rgba(0, 0, 0, 0.05);
+    
+    /* Efectos de profundidad */
+    --depth-level-1: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --depth-level-2: 0 8px 16px rgba(0, 0, 0, 0.12);
+    --depth-level-3: 0 16px 32px rgba(0, 0, 0, 0.14);
+    --depth-level-4: 0 24px 48px rgba(0, 0, 0, 0.16);
+    
+    /* Filtros y efectos */
+    --blur-intensity: 8px;
+    --saturation-hover: 1.2;
+    --brightness-hover: 1.05;
+    
+    /* NUEVA VARIABLE: Configuración de parallax */
+    --parallax-offset: 20px;
+    --parallax-intensity: 0.3;
+}
+
+/* Tema oscuro para galería */
+[data-theme="dark"] {
+    --gallery-bg: #0f172a;
+    --card-bg: #1e293b;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --card-shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.4);
+    --card-border: rgba(255, 255, 255, 0.1);
+}
+
+/* =========================================
+   2. RESET MEJORADO Y ESTILOS BASE
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+}
+
+body {
+    background-color: var(--gallery-bg);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    transition: background-color 0.3s var(--transition-smooth);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Utilidades de accesibilidad */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 10px;
+    background: #3b82f6;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    z-index: 1000;
+    transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+    top: 10px;
+}
+
+/* =========================================
+   3. NUEVA ANIMACIÓN: PARALLAX SCROLL EFFECT
+   ========================================= */
+@keyframes parallaxUp {
+    from {
+        transform: translateY(calc(var(--parallax-offset) * var(--parallax-intensity)));
+        opacity: 0.8;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes parallaxDown {
+    from {
+        transform: translateY(calc(var(--parallax-offset) * -1 * var(--parallax-intensity)));
+        opacity: 0.8;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes floatInStagger {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    70% {
+        opacity: 0.8;
+        transform: translateY(-5px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes imageReveal {
+    from {
+        clip-path: inset(0 100% 0 0);
+        filter: blur(var(--blur-intensity));
+    }
+    to {
+        clip-path: inset(0 0 0 0);
+        filter: blur(0);
+    }
+}
+
+@keyframes cardPulse {
+    0%, 100% {
+        box-shadow: var(--depth-level-2);
+    }
+    50% {
+        box-shadow: 
+            var(--depth-level-3),
+            0 0 20px rgba(59, 130, 246, 0.3);
+    }
+}
+
+@keyframes shimmerOverlay {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes categoryHighlight {
+    0%, 100% {
+        transform: scale(1);
+        background-color: rgba(59, 130, 246, 0.1);
+    }
+    50% {
+        transform: scale(1.05);
+        background-color: rgba(59, 130, 246, 0.2);
+    }
+}
+
+/* =========================================
+   4. HEADER Y CONTROLES DE GALERÍA
+   ========================================= */
+.gallery-header {
+    background: var(--card-bg);
+    padding: 20px 0;
+    margin-bottom: 30px;
+    box-shadow: var(--depth-level-1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--card-border);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.gallery-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gallery-icon {
+    width: 32px;
+    height: 32px;
+    color: #3b82f6;
+    animation: floatInStagger 0.6s var(--transition-bounce);
+}
+
+.gallery-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.gallery-subtitle {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-left: 44px;
+}
+
+.gallery-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Theme switcher reutilizable */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+
+.theme-switch-input {
+    display: none;
+}
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+    border-radius: 50%;
+}
+
+.theme-switch-input:checked + .slider {
+    background-color: #3b82f6;
+}
+
+.theme-switch-input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.theme-label {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+/* Controles de vista */
+.view-controls {
+    display: flex;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+}
+
+.view-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.2s var(--transition-smooth);
+}
+
+.view-btn:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.view-btn.active {
+    background: #3b82f6;
+    color: white;
+}
+
+/* =========================================
+   5. SISTEMA DE FILTROS CON ANIMACIONES
+   ========================================= */
+.gallery-filters {
+    background: var(--card-bg);
+    padding: 20px 0;
+    border-bottom: 1px solid var(--card-border);
+    position: sticky;
+    top: 80px;
+    z-index: 90;
+    backdrop-filter: blur(10px);
+}
+
+.filters-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.filters-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.filter-list {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.3s var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.filter-btn:hover::before {
+    left: 100%;
+}
+
+.filter-btn:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+    animation: categoryHighlight 2s infinite;
+}
+
+.filter-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.filter-count {
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+/* Controles de ordenamiento */
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-label {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.sort-select {
+    padding: 8px 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    background: var(--card-bg);
+    color: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s var(--transition-smooth);
+}
+
+.sort-select:hover {
+    border-color: #3b82f6;
+}
+
+.sort-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    max-width: 1200px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+}
+
+.breadcrumb-list {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.breadcrumb-link {
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb-link:hover {
+    color: #3b82f6;
+}
+
+.breadcrumb-current {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+/* =========================================
+   6. GALERÍA MASONRY MEJORADA CON EFECTOS
+   ========================================= */
+.main-gallery {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+}
+
+.gallery-container {
+    position: relative;
+    min-height: 500px;
+}
+
+/* Grid Masonry base mejorado */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--card-min-width), 1fr));
+    grid-auto-rows: var(--gallery-row-height);
+    grid-auto-flow: dense;
+    gap: var(--gallery-gap);
+    perspective: 1000px;
+    will-change: transform;
+}
+
+/* Tarjetas base con animación escalonada */
+.card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    grid-row: span var(--card-height-normal);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.4s var(--transition-smooth);
+    border: 1px solid var(--card-border);
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+    animation: floatInStagger 0.6s var(--transition-bounce) forwards;
+    animation-delay: calc(var(--animation-order, 0) * var(--animation-stagger));
+    will-change: transform, opacity, box-shadow;
+    contain: layout style paint;
+}
+
+/* NUEVO EFECTO: Animación escalonada para cada tarjeta */
+.card:nth-child(1) { --animation-order: 1; }
+.card:nth-child(2) { --animation-order: 2; }
+.card:nth-child(3) { --animation-order: 3; }
+.card:nth-child(4) { --animation-order: 4; }
+.card:nth-child(5) { --animation-order: 5; }
+.card:nth-child(6) { --animation-order: 6; }
+.card:nth-child(7) { --animation-order: 7; }
+.card:nth-child(8) { --animation-order: 8; }
+
+/* NUEVO EFECTO: Parallax al hover */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s var(--transition-smooth);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.card:hover {
+    transform: translateY(calc(var(--hover-elevation) * -1)) scale(1.02);
+    box-shadow: var(--card-shadow-hover);
+    z-index: 10;
+}
+
+.card:hover::before {
+    opacity: 1;
+    animation: shimmerOverlay 2s infinite linear;
+}
+
+/* Variantes de tamaño */
+.card-tall {
+    grid-row: span var(--card-height-tall);
+    animation-delay: calc(var(--animation-order, 0) * var(--animation-stagger) + 100ms);
+}
+
+.card-wide {
+    grid-column: span 2;
+    grid-row: span var(--card-height-normal);
+    animation-delay: calc(var(--animation-order, 0) * var(--animation-stagger) + 150ms);
+}
+
+.card-big {
+    grid-column: span 2;
+    grid-row: span var(--card-height-big);
+    animation-delay: calc(var(--animation-order, 0) * var(--animation-stagger) + 200ms);
+}
+
+/* Responsive para tarjetas anchas */
+@media (max-width: 768px) {
+    .card-wide,
+    .card-big {
+        grid-column: span 1;
+    }
+}
+
+/* NUEVO: Efecto de imagen con parallax scroll */
+.card-figure {
+    margin: 0;
+    flex-grow: 1;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px 16px 0 0;
+}
+
+.card-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: all 0.6s var(--transition-smooth);
+    will-change: transform, filter;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+/* NUEVO EFECTO: Parallax en scroll */
+.card-in-view .card-image {
+    animation: imageReveal 1.2s var(--transition-smooth) forwards;
+}
+
+/* Efectos hover en imagen */
+.card:hover .card-image {
+    transform: scale(1.1) rotate(0.5deg);
+    filter: 
+        saturate(var(--saturation-hover))
+        brightness(var(--brightness-hover));
+}
+
+/* NUEVO: Overlay de información en hover */
+.card-link::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.7) 0%,
+        transparent 40%,
+        transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s var(--transition-smooth);
+    pointer-events: none;
+}
+
+.card:hover .card-link::after {
+    opacity: 1;
+}
+
+/* =========================================
+   7. CONTENIDO DE TARJETAS MEJORADO
+   ========================================= */
+.card-content {
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+    background: var(--card-bg);
+    transition: transform 0.3s var(--transition-smooth);
+}
+
+.card:hover .card-content {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    margin-bottom: 12px;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: inherit;
+    margin-bottom: 4px;
+    line-height: 1.3;
+    transition: color 0.3s ease;
+}
+
+.card:hover .card-title {
+    color: #3b82f6;
+}
+
+.card-meta {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.card-date {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.card-category {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s var(--transition-smooth);
+}
+
+.card:hover .card-category {
+    background: #3b82f6;
+    color: white;
+    transform: scale(1.05);
+}
+
+.card-description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #6b7280;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-actions {
+    display: flex;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--card-border);
+}
+
+.card-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 8px;
+    color: #6b7280;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s var(--transition-smooth);
+}
+
+.card-btn:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+.card-btn .like-count {
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* =========================================
+   8. PAGINACIÓN ANIMADA
+   ========================================= */
+.gallery-pagination {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.pagination-list {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+}
+
+.pagination-btn {
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    color: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s var(--transition-smooth);
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: #3b82f6;
+    color: #3b82f6;
+    transform: translateY(-2px);
+}
+
+.pagination-btn.active {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+    animation: cardPulse 2s infinite;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-prev,
+.pagination-next {
+    gap: 6px;
+}
+
+.pagination-ellipsis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    color: #6b7280;
+}
+
+.pagination-info {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+/* =========================================
+   9. LIGHTBOX MODAL CON EFECTOS
+   ========================================= */
+.lightbox-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s var(--transition-smooth);
+}
+
+.lightbox-modal[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+
+.lightbox-container {
+    position: relative;
+    z-index: 1;
+    background: var(--card-bg);
+    border-radius: 20px;
+    max-width: 1000px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: var(--depth-level-4);
+    transform: scale(0.95);
+    transition: transform 0.4s var(--transition-bounce);
+}
+
+.lightbox-modal[aria-hidden="false"] .lightbox-container {
+    transform: scale(1);
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.2s var(--transition-smooth);
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.lightbox-content {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    height: 100%;
+}
+
+.lightbox-figure {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    overflow: hidden;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    animation: imageReveal 0.8s var(--transition-smooth) forwards;
+}
+
+.lightbox-info {
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.lightbox-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: inherit;
+}
+
+.lightbox-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+.lightbox-meta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.lightbox-stats {
+    display: flex;
+    gap: 12px;
+}
+
+.lightbox-like,
+.lightbox-download {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(59, 130, 246, 0.1);
+    border: none;
+    border-radius: 8px;
+    color: #3b82f6;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s var(--transition-smooth);
+}
+
+.lightbox-like:hover,
+.lightbox-download:hover {
+    background: #3b82f6;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 56px;
+    height: 56px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s var(--transition-smooth);
+    z-index: 10;
+}
+
+.lightbox-prev {
+    left: 20px;
+}
+
+.lightbox-next {
+    right: 20px;
+}
+
+.lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* =========================================
+   10. FOOTER DE GALERÍA
+   ========================================= */
+.gallery-footer {
+    background: var(--card-bg);
+    padding: 40px 0;
+    margin-top: 60px;
+    border-top: 1px solid var(--card-border);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-info {
+    margin-bottom: 30px;
+}
+
+.footer-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: inherit;
+}
+
+.footer-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #6b7280;
+    max-width: 600px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.footer-link {
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.footer-link:hover {
+    color: #3b82f6;
+}
+
+.footer-credits {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.footer-stats {
+    margin-top: 8px;
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* =========================================
+   11. EFECTO SCROLL PARALLAX (JavaScript-powered)
+   ========================================= */
+.card[data-parallax="up"] {
+    animation: parallaxUp 0.8s var(--transition-smooth) forwards;
+}
+
+.card[data-parallax="down"] {
+    animation: parallaxDown 0.8s var(--transition-smooth) forwards;
+}
+
+/* NUEVO: Efecto de desenfoque en scroll */
+.gallery-scroll-blur .card:not(.card-in-view) {
+    filter: blur(4px);
+    opacity: 0.6;
+    transition: filter 0.4s var(--transition-smooth), opacity 0.4s var(--transition-smooth);
+}
+
+/* =========================================
+   12. RESPONSIVE DESIGN MEJORADO
+   ========================================= */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    
+    .header-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .gallery-controls {
+        justify-content: center;
+    }
+    
+    .filters-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-list {
+        justify-content: center;
+    }
+    
+    .lightbox-content {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+    }
+    
+    .lightbox-figure {
+        max-height: 50vh;
+    }
+    
+    .lightbox-info {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card-wide,
+    .card-big {
+        grid-column: span 1;
+    }
+    
+    .gallery-title {
+        font-size: 1.5rem;
+    }
+    
+    .filters-title {
+        display: none;
+    }
+}
+
+/* =========================================
+   13. ANIMACIONES DE CARGA
+   ========================================= */
+.gallery-loading {
+    position: relative;
+}
+
+.gallery-loading::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gallery-bg);
+    z-index: 9999;
+    animation: fadeOut 0.6s 0.8s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* Skeleton loading para imágenes */
+.card-image.loading {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmerOverlay 1.5s infinite;
+}
+
+/* =========================================
+   14. UTILIDADES ADICIONALES
+   ========================================= */
+.high-contrast {
+    --gallery-bg: #000000;
+    --card-bg: #111111;
+    --card-border: #333333;
+    color: #ffffff;
+}
+
+.reduced-motion * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+}
+
+.print-only {
+    display: none;
+}
+
+@media print {
+    .gallery-filters,
+    .gallery-controls,
+    .card-actions,
+    .lightbox-modal {
+        display: none !important;
+    }
+    
+    .print-only {
+        display: block;
+    }
+}
