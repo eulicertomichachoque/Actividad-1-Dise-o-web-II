@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Generador de Colores - Moderno y Funcional</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+</head>
+<body>
+    <!-- Fondo dinámico -->
+    <div class="dynamic-background"></div>
+    
+    <div class="app-container">
+        <!-- Cabecera mejorada -->
+        <header class="app-header">
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>ColorGen Pro</h1>
+                    <p class="tagline">Tu generador de paletas inteligente</p>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat">
+                    <i class="fas fa-history"></i>
+                    <span>Historial: <strong id="historyCount">0</strong></span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-star"></i>
+                    <span>Favoritos: <strong id="favoritesCount">0</strong></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido principal -->
+        <main class="main-grid">
+            <!-- Panel izquierdo: Color actual -->
+            <section class="current-color-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-eye-dropper"></i> Color Actual</h2>
+                    <div class="color-actions">
+                        <button class="btn-icon" id="lockColor" title="Bloquear color">
+                            <i class="fas fa-lock"></i>
+                        </button>
+                        <button class="btn-icon" id="colorInfo" title="Más información">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="color-display" id="colorDisplay">
+                    <div class="color-visual">
+                        <div class="color-swatch" id="colorSwatch"></div>
+                        <div class="color-details">
+                            <div class="color-hex-display">
+                                <span class="hex-label">HEX</span>
+                                <h2 class="hex-value" id="colorCode">#667EEA</h2>
+                            </div>
+                            <div class="color-name-display" id="colorName">Azul Digital</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Información del color -->
+                    <div class="color-data-grid">
+                        <div class="data-item">
+                            <div class="data-label">
+                                <i class="fas fa-code"></i>
+                                <span>RGB</span>
+                            </div>
+                            <div class="data-value" id="rgbValue">102, 126, 234</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <i class="fas fa-sliders-h"></i>
+                                <span>HSL</span>
+                            </div>
+                            <div class="data-value" id="hslValue">228°, 76%, 66%</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <i class="fas fa-contrast"></i>
+                                <span>Contraste</span>
+                            </div>
+                            <div class="data-value" id="contrastValue">4.5:1</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Luminosidad</span>
+                            </div>
+                            <div class="data-value" id="luminanceValue">67%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Botones de acción principales -->
+                <div class="action-buttons">
+                    <button class="btn-primary-lg" id="generateBtn">
+                        <i class="fas fa-magic"></i>
+                        <span>Generar Color Aleatorio</span>
+                        <small class="hint">Presiona Espacio</small>
+                    </button>
+                    
+                    <div class="button-group-horizontal">
+                        <button class="btn-secondary" id="copyBtn">
+                            <i class="fas fa-copy"></i>
+                            <span>Copiar HEX</span>
+                        </button>
+                        <button class="btn-secondary" id="copyRGB">
+                            <i class="fas fa-copy"></i>
+                            <span>Copiar RGB</span>
+                        </button>
+                        <button class="btn-favorite" id="favoriteBtn">
+                            <i class="far fa-star"></i>
+                            <span>Favorito</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Panel derecho: Historial y paletas -->
+            <section class="sidebar-section">
+                <!-- Historial rápido -->
+                <div class="history-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-clock"></i> Historial Reciente</h3>
+                        <div class="card-actions">
+                            <button class="btn-icon-sm" id="clearHistory" title="Limpiar todo">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="btn-icon-sm" id="exportHistory" title="Exportar">
+                                <i class="fas fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="history-items" id="historyGrid">
+                        <div class="empty-state" id="emptyHistory">
+                            <i class="fas fa-paint-brush"></i>
+                            <p>Tu historial aparecerá aquí</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <button class="btn-link" id="viewAllHistory">
+                            <i class="fas fa-list"></i>
+                            Ver historial completo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Paletas sugeridas -->
+                <div class="palettes-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-th-large"></i> Paletas Sugeridas</h3>
+                        <button class="btn-icon-sm" id="refreshPalettes" title="Nuevas paletas">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="palettes-grid" id="palettesGrid">
+                        <!-- Paletas generadas dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Atajos rápidos -->
+                <div class="shortcuts-card">
+                    <h3><i class="fas fa-bolt"></i> Atajos Rápidos</h3>
+                    <div class="shortcuts-list">
+                        <div class="shortcut">
+                            <kbd><i class="fas fa-space-awesome"></i> Espacio</kbd>
+                            <span>Generar color</span>
+                        </div>
+                        <div class="shortcut">
+                            <kbd>H</kbd>
+                            <span>Copiar HEX</span>
+                        </div>
+                        <div class="shortcut">
+                            <kbd>R</kbd>
+                            <span>Copiar RGB</span>
+                        </div>
+                        <div class="shortcut">
+                            <kbd>F</kbd>
+                            <span>Alternar favorito</span>
+                        </div>
+                        <div class="shortcut">
+                            <kbd>ESC</kbd>
+                            <span>Cerrar notificaciones</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer mejorado -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="brand">
+                        <i class="fas fa-palette"></i>
+                        <span>ColorGen Pro</span>
+                    </div>
+                    <p class="footer-text">Herramienta profesional para diseñadores y desarrolladores</p>
+                </div>
+                
+                <div class="footer-right">
+                    <div class="footer-actions">
+                        <button class="footer-btn" id="themeToggle" title="Cambiar tema">
+                            <i class="fas fa-moon"></i>
+                            <span>Tema</span>
+                        </button>
+                        <button class="footer-btn" id="settingsBtn" title="Configuración">
+                            <i class="fas fa-cog"></i>
+                            <span>Config</span>
+                        </button>
+                        <button class="footer-btn" id="helpBtn" title="Ayuda">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Ayuda</span>
+                        </button>
+                    </div>
+                    
+                    <div class="version-info">
+                        <span>v2.1.0</span>
+                        <span class="separator">•</span>
+                        <span id="colorCount">0 colores generados</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- TOAST - SIN CAMBIOS (MANTIENE LA FUNCIONALIDAD) -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="fas fa-check-circle toast-icon"></i>
+            <span class="toast-message" id="toastMessage">✓ Código copiado al portapapeles</span>
+        </div>
+        <button class="toast-close" id="toastClose" aria-label="Cerrar notificación">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Modal de configuración -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-cog"></i> Configuración</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <h4><i class="fas fa-paint-brush"></i> Preferencias</h4>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="autoCopy" checked>
+                            <span>Copiar automáticamente al generar</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="soundEffects" checked>
+                            <span>Efectos de sonido</span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label>
+                            <input type="checkbox" id="animations" checked>
+                            <span>Animaciones</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h4><i class="fas fa-history"></i> Historial</h4>
+                    <div class="setting-item">
+                        <label>Tamaño máximo del historial:</label>
+                        <select id="historySize">
+                            <option value="10">10 colores</option>
+                            <option value="20" selected>20 colores</option>
+                            <option value="30">30 colores</option>
+                            <option value="50">50 colores</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn-secondary" id="saveSettings">
+                        <i class="fas fa-save"></i>
+                        Guardar
+                    </button>
+                    <button class="btn-secondary" id="resetSettings">
+                        <i class="fas fa-undo"></i>
+                        Restablecer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
