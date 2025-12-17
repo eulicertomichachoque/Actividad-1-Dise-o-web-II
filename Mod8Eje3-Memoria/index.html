@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Juego de memoria interactivo. Encuentra las parejas de emojis entrenando tu memoria y concentración. Contador de tiempo, movimientos y puntuación." />
+  <meta name="keywords" content="juego memoria, memorama, parejas, emojis, juego cerebral, entrenamiento memoria" />
+  <meta name="author" content="Juego de Memoria" />
+  <meta property="og:title" content="Juego de Memoria - Entrena tu cerebro" />
+  <meta property="og:description" content="Divertido juego de memoria con emojis. ¿Podrás encontrar todas las parejas?" />
+  <meta property="og:type" content="website" />
+  
+  <title>Juego de Memoria | Entrena tu cerebro con este divertido juego de parejas</title>
+  
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preload" href="script.js" as="script" />
+  
+  <!-- Favicon (puedes agregar uno real después) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>" />
+  
+  <!-- Preconexión para recursos externos (si los usas) -->
+  <link rel="preconnect" href="https://assets.mixkit.co" crossorigin />
+  
+  <style>
+    /* Estilos críticos para renderizado inicial */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip link para accesibilidad -->
+  <a href="#main-content" class="sr-only skip-link">
+    Saltar al contenido principal
+  </a>
+
+  <div class="page-container">
+    <!-- Cabecera semántica -->
+    <header class="page-header" role="banner">
+      <h1 class="title">
+        <span aria-hidden="true">🎮</span>
+        <span class="title-text">Juego de Memoria</span>
+      </h1>
+      <p class="subtitle">Entrena tu memoria y concentración encontrando las parejas</p>
+    </header>
+
+    <!-- Contenido principal -->
+    <main id="main-content" class="main-content" role="main" tabindex="-1">
+      <!-- Panel de información del juego -->
+      <section class="game-info-section" aria-labelledby="game-stats-heading">
+        <div class="container">
+          <h2 id="game-stats-heading" class="sr-only">Estadísticas del juego</h2>
+          
+          <div class="stats-grid" role="status" aria-live="polite" aria-atomic="true">
+            <div class="stat-card" role="region" aria-label="Tiempo transcurrido">
+              <div class="stat-icon" aria-hidden="true">⏱️</div>
+              <div class="stat-content">
+                <p class="stat-label">Tiempo</p>
+                <p class="stat-value" id="timer">00:00</p>
+              </div>
+            </div>
+            
+            <div class="stat-card" role="region" aria-label="Número de movimientos">
+              <div class="stat-icon" aria-hidden="true">🔄</div>
+              <div class="stat-content">
+                <p class="stat-label">Movimientos</p>
+                <p class="stat-value" id="moves">0</p>
+              </div>
+            </div>
+            
+            <div class="stat-card" role="region" aria-label="Puntuación actual">
+              <div class="stat-icon" aria-hidden="true">⭐</div>
+              <div class="stat-content">
+                <p class="stat-label">Puntuación</p>
+                <p class="stat-value" id="score">0</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Controles del juego -->
+          <div class="controls" role="toolbar" aria-label="Controles del juego">
+            <button 
+              id="resetBtn" 
+              class="btn btn-reset" 
+              type="button"
+              aria-label="Reiniciar juego"
+            >
+              <span aria-hidden="true">🔄</span> Reiniciar
+            </button>
+            
+            <!-- Botón opcional para ayuda -->
+            <button 
+              id="helpBtn" 
+              class="btn btn-help" 
+              type="button"
+              aria-label="Mostrar instrucciones"
+              onclick="showInstructions()"
+            >
+              <span aria-hidden="true">❓</span> Ayuda
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Área del tablero de juego -->
+      <section class="game-board-section" aria-labelledby="game-board-heading">
+        <div class="container">
+          <h2 id="game-board-heading" class="sr-only">Tablero de juego</h2>
+          
+          <div class="board-wrapper">
+            <div 
+              id="gameBoard" 
+              class="board" 
+              role="grid"
+              aria-label="Tablero de cartas de memoria"
+              aria-describedby="board-instructions"
+            >
+              <!-- Las cartas se generan dinámicamente con JavaScript -->
+            </div>
+            
+            <!-- Instrucciones para lectores de pantalla -->
+            <p id="board-instructions" class="sr-only">
+              Tablero de 4 por 4 cartas. Selecciona una carta para revelar su contenido. 
+              Intenta encontrar las parejas haciendo coincidir dos cartas iguales. 
+              Cada carta se puede activar con clic o presionando la tecla Enter o Espacio.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Instrucciones (ocultas por defecto) -->
+      <section id="instructions" class="instructions hidden" aria-labelledby="instructions-heading">
+        <div class="container">
+          <h2 id="instructions-heading">📋 Cómo jugar</h2>
+          <ol class="instructions-list">
+            <li>Haz clic en una carta para revelar su emoji.</li>
+            <li>Haz clic en otra carta para intentar encontrar su pareja.</li>
+            <li>Si las dos cartas coinciden, permanecerán visibles y ganarás puntos.</li>
+            <li>Si no coinciden, se volverán a ocultar después de un breve momento.</li>
+            <li>¡Encuentra todas las parejas para ganar el juego!</li>
+          </ol>
+          <button id="closeInstructions" class="btn btn-close" type="button">
+            Cerrar instrucciones
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="page-footer" role="contentinfo">
+      <div class="container">
+        <p class="footer-text">
+          Juego diseñado para entrenar la memoria y la concentración.
+          <span class="accessibility-note" aria-hidden="true">♿</span>
+          <span class="sr-only">Juego accesible.</span>
+        </p>
+        <p class="footer-copyright">
+          &copy; <span id="current-year">2024</span> Juego de Memoria. Todos los derechos reservados.
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Script mínimo para funcionalidades básicas antes de cargar el principal
+    document.addEventListener('DOMContentLoaded', function() {
+      // Año actual en el footer
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+      
+      // Funcionalidad básica para mostrar/ocultar instrucciones
+      window.showInstructions = function() {
+        const instructions = document.getElementById('instructions');
+        instructions.classList.remove('hidden');
+        instructions.focus();
+      };
+      
+      const closeInstructions = document.getElementById('closeInstructions');
+      if (closeInstructions) {
+        closeInstructions.addEventListener('click', function() {
+          document.getElementById('instructions').classList.add('hidden');
+          document.getElementById('helpBtn').focus();
+        });
+      }
+      
+      // Focus management para skip link
+      const skipLink = document.querySelector('.skip-link');
+      if (skipLink) {
+        skipLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          const mainContent = document.getElementById('main-content');
+          if (mainContent) {
+            mainContent.setAttribute('tabindex', '-1');
+            mainContent.focus();
+          }
+        });
+      }
+    });
+  </script>
+  
+  <script src="script.js" defer></script>
+</body>
+</html>
