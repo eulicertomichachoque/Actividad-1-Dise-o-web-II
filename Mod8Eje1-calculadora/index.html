@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculadora moderna con funciones básicas y historial de operaciones">
+    <title>Calculadora Moderna | Operaciones Matemáticas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+</head>
+<body>
+    <main class="main-container">
+        <header class="calculator-header">
+            <h1 class="sr-only">Calculadora Moderna</h1>
+            <p class="tagline">Calculadora con operaciones básicas e historial</p>
+        </header>
+        
+        <section class="calculator-container" aria-label="Calculadora">
+            <div class="calculator" role="application" aria-label="Calculadora matemática">
+                <div class="display" aria-live="polite" aria-atomic="true">
+                    <div class="previous-operand" aria-label="Operación anterior"></div>
+                    <div class="current-operand" aria-label="Pantalla actual">0</div>
+                </div>
+                
+                <div class="buttons" role="group" aria-label="Botones de la calculadora">
+                    <!-- Botones con data-attributes corregidos -->
+                    <button class="btn btn-clear span-2" data-action="clear" aria-label="Limpiar todo">AC</button>
+                    <button class="btn btn-delete" data-action="delete" aria-label="Borrar último dígito">DEL</button>
+                    <button class="btn btn-operator" data-operation="÷" aria-label="Dividir">÷</button>
+                    
+                    <button class="btn btn-number" data-number="7" aria-label="Siete">7</button>
+                    <button class="btn btn-number" data-number="8" aria-label="Ocho">8</button>
+                    <button class="btn btn-number" data-number="9" aria-label="Nueve">9</button>
+                    <button class="btn btn-operator" data-operation="×" aria-label="Multiplicar">×</button>
+                    
+                    <button class="btn btn-number" data-number="4" aria-label="Cuatro">4</button>
+                    <button class="btn btn-number" data-number="5" aria-label="Cinco">5</button>
+                    <button class="btn btn-number" data-number="6" aria-label="Seis">6</button>
+                    <button class="btn btn-operator" data-operation="-" aria-label="Restar">-</button>
+                    
+                    <button class="btn btn-number" data-number="1" aria-label="Uno">1</button>
+                    <button class="btn btn-number" data-number="2" aria-label="Dos">2</button>
+                    <button class="btn btn-number" data-number="3" aria-label="Tres">3</button>
+                    <button class="btn btn-operator" data-operation="+" aria-label="Sumar">+</button>
+                    
+                    <button class="btn btn-number span-2" data-number="0" aria-label="Cero">0</button>
+                    <button class="btn btn-number" data-number="." aria-label="Punto decimal">.</button>
+                    <button class="btn btn-equals" data-action="equals" aria-label="Calcular resultado">=</button>
+                </div>
+            </div>
+            
+            <aside class="history" aria-label="Historial de operaciones">
+                <h2 class="history-title">Historial</h2>
+                <div class="history-list" role="list" aria-label="Lista de operaciones realizadas"></div>
+                <button class="btn-clear-history" data-action="clear-history" aria-label="Limpiar historial">Limpiar Historial</button>
+            </aside>
+        </section>
+        
+        <footer class="calculator-footer">
+            <p>Calculadora con operaciones básicas - Usa el teclado numérico para mayor velocidad</p>
+        </footer>
+    </main>
+    
+    <script src="script.js" defer></script>
+</body>
+</html>
