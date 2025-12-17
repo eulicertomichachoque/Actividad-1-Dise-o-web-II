@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Implementación avanzada de cambio de tema entre modo claro y oscuro con JavaScript moderno">
+    <meta name="theme-color" content="#667eea" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)">
+    <title>Tema Dinámico | Dark/Light Mode Avanzado</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌓</text></svg>">
+</head>
+<body>
+    <div class="theme-app">
+        <!-- Header con navegación y controles -->
+        <header class="app-header" role="banner">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon" role="img" aria-label="Logo de cambio de tema">🌓</span>
+                    <h1 class="app-title">Tema Dinámico</h1>
+                </div>
+                
+                <div class="header-controls">
+                    <!-- Selector de tema avanzado -->
+                    <div class="theme-selector" role="group" aria-label="Selección de tema">
+                        <button class="theme-option" data-theme="light" aria-label="Tema claro" aria-pressed="false">
+                            <span class="theme-icon">☀️</span>
+                            <span class="theme-label">Claro</span>
+                        </button>
+                        
+                        <button class="theme-option" data-theme="auto" aria-label="Tema automático" aria-pressed="true">
+                            <span class="theme-icon">🌓</span>
+                            <span class="theme-label">Auto</span>
+                        </button>
+                        
+                        <button class="theme-option" data-theme="dark" aria-label="Tema oscuro" aria-pressed="false">
+                            <span class="theme-icon">🌙</span>
+                            <span class="theme-label">Oscuro</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Toggle clásico -->
+                    <button id="themeToggle" class="theme-toggle" aria-label="Alternar tema" aria-pressed="false">
+                        <span class="toggle-track">
+                            <span class="toggle-thumb">
+                                <span class="toggle-icon sun">☀️</span>
+                                <span class="toggle-icon moon">🌙</span>
+                            </span>
+                        </span>
+                        <span class="visually-hidden">Alternar entre tema claro y oscuro</span>
+                    </button>
+                </div>
+            </div>
+            
+            <p class="app-subtitle">Implementación avanzada con preferencias del sistema, persistencia y transiciones suaves</p>
+        </header>
+
+        <!-- Contenido principal -->
+        <main class="app-main" role="main">
+            <!-- Sección de características -->
+            <section class="features-section" aria-labelledby="features-title">
+                <h2 id="features-title" class="section-title">Características Avanzadas</h2>
+                
+                <div class="features-grid">
+                    <article class="feature-card">
+                        <div class="feature-icon" role="img" aria-label="Persistencia">💾</div>
+                        <h3 class="feature-title">Persistencia Inteligente</h3>
+                        <p class="feature-description">Tu preferencia se guarda automáticamente usando localStorage y se sincroniza entre sesiones.</p>
+                        <div class="feature-details">
+                            <span class="detail-tag">LocalStorage</span>
+                            <span class="detail-tag">Cookies</span>
+                            <span class="detail-tag">Session</span>
+                        </div>
+                    </article>
+                    
+                    <article class="feature-card">
+                        <div class="feature-icon" role="img" aria-label="Animaciones">🎨</div>
+                        <h3 class="feature-title">Transiciones Suaves</h3>
+                        <p class="feature-description">Cambios de tema con animaciones CSS y reducción de movimiento para accesibilidad.</p>
+                        <div class="feature-details">
+                            <span class="detail-tag">CSS Transitions</span>
+                            <span class="detail-tag">Prefers-Reduced-Motion</span>
+                            <span class="detail-tag">GPU Accelerated</span>
+                        </div>
+                    </article>
+                    
+                    <article class="feature-card">
+                        <div class="feature-icon" role="img" aria-label="Rendimiento">⚡</div>
+                        <h3 class="feature-title">Alto Rendimiento</h3>
+                        <p class="feature-description">Optimizado para no afectar el rendimiento, usando variables CSS y debouncing.</p>
+                        <div class="feature-details">
+                            <span class="detail-tag">CSS Variables</span>
+                            <span class="detail-tag">Debounce</span>
+                            <span class="detail-tag">60fps</span>
+                        </div>
+                    </article>
+                    
+                    <article class="feature-card">
+                        <div class="feature-icon" role="img" aria-label="Accesibilidad">♿</div>
+                        <h3 class="feature-title">Accesibilidad Total</h3>
+                        <p class="feature-description">Soporte completo para lectores de pantalla y navegación por teclado.</p>
+                        <div class="feature-details">
+                            <span class="detail-tag">ARIA Labels</span>
+                            <span class="detail-tag">Keyboard Nav</span>
+                            <span class="detail-tag">Screen Readers</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Sección de demostración de código -->
+            <section class="code-section" aria-labelledby="code-title">
+                <h2 id="code-title" class="section-title">Implementación del Código</h2>
+                
+                <div class="code-demo">
+                    <div class="code-tabs" role="tablist">
+                        <button class="code-tab active" role="tab" aria-selected="true" data-tab="html">HTML</button>
+                        <button class="code-tab" role="tab" aria-selected="false" data-tab="css">CSS</button>
+                        <button class="code-tab" role="tab" aria-selected="false" data-tab="js">JavaScript</button>
+                    </div>
+                    
+                    <div class="code-content">
+                        <pre class="code-block" data-tab="html"><code><span class="code-comment">&lt;!-- HTML con atributo data-theme --&gt;</span>
+&lt;html lang="es" <span class="code-attribute">data-theme</span>="light"&gt;
+&lt;head&gt;
+    &lt;meta name="theme-color" content="#667eea" 
+           media="(prefers-color-scheme: light)"&gt;
+    &lt;meta name="theme-color" content="#1a1a2e"
+           media="(prefers-color-scheme: dark)"&gt;
+&lt;/head&gt;</code></pre>
+                        
+                        <pre class="code-block" data-tab="css" hidden><code><span class="code-comment">/* Variables CSS para temas */</span>
+:root {
+    <span class="code-property">--primary-color</span>: #667eea;
+    <span class="code-property">--bg-color</span>: #ffffff;
+    <span class="code-property">--text-color</span>: #2d3748;
+}
+
+[data-theme="dark"] {
+    <span class="code-property">--primary-color</span>: #764ba2;
+    <span class="code-property">--bg-color</span>: #1a1a2e;
+    <span class="code-property">--text-color</span>: #e2e8f0;
+}</code></pre>
+                        
+                        <pre class="code-block" data-tab="js" hidden><code><span class="code-comment">// JavaScript para cambiar tema</span>
+const <span class="code-variable">toggleTheme</span> = () => {
+    const <span class="code-variable">currentTheme</span> = document.documentElement
+        .getAttribute('data-theme');
+    const <span class="code-variable">newTheme</span> = currentTheme === 'dark' 
+        ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute(
+        'data-theme', 
+        <span class="code-variable">newTheme</span>
+    );
+    
+    localStorage.setItem('theme-preference', 
+        <span class="code-variable">newTheme</span>);
+};</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de estadísticas en tiempo real -->
+            <section class="stats-section" aria-labelledby="stats-title">
+                <h2 id="stats-title" class="section-title">Estadísticas en Tiempo Real</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" role="img" aria-label="Tema actual">🎯</div>
+                        <h3 class="stat-title" id="current-theme-label">Tema Actual</h3>
+                        <p class="stat-value" id="current-theme" aria-labelledby="current-theme-label">Claro</p>
+                        <p class="stat-description">Basado en tu selección</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" role="img" aria-label="Cambios">🔄</div>
+                        <h3 class="stat-title" id="changes-label">Cambios</h3>
+                        <p class="stat-value" id="theme-changes" aria-labelledby="changes-label">0</p>
+                        <p class="stat-description">Veces que has cambiado</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" role="img" aria-label="Preferencia">⚙️</div>
+                        <h3 class="stat-title" id="preference-label">Preferencia</h3>
+                        <p class="stat-value" id="theme-preference" aria-labelledby="preference-label">Auto</p>
+                        <p class="stat-description">Según sistema</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" role="img" aria-label="Compatibilidad">📱</div>
+                        <h3 class="stat-title" id="compatibility-label">Compatibilidad</h3>
+                        <p class="stat-value" id="theme-compatibility" aria-labelledby="compatibility-label">100%</p>
+                        <p class="stat-description">Navegadores soportados</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección de prueba de colores -->
+            <section class="colors-section" aria-labelledby="colors-title">
+                <h2 id="colors-title" class="section-title">Paleta de Colores</h2>
+                
+                <div class="colors-grid">
+                    <div class="color-card" style="--color: var(--color-primary)">
+                        <div class="color-sample"></div>
+                        <div class="color-info">
+                            <h3 class="color-name">Primary</h3>
+                            <p class="color-value" id="primary-color-value">#667eea</p>
+                        </div>
+                    </div>
+                    
+                    <div class="color-card" style="--color: var(--color-bg)">
+                        <div class="color-sample"></div>
+                        <div class="color-info">
+                            <h3 class="color-name">Background</h3>
+                            <p class="color-value" id="bg-color-value">#ffffff</p>
+                        </div>
+                    </div>
+                    
+                    <div class="color-card" style="--color: var(--color-text)">
+                        <div class="color-sample"></div>
+                        <div class="color-info">
+                            <h3 class="color-name">Text</h3>
+                            <p class="color-value" id="text-color-value">#2d3748</p>
+                        </div>
+                    </div>
+                    
+                    <div class="color-card" style="--color: var(--color-accent)">
+                        <div class="color-sample"></div>
+                        <div class="color-info">
+                            <h3 class="color-name">Accent</h3>
+                            <p class="color-value" id="accent-color-value">#10b981</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer" role="contentinfo">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>🌓 <strong>Tema Dinámico</strong> - Implementación avanzada de cambio de tema</p>
+                    <p class="footer-hint">Prueba las diferentes opciones de tema y observa cómo cambia la interfaz</p>
+                </div>
+                
+                <div class="footer-actions">
+                    <button class="btn btn-reset" id="resetTheme" aria-label="Restablecer preferencias de tema">
+                        🔄 Restablecer
+                    </button>
+                    <button class="btn btn-copy" id="copyTheme" aria-label="Copiar configuración actual del tema">
+                        📋 Copiar Config
+                    </button>
+                </div>
+            </div>
+            
+            <div class="footer-meta">
+                <p>
+                    Compatible con: 
+                    <span class="compatibility-tag">prefers-color-scheme</span>
+                    <span class="compatibility-tag">LocalStorage</span>
+                    <span class="compatibility-tag">CSS Custom Props</span>
+                </p>
+            </div>
+        </footer>
+        
+        <!-- Notificaciones -->
+        <div class="notifications" aria-live="polite"></div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
