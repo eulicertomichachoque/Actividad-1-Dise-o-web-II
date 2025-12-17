@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contador interactivo con JavaScript - Incrementa, decrementa y resetea valores con animaciones">
+    <meta name="keywords" content="contador, JavaScript, interactivo, ejercicio, práctica">
+    <title>Contador Interactivo | Práctica JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔢</text></svg>">
+</head>
+<body>
+    <main class="main-app">
+        <!-- Header con título y descripción -->
+        <header class="app-header" role="banner">
+            <h1 class="app-title">Contador Interactivo</h1>
+            <p class="app-description">Un ejercicio práctico de JavaScript con animaciones y feedback visual</p>
+        </header>
+        
+        <!-- Sección principal del contador -->
+        <section class="counter-section" aria-labelledby="counter-title">
+            <div class="visually-hidden" id="counter-title">Contador principal</div>
+            
+            <!-- Display del contador con ARIA -->
+            <div class="counter-display" role="status" aria-live="polite" aria-atomic="true">
+                <output id="contador" class="counter-number" aria-label="Valor actual del contador">0</output>
+                <div class="counter-visual-feedback"></div>
+            </div>
+            
+            <!-- Controles principales -->
+            <div class="counter-controls" role="group" aria-label="Controles del contador">
+                <button id="btnDecrementar" class="btn btn-control btn-danger" data-action="decrement" aria-label="Disminuir contador en 1">
+                    <span class="btn-icon" aria-hidden="true">−</span>
+                    <span class="btn-text">Decrementar</span>
+                </button>
+                
+                <button id="btnResetear" class="btn btn-control btn-secondary" data-action="reset" aria-label="Restablecer contador a cero">
+                    <span class="btn-icon" aria-hidden="true">↻</span>
+                    <span class="btn-text">Resetear</span>
+                </button>
+                
+                <button id="btnIncrementar" class="btn btn-control btn-success" data-action="increment" aria-label="Aumentar contador en 1">
+                    <span class="btn-icon" aria-hidden="true">+</span>
+                    <span class="btn-text">Incrementar</span>
+                </button>
+            </div>
+            
+            <!-- Controles rápidos -->
+            <div class="quick-controls" role="group" aria-label="Controles rápidos del contador">
+                <h2 class="visually-hidden">Controles rápidos</h2>
+                <button id="btnDecrementar5" class="btn btn-quick btn-danger-light" data-action="decrement-5" aria-label="Disminuir contador en 5">
+                    <span class="btn-quick-icon" aria-hidden="true">−5</span>
+                    <span class="visually-hidden">Decrementar 5</span>
+                </button>
+                
+                <button id="btnIncrementar5" class="btn btn-quick btn-success-light" data-action="increment-5" aria-label="Aumentar contador en 5">
+                    <span class="btn-quick-icon" aria-hidden="true">+5</span>
+                    <span class="visually-hidden">Incrementar 5</span>
+                </button>
+            </div>
+            
+            <!-- Información y feedback -->
+            <div class="counter-info" aria-live="polite">
+                <p id="mensaje" class="counter-message">
+                    El contador está en <strong class="counter-state">cero</strong>
+                </p>
+                <div class="counter-stats" aria-label="Estadísticas del contador">
+                    <p class="stat-item">
+                        <span class="stat-label">Máximo alcanzado:</span>
+                        <span id="maximo" class="stat-value">0</span>
+                    </p>
+                    <p class="stat-item">
+                        <span class="stat-label">Mínimo alcanzado:</span>
+                        <span id="minimo" class="stat-value">0</span>
+                    </p>
+                    <p class="stat-item">
+                        <span class="stat-label">Total de cambios:</span>
+                        <span id="totalCambios" class="stat-value">0</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Tutorial/Instrucciones -->
+        <aside class="instructions" aria-labelledby="instructions-title">
+            <h2 id="instructions-title" class="instructions-title">¿Cómo usar?</h2>
+            <ul class="instructions-list">
+                <li>Usa los botones <kbd>+</kbd> y <kbd>-</kbd> para ajustar el contador</li>
+                <li>Presiona <kbd>↻</kbd> para reiniciar a cero</li>
+                <li>Usa los botones rápidos para cambios de ±5</li>
+                <li>También puedes usar las teclas de flecha y la barra espaciadora</li>
+            </ul>
+        </aside>
+        
+        <!-- Footer -->
+        <footer class="app-footer" role="contentinfo">
+            <p>Contador interactivo - Ejercicio de JavaScript con buenas prácticas de accesibilidad</p>
+            <p class="keyboard-hint">
+                💡 <strong>Tip:</strong> Usa las teclas <kbd>↑</kbd> <kbd>↓</kbd> <kbd>R</kbd> <kbd>Espacio</kbd>
+            </p>
+        </footer>
+    </main>
+    
+    <script src="script.js" defer></script>
+</body>
+</html>
