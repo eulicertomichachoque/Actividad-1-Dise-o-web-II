@@ -1,0 +1,137 @@
+/* Variables CSS para colores, tamaños y animaciones */
+:root {
+  --color-bg: #f5f5f5;
+  --color-primary: #333;
+  --color-revealed: #4caf50;
+  --color-matched: #2196f3;
+  --color-text-light: #fff;
+  --color-button-bg: #333;
+  --color-button-hover: #555;
+  --border-radius-card: 10px;
+  --border-radius-button: 5px;
+  --transition-duration: 0.4s;
+  --gap-board: 12px;
+  --card-size: clamp(70px, 20vw, 90px);
+}
+
+/* Estilos generales */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  background-color: var(--color-bg);
+  padding: 20px;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Contenedor del tablero */
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap-board);
+  margin: 20px auto;
+  max-width: 420px;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Tarjetas */
+.card {
+  width: var(--card-size);
+  height: var(--card-size);
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: var(--border-radius-card);
+  transform: rotateY(180deg);
+  transition: transform var(--transition-duration), background-color 0.3s;
+  user-select: none;
+  aspect-ratio: 1;
+}
+
+.card.revealed {
+  background-color: var(--color-revealed);
+  transform: rotateY(0deg);
+}
+
+.card.matched {
+  background-color: var(--color-matched);
+  cursor: default;
+  transform: rotateY(0deg);
+}
+
+/* Área de información */
+.info {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(15px, 5vw, 25px);
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Botones */
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--color-button-bg);
+  color: var(--color-text-light);
+  border-radius: var(--border-radius-button);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover,
+button:focus {
+  background-color: var(--color-button-hover);
+  transform: translateY(-2px);
+  outline: 2px solid var(--color-matched);
+  outline-offset: 2px;
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Responsive para móviles */
+@media (max-width: 480px) {
+  .board {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 320px;
+  }
+  
+  .info {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  button {
+    width: 200px;
+  }
+}
+
+/* Mejora para modo oscuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1a1a1a;
+    --color-primary: #444;
+    --color-button-bg: #444;
+    --color-button-hover: #666;
+  }
+  
+  body {
+    color: #f0f0f0;
+  }
+}
