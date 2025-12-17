@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manipulador de lista interactivo. Añade, edita y elimina items dinámicamente con una interfaz moderna y accesible.">
+    <meta name="keywords" content="lista, tareas, items, gestión, organización, web app">
+    <meta name="author" content="Manipulador de Lista">
+    <title>Manipulador de Lista | Gestión Dinámica de Items</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+    
+    <!-- Preconexión para fuentes (si se usan) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <style>
+        /* Estilos críticos para mejor rendimiento inicial */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #4a6cf7;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 1000;
+            border-radius: 0 0 4px 0;
+            transition: top 0.3s ease;
+        }
+        
+        .skip-link:focus {
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip link para accesibilidad -->
+    <a href="#main-content" class="skip-link sr-only focus-visible">
+        Saltar al contenido principal
+    </a>
+    
+    <!-- Contenedor principal -->
+    <div class="app-container">
+        <!-- Header semántico -->
+        <header class="app-header" role="banner">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <span class="app-icon" aria-hidden="true">📝</span>
+                    <span class="app-title-text">Manipulador de Lista</span>
+                </h1>
+                <p class="app-subtitle" id="app-description">
+                    Añade, edita y elimina items dinámicamente con una interfaz moderna y accesible
+                </p>
+            </div>
+        </header>
+
+        <!-- Contenido principal -->
+        <main id="main-content" class="main-content" role="main" tabindex="-1">
+            <!-- Tarjeta principal -->
+            <div class="card" role="region" aria-labelledby="card-title">
+                <div class="card-header">
+                    <h2 id="card-title" class="card-title">Gestión de Items</h2>
+                    <div class="card-subtitle" id="card-instructions">
+                        Presiona Enter o el botón "Añadir" para agregar un nuevo item a la lista.
+                    </div>
+                </div>
+
+                <!-- Sección de entrada -->
+                <section class="input-section" aria-labelledby="input-label">
+                    <div class="input-group">
+                        <label for="itemInput" id="input-label" class="input-label">
+                            <span class="label-text">Nuevo Item</span>
+                            <span class="sr-only">, presiona Enter o el botón Añadir para agregar</span>
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="text" 
+                                id="itemInput" 
+                                class="form-input"
+                                placeholder="Escribe aquí tu nuevo item..."
+                                aria-describedby="input-hint"
+                                autocomplete="off"
+                                maxlength="100"
+                                enterkeyhint="done"
+                            >
+                            <div id="input-hint" class="input-hint">
+                                Máximo 100 caracteres
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button 
+                                id="addBtn" 
+                                class="btn btn-primary"
+                                type="button"
+                                aria-label="Añadir item a la lista"
+                            >
+                                <span class="btn-icon" aria-hidden="true">➕</span>
+                                <span class="btn-text">Añadir</span>
+                            </button>
+                            
+                            <button 
+                                id="clearInputBtn" 
+                                class="btn btn-secondary"
+                                type="button"
+                                aria-label="Limpiar campo de entrada"
+                            >
+                                <span class="btn-icon" aria-hidden="true">🗑️</span>
+                                <span class="btn-text">Limpiar</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Estadísticas -->
+                <section class="stats-section" aria-labelledby="stats-title">
+                    <h3 id="stats-title" class="sr-only">Estadísticas de la lista</h3>
+                    <div class="stats-grid" role="status" aria-live="polite" aria-atomic="true">
+                        <div class="stat-item" role="region" aria-label="Total de items en la lista">
+                            <span class="stat-icon" aria-hidden="true">📊</span>
+                            <div class="stat-content">
+                                <span class="stat-label">Total Items</span>
+                                <span class="stat-value" id="itemCount">0</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-item" role="region" aria-label="Caracteres disponibles">
+                            <span class="stat-icon" aria-hidden="true">🔤</span>
+                            <div class="stat-content">
+                                <span class="stat-label">Caracteres Libres</span>
+                                <span class="stat-value" id="charCount">100</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-item" role="region" aria-label="Última acción realizada">
+                            <span class="stat-icon" aria-hidden="true">⏱️</span>
+                            <div class="stat-content">
+                                <span class="stat-label">Última Acción</span>
+                                <span class="stat-value" id="lastAction">Ninguna</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Lista de items -->
+                <section class="list-section" aria-labelledby="list-title">
+                    <div class="list-header">
+                        <h3 id="list-title" class="list-title">Items de la Lista</h3>
+                        <div class="list-subtitle" id="list-instructions" role="status" aria-live="polite">
+                            <span id="listStatus">No hay items en la lista</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Contenedor de lista -->
+                    <div class="list-container">
+                        <ul 
+                            id="itemList" 
+                            class="item-list"
+                            role="list"
+                            aria-describedby="list-instructions"
+                            aria-label="Lista de items, cada item puede ser editado o eliminado"
+                        >
+                            <!-- Los items se añadirán aquí dinámicamente -->
+                            <li class="empty-state" id="emptyState">
+                                <div class="empty-state-content">
+                                    <span class="empty-state-icon" aria-hidden="true">📭</span>
+                                    <p class="empty-state-text">La lista está vacía</p>
+                                    <p class="empty-state-hint">Añade tu primer item usando el campo de arriba</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Contador de items visibles para lectores de pantalla -->
+                    <div class="sr-only" id="listCounter" aria-live="polite" aria-atomic="true">
+                        La lista contiene 0 items
+                    </div>
+                </section>
+
+                <!-- Acciones -->
+                <section class="actions-section" aria-labelledby="actions-title">
+                    <h3 id="actions-title" class="sr-only">Acciones disponibles</h3>
+                    <div class="actions-grid">
+                        <button 
+                            id="clearAllBtn" 
+                            class="btn btn-danger"
+                            type="button"
+                            aria-label="Eliminar todos los items de la lista"
+                        >
+                            <span class="btn-icon" aria-hidden="true">🔥</span>
+                            <span class="btn-text">Limpiar Todo</span>
+                        </button>
+                        
+                        <button 
+                            id="exportBtn" 
+                            class="btn btn-success"
+                            type="button"
+                            aria-label="Exportar lista como texto"
+                        >
+                            <span class="btn-icon" aria-hidden="true">💾</span>
+                            <span class="btn-text">Exportar Lista</span>
+                        </button>
+                        
+                        <button 
+                            id="sortBtn" 
+                            class="btn btn-secondary"
+                            type="button"
+                            aria-label="Ordenar lista alfabéticamente"
+                        >
+                            <span class="btn-icon" aria-hidden="true">🔠</span>
+                            <span class="btn-text">Ordenar</span>
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- Feedback para acciones -->
+                <div class="feedback-area" role="status" aria-live="polite" aria-atomic="true">
+                    <div id="actionFeedback" class="feedback-message"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer" role="contentinfo">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p class="footer-text">
+                        <span class="footer-icon" aria-hidden="true">⚡</span>
+                        Manipulador de Lista v2.0
+                        <span class="sr-only">, aplicación accesible para gestión de items</span>
+                    </p>
+                    <p class="footer-hint">
+                        <span class="keyboard-hint" aria-hidden="true">⌨️</span>
+                        <span class="sr-only">Atajos de teclado: </span>
+                        Enter para añadir, Esc para cancelar edición
+                    </p>
+                </div>
+                <div class="footer-meta">
+                    <p class="footer-copyright">
+                        &copy; <span id="currentYear">2024</span> - Todos los derechos reservados
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal para edición (oculto por defecto) -->
+    <dialog id="editDialog" class="edit-dialog" aria-labelledby="editDialogTitle">
+        <div class="dialog-content">
+            <h3 id="editDialogTitle" class="dialog-title">Editar Item</h3>
+            <div class="dialog-body">
+                <label for="editInput" class="dialog-label">Nuevo contenido:</label>
+                <input 
+                    type="text" 
+                    id="editInput" 
+                    class="dialog-input"
+                    aria-describedby="editDialogHint"
+                >
+                <p id="editDialogHint" class="dialog-hint">
+                    Presiona Enter para guardar o Esc para cancelar
+                </p>
+            </div>
+            <div class="dialog-actions">
+                <button id="cancelEditBtn" class="btn btn-secondary" type="button">
+                    Cancelar
+                </button>
+                <button id="saveEditBtn" class="btn btn-primary" type="button">
+                    Guardar Cambios
+                </button>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- Scripts -->
+    <script>
+        // Script mínimo inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            // Año actual en el footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Focus management para skip link
+            const skipLink = document.querySelector('.skip-link');
+            if (skipLink) {
+                skipLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const mainContent = document.getElementById('main-content');
+                    if (mainContent) {
+                        mainContent.setAttribute('tabindex', '-1');
+                        mainContent.focus();
+                    }
+                });
+            }
+            
+            // Contador de caracteres
+            const itemInput = document.getElementById('itemInput');
+            const charCount = document.getElementById('charCount');
+            
+            if (itemInput && charCount) {
+                itemInput.addEventListener('input', function() {
+                    const remaining = 100 - this.value.length;
+                    charCount.textContent = remaining;
+                    charCount.style.color = remaining < 20 ? '#dc3545' : '#666';
+                });
+            }
+        });
+    </script>
+    
+    <script src="script.js" defer></script>
+</body>
+</html>
