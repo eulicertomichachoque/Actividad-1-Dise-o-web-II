@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es-ES" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de pestañas dinámicas con JavaScript puro. Navegación accesible, moderna y responsive para organización de contenido.">
+    <meta name="keywords" content="tabs dinámicos, pestañas JavaScript, navegación por tabs, UI accesible, componentes web">
+    <meta name="author" content="Sistema de Tabs">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sistema de Tabs Dinámicos - Navegación Moderna">
+    <meta property="og:description" content="Implementación de tabs dinámicos con JavaScript puro, totalmente accesible y responsive.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    
+    <title>Sistema de Tabs Dinámicos | Navegación Accesible por Pestañas</title>
+    
+    <!-- Preload recursos críticos -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    
+    <!-- Hojas de estilo -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📑</text></svg>">
+    
+    <!-- Estilos críticos inlined -->
+    <style>
+        /* Variables CSS */
+        :root {
+            --color-primary: #4a6cf7;
+            --color-primary-dark: #3a56d4;
+            --color-secondary: #ff6b6b;
+            --color-success: #2ecc71;
+            --color-bg: #f8f9fa;
+            --color-text: #333333;
+            --color-text-light: #666666;
+            --color-border: #e1e5e9;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Reset accesible */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Prevenir FOUC */
+        .js-loading * {
+            transition: none !important;
+        }
+        
+        /* Estados de foco para accesibilidad */
+        :focus-visible {
+            outline: 3px solid var(--color-primary);
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+        }
+        
+        /* Clases de utilidad para SR */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .sr-only-focusable:focus,
+        .sr-only-focusable:active {
+            position: static;
+            width: auto;
+            height: auto;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+        }
+    </style>
+</head>
+<body class="js-loading">
+    <!-- Skip link para accesibilidad -->
+    <a href="#main-content" class="sr-only sr-only-focusable">
+        Saltar al contenido principal
+    </a>
+    
+    <div class="container" role="main">
+        <div class="tabs-container" itemscope itemtype="https://schema.org/WebApplication">
+            <!-- Encabezado con metadatos -->
+            <header class="tabs-header" role="banner">
+                <h1 itemprop="name">
+                    <span role="img" aria-label="Pestañas">📑</span>
+                    Sistema de Pestañas Dinámicas
+                </h1>
+                <p class="subtitle" itemprop="description">
+                    Navegación por tabs implementada con JavaScript puro, totalmente accesible y responsive.
+                </p>
+                <meta itemprop="applicationCategory" content="UI Component">
+            </header>
+            
+            <!-- Sistema de tabs con ARIA roles -->
+            <div class="tabs-system" role="tablist" aria-label="Secciones de contenido">
+                <!-- Tab Buttons con roles ARIA completos -->
+                <div class="tab-buttons" role="presentation">
+                    <button 
+                        class="tab-btn active" 
+                        id="tab-btn-1"
+                        data-tab="tab1" 
+                        role="tab" 
+                        aria-selected="true" 
+                        aria-controls="tab1"
+                        tabindex="0"
+                    >
+                        <span class="icon" aria-hidden="true" role="img">🏠</span>
+                        <span class="tab-text">Inicio</span>
+                        <span class="sr-only">, sección actual</span>
+                    </button>
+                    
+                    <button 
+                        class="tab-btn" 
+                        id="tab-btn-2"
+                        data-tab="tab2" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="tab2"
+                        tabindex="-1"
+                    >
+                        <span class="icon" aria-hidden="true" role="img">💼</span>
+                        <span class="tab-text">Servicios</span>
+                    </button>
+                    
+                    <button 
+                        class="tab-btn" 
+                        id="tab-btn-3"
+                        data-tab="tab3" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="tab3"
+                        tabindex="-1"
+                    >
+                        <span class="icon" aria-hidden="true" role="img">📊</span>
+                        <span class="tab-text">Estadísticas</span>
+                    </button>
+                    
+                    <button 
+                        class="tab-btn" 
+                        id="tab-btn-4"
+                        data-tab="tab4" 
+                        role="tab" 
+                        aria-selected="false" 
+                        aria-controls="tab4"
+                        tabindex="-1"
+                    >
+                        <span class="icon" aria-hidden="true" role="img">📧</span>
+                        <span class="tab-text">Contacto</span>
+                    </button>
+                </div>
+
+                <!-- Tab Content Panels -->
+                <div class="tab-contents">
+                    <!-- Tab 1: Inicio -->
+                    <section 
+                        class="tab-content active" 
+                        id="tab1" 
+                        role="tabpanel" 
+                        aria-labelledby="tab-btn-1"
+                        tabindex="0"
+                        itemprop="mainContentOfPage"
+                    >
+                        <header class="tab-header">
+                            <h2 class="tab-title">Bienvenido al Sistema de Tabs</h2>
+                            <p class="tab-description">
+                                Este es un ejemplo de navegación por pestañas implementado con JavaScript puro, 
+                                siguiendo las mejores prácticas de accesibilidad web.
+                            </p>
+                        </header>
+                        
+                        <div class="features-grid" role="list">
+                            <article class="feature-card" role="listitem" itemscope itemtype="https://schema.org/WebPageElement">
+                                <div class="feature-icon-container" aria-hidden="true">
+                                    <span class="feature-icon" role="img">⚡</span>
+                                </div>
+                                <h3 class="feature-title" itemprop="name">Rápido y Eficiente</h3>
+                                <p class="feature-description" itemprop="description">
+                                    Cambio instantáneo entre secciones sin recargar la página completa.
+                                </p>
+                                <meta itemprop="position" content="1">
+                            </article>
+                            
+                            <article class="feature-card" role="listitem" itemscope itemtype="https://schema.org/WebPageElement">
+                                <div class="feature-icon-container" aria-hidden="true">
+                                    <span class="feature-icon" role="img">🎨</span>
+                                </div>
+                                <h3 class="feature-title" itemprop="name">Diseño Moderno</h3>
+                                <p class="feature-description" itemprop="description">
+                                    Interfaz limpia, profesional y completamente responsive.
+                                </p>
+                                <meta itemprop="position" content="2">
+                            </article>
+                            
+                            <article class="feature-card" role="listitem" itemscope itemtype="https://schema.org/WebPageElement">
+                                <div class="feature-icon-container" aria-hidden="true">
+                                    <span class="feature-icon" role="img">♿</span>
+                                </div>
+                                <h3 class="feature-title" itemprop="name">Totalmente Accesible</h3>
+                                <p class="feature-description" itemprop="description">
+                                    Navegación completa con teclado y soporte para lectores de pantalla.
+                                </p>
+                                <meta itemprop="position" content="3">
+                            </article>
+                        </div>
+                        
+                        <div class="tab-footer">
+                            <p class="tab-note">
+                                <strong>Nota:</strong> Este componente sigue las 
+                                <a href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" target="_blank" rel="noopener">
+                                    especificaciones ARIA para tabs
+                                </a>.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Tab 2: Servicios -->
+                    <section 
+                        class="tab-content" 
+                        id="tab2" 
+                        role="tabpanel" 
+                        aria-labelledby="tab-btn-2"
+                        tabindex="0"
+                        hidden
+                    >
+                        <header class="tab-header">
+                            <h2 class="tab-title">Nuestros Servicios Profesionales</h2>
+                            <p class="tab-description">
+                                Ofrecemos una amplia gama de servicios especializados para tu negocio.
+                            </p>
+                        </header>
+                        
+                        <div class="services-container">
+                            <ul class="service-list" role="list">
+                                <li class="service-item" role="listitem">
+                                    <span class="service-icon" aria-hidden="true" role="img">✅</span>
+                                    <div class="service-content">
+                                        <strong class="service-name">Desarrollo Web Completo</strong>
+                                        <p class="service-description">
+                                            Aplicaciones web modernas y escalables.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="service-item" role="listitem">
+                                    <span class="service-icon" aria-hidden="true" role="img">✅</span>
+                                    <div class="service-content">
+                                        <strong class="service-name">Diseño UI/UX Profesional</strong>
+                                        <p class="service-description">
+                                            Interfaces intuitivas y experiencias de usuario excepcionales.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="service-item" role="listitem">
+                                    <span class="service-icon" aria-hidden="true" role="img">✅</span>
+                                    <div class="service-content">
+                                        <strong class="service-name">Optimización SEO</strong>
+                                        <p class="service-description">
+                                            Mejora tu visibilidad en motores de búsqueda.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="service-item" role="listitem">
+                                    <span class="service-icon" aria-hidden="true" role="img">✅</span>
+                                    <div class="service-content">
+                                        <strong class="service-name">Aplicaciones Móviles</strong>
+                                        <p class="service-description">
+                                            Apps nativas e híbridas para iOS y Android.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="service-item" role="listitem">
+                                    <span class="service-icon" aria-hidden="true" role="img">✅</span>
+                                    <div class="service-content">
+                                        <strong class="service-name">Consultoría Técnica</strong>
+                                        <p class="service-description">
+                                            Asesoramiento especializado para tu proyecto.
+                                        </p>
+                                    </div>
+                                </li>
+                                <li class="service-item" role="listitem">
+                                    <span class="service-icon" aria-hidden="true" role="img">✅</span>
+                                    <div class="service-content">
+                                        <strong class="service-name">Mantenimiento y Soporte</strong>
+                                        <p class="service-description">
+                                            Servicio continuo y actualizaciones periódicas.
+                                        </p>
+                                    </div>
+                                </li>
+                            </ul>
+                            
+                            <div class="services-actions">
+                                <button class="cta-btn" type="button" aria-label="Solicitar cotización de servicios">
+                                    <span class="btn-icon" aria-hidden="true">📋</span>
+                                    Solicitar Cotización
+                                </button>
+                                <button class="secondary-btn" type="button" aria-label="Descargar catálogo completo de servicios">
+                                    <span class="btn-icon" aria-hidden="true">📥</span>
+                                    Descargar Catálogo
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Tab 3: Estadísticas -->
+                    <section 
+                        class="tab-content" 
+                        id="tab3" 
+                        role="tabpanel" 
+                        aria-labelledby="tab-btn-3"
+                        tabindex="0"
+                        hidden
+                    >
+                        <header class="tab-header">
+                            <h2 class="tab-title">Estadísticas y Métricas del Proyecto</h2>
+                            <p class="tab-description">
+                                Datos clave sobre rendimiento, satisfacción y crecimiento.
+                            </p>
+                        </header>
+                        
+                        <div class="stats-grid" role="group" aria-label="Estadísticas del proyecto">
+                            <article class="stat-card" role="article" itemscope itemtype="https://schema.org/QuantitativeValue">
+                                <div class="stat-number" itemprop="value" content="1234">
+                                    <span aria-hidden="true">1,234</span>
+                                    <span class="sr-only">Mil doscientos treinta y cuatro</span>
+                                </div>
+                                <div class="stat-label" itemprop="name">Usuarios Activos Mensuales</div>
+                                <meta itemprop="unitCode" content="C62">
+                                <div class="stat-trend positive" aria-hidden="true">↑ 12%</div>
+                                <span class="sr-only">Tendencia positiva del 12 por ciento</span>
+                            </article>
+                            
+                            <article class="stat-card" role="article" itemscope itemtype="https://schema.org/QuantitativeValue">
+                                <div class="stat-number" itemprop="value" content="98">
+                                    <span aria-hidden="true">98%</span>
+                                    <span class="sr-only">Noventa y ocho por ciento</span>
+                                </div>
+                                <div class="stat-label" itemprop="name">Tasa de Satisfacción</div>
+                                <meta itemprop="unitCode" content="P1">
+                                <div class="stat-trend positive" aria-hidden="true">↑ 3%</div>
+                                <span class="sr-only">Tendencia positiva del 3 por ciento</span>
+                            </article>
+                            
+                            <article class="stat-card" role="article" itemscope itemtype="https://schema.org/QuantitativeValue">
+                                <div class="stat-number">
+                                    <span aria-hidden="true">24/7</span>
+                                    <span class="sr-only">Disponibilidad las 24 horas, los 7 días de la semana</span>
+                                </div>
+                                <div class="stat-label" itemprop="name">Disponibilidad del Servicio</div>
+                                <meta itemprop="value" content="100">
+                                <meta itemprop="unitCode" content="P1">
+                                <div class="stat-trend stable" aria-hidden="true">⏺️ 100%</div>
+                                <span class="sr-only">Estabilidad del cien por ciento</span>
+                            </article>
+                            
+                            <article class="stat-card" role="article" itemscope itemtype="https://schema.org/QuantitativeValue">
+                                <div class="stat-number" itemprop="value" content="150">
+                                    <span aria-hidden="true">150+</span>
+                                    <span class="sr-only">Más de ciento cincuenta</span>
+                                </div>
+                                <div class="stat-label" itemprop="name">Proyectos Completados</div>
+                                <meta itemprop="unitCode" content="C62">
+                                <div class="stat-trend positive" aria-hidden="true">↑ 25%</div>
+                                <span class="sr-only">Tendencia positiva del 25 por ciento</span>
+                            </article>
+                        </div>
+                        
+                        <div class="stats-footer">
+                            <p class="stats-note">
+                                <strong>Actualizado:</strong> 
+                                <time datetime="2024-12-19">Diciembre 2024</time>
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Tab 4: Contacto -->
+                    <section 
+                        class="tab-content" 
+                        id="tab4" 
+                        role="tabpanel" 
+                        aria-labelledby="tab-btn-4"
+                        tabindex="0"
+                        hidden
+                    >
+                        <header class="tab-header">
+                            <h2 class="tab-title">Contáctanos para Más Información</h2>
+                            <p class="tab-description">
+                                Estamos aquí para ayudarte. Envíanos un mensaje y te responderemos pronto.
+                            </p>
+                        </header>
+                        
+                        <form 
+                            class="contact-form" 
+                            id="contactForm"
+                            aria-labelledby="tab4"
+                            novalidate
+                            itemscope 
+                            itemtype="https://schema.org/ContactPage"
+                        >
+                            <meta itemprop="description" content="Formulario de contacto">
+                            
+                            <div class="form-row">
+                                <div class="form-group" itemprop="mainEntity" itemscope itemtype="https://schema.org/Person">
+                                    <label for="name" class="form-label">
+                                        Nombre Completo
+                                        <span class="required" aria-hidden="true">*</span>
+                                        <span class="sr-only">(obligatorio)</span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="name" 
+                                        name="name"
+                                        class="form-input"
+                                        placeholder="Ej: María González"
+                                        required
+                                        aria-required="true"
+                                        itemprop="name"
+                                        autocomplete="name"
+                                    >
+                                    <div class="form-error" id="nameError" role="alert" aria-live="polite"></div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email" class="form-label">
+                                        Correo Electrónico
+                                        <span class="required" aria-hidden="true">*</span>
+                                        <span class="sr-only">(obligatorio)</span>
+                                    </label>
+                                    <input 
+                                        type="email" 
+                                        id="email" 
+                                        name="email"
+                                        class="form-input"
+                                        placeholder="tu@email.com"
+                                        required
+                                        aria-required="true"
+                                        itemprop="email"
+                                        autocomplete="email"
+                                    >
+                                    <div class="form-error" id="emailError" role="alert" aria-live="polite"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject" class="form-label">
+                                    Asunto
+                                </label>
+                                <select 
+                                    id="subject" 
+                                    name="subject"
+                                    class="form-select"
+                                    aria-describedby="subjectHelp"
+                                >
+                                    <option value="" selected disabled>Selecciona un asunto</option>
+                                    <option value="info">Información General</option>
+                                    <option value="quote">Solicitud de Cotización</option>
+                                    <option value="support">Soporte Técnico</option>
+                                    <option value="other">Otro</option>
+                                </select>
+                                <small id="subjectHelp" class="form-help">
+                                    Selecciona el motivo principal de tu mensaje
+                                </small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message" class="form-label">
+                                    Mensaje
+                                    <span class="required" aria-hidden="true">*</span>
+                                    <span class="sr-only">(obligatorio)</span>
+                                </label>
+                                <textarea 
+                                    id="message" 
+                                    name="message"
+                                    class="form-textarea"
+                                    rows="5"
+                                    placeholder="Describe tu consulta o proyecto..."
+                                    required
+                                    aria-required="true"
+                                    minlength="10"
+                                    maxlength="1000"
+                                    aria-describedby="messageHelp"
+                                ></textarea>
+                                <small id="messageHelp" class="form-help">
+                                    Mínimo 10 caracteres, máximo 1000
+                                </small>
+                                <div class="form-error" id="messageError" role="alert" aria-live="polite"></div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button 
+                                    type="submit" 
+                                    class="cta-btn"
+                                    aria-label="Enviar mensaje de contacto"
+                                >
+                                    <span class="btn-icon" aria-hidden="true">📨</span>
+                                    Enviar Mensaje
+                                </button>
+                                <button 
+                                    type="reset" 
+                                    class="secondary-btn"
+                                    aria-label="Limpiar formulario de contacto"
+                                >
+                                    <span class="btn-icon" aria-hidden="true">🗑️</span>
+                                    Limpiar
+                                </button>
+                            </div>
+                            
+                            <div class="form-footer">
+                                <p class="form-note">
+                                    <span aria-hidden="true">🔒</span>
+                                    Tus datos están protegidos. No compartimos tu información con terceros.
+                                </p>
+                            </div>
+                        </form>
+                        
+                        <aside class="contact-info" role="complementary" aria-label="Información de contacto adicional">
+                            <h3 class="contact-info-title">Otras formas de contacto</h3>
+                            <ul class="contact-methods" role="list">
+                                <li class="contact-method">
+                                    <span class="method-icon" aria-hidden="true">📧</span>
+                                    <a href="mailto:info@ejemplo.com" itemprop="email">
+                                        info@ejemplo.com
+                                    </a>
+                                </li>
+                                <li class="contact-method">
+                                    <span class="method-icon" aria-hidden="true">📱</span>
+                                    <a href="tel:+521551234567" itemprop="telephone">
+                                        +52 1 55 1234 567
+                                    </a>
+                                </li>
+                                <li class="contact-method">
+                                    <span class="method-icon" aria-hidden="true">🏢</span>
+                                    <address itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                                        <span itemprop="streetAddress">Av. Principal 123</span>, 
+                                        <span itemprop="addressLocality">Ciudad de México</span>
+                                    </address>
+                                </li>
+                            </ul>
+                        </aside>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Indicador de accesibilidad -->
+            <footer class="tabs-footer" role="contentinfo">
+                <div class="keyboard-hint" role="status" aria-live="polite">
+                    <span class="hint-icon" aria-hidden="true">💡</span>
+                    <p class="hint-text">
+                        <strong>Consejo de navegación:</strong> Usa 
+                        <kbd aria-label="Flecha izquierda">←</kbd> y 
+                        <kbd aria-label="Flecha derecha">→</kbd> para cambiar entre pestañas.
+                        Presiona <kbd aria-label="Tecla Tab">Tab</kbd> para navegar dentro del contenido.
+                    </p>
+                </div>
+                
+                <div class="accessibility-info">
+                    <p>
+                        Este componente cumple con 
+                        <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" target="_blank" rel="noopener">
+                            WCAG 2.1 AA
+                        </a>
+                        y sigue las 
+                        <a href="https://www.w3.org/WAI/ARIA/apg/" target="_blank" rel="noopener">
+                            prácticas ARIA
+                        </a>.
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Scripts optimizados -->
+    <script>
+        // Remover clase de loading para transiciones
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.remove('js-loading');
+            
+            // Enfoque inicial en el primer tab
+            const firstTab = document.querySelector('.tab-btn.active');
+            if (firstTab) {
+                firstTab.focus();
+            }
+            
+            // Prevenir envío de formularios por ahora
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Funcionalidad de envío implementada en script.js');
+                });
+            }
+        });
+    </script>
+    
+    <script src="script.js" defer></script>
+</body>
+</html>
