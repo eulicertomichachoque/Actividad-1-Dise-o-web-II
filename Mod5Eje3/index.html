@@ -2,44 +2,486 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicio 3: Navbar Responsive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Navbar responsive con menú hamburguesa. Ejemplo de navegación adaptable para todos los dispositivos.">
+    <meta name="keywords" content="navbar, responsive, hamburger menu, CSS, JavaScript, accesibilidad">
+    <meta name="author" content="MiMarca">
+    <title>🚀 Navbar Responsive | Accesible y Moderno</title>
+    
+    <!-- Preconnect para fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Favicon moderno -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    
+    <!-- CSS crítico inline -->
+    <style>
+        /* Variables CSS críticas */
+        :root {
+            --color-primary: #4f46e5;
+            --color-primary-dark: #4338ca;
+            --color-secondary: #7c3aed;
+            --color-accent: #10b981;
+            --color-light: #ffffff;
+            --color-dark: #1f2937;
+            --color-gray-200: #e5e7eb;
+            --color-gray-300: #d1d5db;
+            --radius-lg: 0.75rem;
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset crítico */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--color-dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Navbar base */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-light);
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            transition: all var(--transition-normal);
+        }
+    </style>
+    
+    <!-- CSS externo -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- CORRECCIÓN 1: Encapsular navegación en header -->
-    <header>
-        <nav class="navbar" aria-label="Navegación principal">
-            <!-- CORRECCIÓN 2: Logo como enlace semántico -->
-            <a href="/" class="logo" aria-label="Página de inicio">
-                MiMarca
-            </a>
+    <!-- Skip link para accesibilidad -->
+    <a href="#main-content" class="skip-link" tabindex="0">
+        Saltar al contenido principal
+    </a>
 
-            <!-- CORRECCIÓN 3: Añadir ID para ARIA controls -->
-            <ul class="nav-links" id="nav-menu">
-                <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#servicios">Servicios</a></li>
-                <li><a href="#portafolio">Portafolio</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
+    <!-- Navbar mejorado -->
+    <nav class="navbar" role="navigation" aria-label="Navegación principal">
+        <div class="container">
+            <div class="navbar-content">
+                <!-- Logo con mejor semántica -->
+                <a href="/" class="logo" aria-label="MiMarca - Página de inicio">
+                    <div class="logo-icon" aria-hidden="true">🚀</div>
+                    <span class="logo-text">MiMarca</span>
+                    <span class="logo-beta" aria-hidden="true">BETA</span>
+                </a>
 
-            <!-- CORRECCIÓN 4: Cambiar div por button para accesibilidad -->
-            <button class="hamburger" 
-                    aria-label="Abrir menú de navegación"
-                    aria-expanded="false"
-                    aria-controls="nav-menu">
-                <span class="bar" aria-hidden="true"></span>
-                <span class="bar" aria-hidden="true"></span>
-                <span class="bar" aria-hidden="true"></span>
-            </button>
-        </nav>
-    </header>
+                <!-- Menú de navegación principal -->
+                <div class="menu-container">
+                    <!-- Navegación principal -->
+                    <ul class="nav-links" role="menubar" aria-label="Menú principal">
+                        <li role="none">
+                            <a 
+                                href="#inicio" 
+                                class="nav-link active" 
+                                role="menuitem" 
+                                aria-current="page"
+                                data-page="inicio"
+                            >
+                                <span class="nav-icon" aria-hidden="true">🏠</span>
+                                <span class="nav-text">Inicio</span>
+                            </a>
+                        </li>
+                        <li role="none">
+                            <a 
+                                href="#servicios" 
+                                class="nav-link" 
+                                role="menuitem"
+                                data-page="servicios"
+                            >
+                                <span class="nav-icon" aria-hidden="true">🛠️</span>
+                                <span class="nav-text">Servicios</span>
+                                <span class="nav-badge" aria-hidden="true" data-badge="3">3</span>
+                            </a>
+                        </li>
+                        <li role="none">
+                            <a 
+                                href="#portafolio" 
+                                class="nav-link" 
+                                role="menuitem"
+                                data-page="portafolio"
+                            >
+                                <span class="nav-icon" aria-hidden="true">💼</span>
+                                <span class="nav-text">Portafolio</span>
+                            </a>
+                        </li>
+                        <li role="none">
+                            <a 
+                                href="#contacto" 
+                                class="nav-link" 
+                                role="menuitem"
+                                data-page="contacto"
+                            >
+                                <span class="nav-icon" aria-hidden="true">📧</span>
+                                <span class="nav-text">Contacto</span>
+                            </a>
+                        </li>
+                        <li role="none" class="nav-dropdown">
+                            <button 
+                                class="nav-link dropdown-toggle" 
+                                aria-expanded="false" 
+                                aria-controls="more-menu"
+                                data-dropdown="more"
+                            >
+                                <span class="nav-icon" aria-hidden="true">➕</span>
+                                <span class="nav-text">Más</span>
+                                <span class="dropdown-arrow" aria-hidden="true">▾</span>
+                            </button>
+                            <ul class="dropdown-menu" id="more-menu" role="menu" aria-label="Menú adicional">
+                                <li role="none">
+                                    <a href="#blog" class="dropdown-item" role="menuitem">
+                                        <span class="dropdown-icon" aria-hidden="true">📝</span>
+                                        Blog
+                                    </a>
+                                </li>
+                                <li role="none">
+                                    <a href="#equipo" class="dropdown-item" role="menuitem">
+                                        <span class="dropdown-icon" aria-hidden="true">👥</span>
+                                        Equipo
+                                    </a>
+                                </li>
+                                <li role="none">
+                                    <a href="#clientes" class="dropdown-item" role="menuitem">
+                                        <span class="dropdown-icon" aria-hidden="true">⭐</span>
+                                        Clientes
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
 
-    <main>
-        <h1>Bienvenido al Ejercicio 3</h1>
-        <p>Redimensiona la ventana para ver el menú cambiar.</p>
+                    <!-- Acciones adicionales -->
+                    <div class="nav-actions" role="group" aria-label="Acciones adicionales">
+                        <button class="theme-toggle" aria-label="Cambiar tema claro/oscuro" data-theme="auto">
+                            <span class="theme-icon" aria-hidden="true">🌓</span>
+                        </button>
+                        
+                        <a href="#buscar" class="search-btn" aria-label="Buscar">
+                            <span class="search-icon" aria-hidden="true">🔍</span>
+                        </a>
+                        
+                        <a href="#login" class="btn-login">
+                            <span class="login-icon" aria-hidden="true">👤</span>
+                            <span class="login-text">Iniciar Sesión</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hamburger menu mejorado -->
+                <button 
+                    class="hamburger" 
+                    aria-label="Menú de navegación" 
+                    aria-expanded="false" 
+                    aria-controls="mobile-menu"
+                    data-menu="toggle"
+                >
+                    <span class="hamburger-box">
+                        <span class="bar bar-top"></span>
+                        <span class="bar bar-middle"></span>
+                        <span class="bar bar-bottom"></span>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menú móvil -->
+        <div class="mobile-menu" id="mobile-menu" aria-hidden="true" hidden>
+            <div class="mobile-menu-header">
+                <div class="mobile-logo">
+                    <span class="mobile-logo-icon" aria-hidden="true">🚀</span>
+                    <span class="mobile-logo-text">MiMarca</span>
+                </div>
+                <button class="mobile-close" aria-label="Cerrar menú" data-menu="close">
+                    <span class="close-icon" aria-hidden="true">✕</span>
+                </button>
+            </div>
+
+            <nav class="mobile-nav" role="navigation" aria-label="Menú móvil">
+                <ul class="mobile-links" role="list">
+                    <li>
+                        <a href="#inicio" class="mobile-link active" data-page="inicio">
+                            <span class="mobile-icon" aria-hidden="true">🏠</span>
+                            Inicio
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#servicios" class="mobile-link" data-page="servicios">
+                            <span class="mobile-icon" aria-hidden="true">🛠️</span>
+                            Servicios
+                            <span class="mobile-badge" aria-hidden="true">3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#portafolio" class="mobile-link" data-page="portafolio">
+                            <span class="mobile-icon" aria-hidden="true">💼</span>
+                            Portafolio
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contacto" class="mobile-link" data-page="contacto">
+                            <span class="mobile-icon" aria-hidden="true">📧</span>
+                            Contacto
+                        </a>
+                    </li>
+                    <li class="mobile-divider" aria-hidden="true"></li>
+                    <li>
+                        <a href="#blog" class="mobile-link">
+                            <span class="mobile-icon" aria-hidden="true">📝</span>
+                            Blog
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#equipo" class="mobile-link">
+                            <span class="mobile-icon" aria-hidden="true">👥</span>
+                            Equipo
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#clientes" class="mobile-link">
+                            <span class="mobile-icon" aria-hidden="true">⭐</span>
+                            Clientes
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="mobile-footer">
+                <button class="mobile-theme" aria-label="Cambiar tema">
+                    <span class="mobile-theme-icon" aria-hidden="true">🌓</span>
+                    <span class="mobile-theme-text">Tema</span>
+                </button>
+                
+                <a href="#login" class="mobile-login">
+                    <span class="mobile-login-icon" aria-hidden="true">👤</span>
+                    Iniciar Sesión
+                </a>
+            </div>
+        </div>
+
+        <!-- Overlay para menú móvil -->
+        <div class="menu-overlay" id="menuOverlay" aria-hidden="true" hidden></div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main id="main-content" class="main-content" role="main" tabindex="-1">
+        <!-- Hero section -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 id="hero-title" class="hero-title">
+                        🚀 Navbar Responsive 
+                        <span class="hero-highlight">Accesible y Moderno</span>
+                    </h1>
+                    <p class="hero-description">
+                        Ejemplo de navbar responsive con menú hamburguesa, accesibilidad completa 
+                        y diseño moderno. Redimensiona la ventana o prueba en diferentes dispositivos.
+                    </p>
+                    
+                    <div class="hero-features">
+                        <div class="feature">
+                            <span class="feature-icon" aria-hidden="true">📱</span>
+                            <span class="feature-text">Mobile-first</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon" aria-hidden="true">♿</span>
+                            <span class="feature-text">Accesible</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon" aria-hidden="true">⚡</span>
+                            <span class="feature-text">Rápido</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon" aria-hidden="true">🎨</span>
+                            <span class="feature-text">Moderno</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de demostración -->
+        <section class="demo-section" aria-labelledby="demo-title">
+            <div class="container">
+                <h2 id="demo-title" class="section-title">Demostración Interactiva</h2>
+                
+                <div class="demo-grid">
+                    <!-- Demo 1: Responsive -->
+                    <div class="demo-card">
+                        <div class="demo-card-header">
+                            <span class="demo-icon" aria-hidden="true">📐</span>
+                            <h3 class="demo-card-title">Responsive Design</h3>
+                        </div>
+                        <div class="demo-card-body">
+                            <p>El navbar se adapta automáticamente a diferentes tamaños de pantalla:</p>
+                            <ul class="demo-list" role="list">
+                                <li><strong>Desktop:</strong> Menú horizontal completo</li>
+                                <li><strong>Tablet:</strong> Menú compacto</li>
+                                <li><strong>Mobile:</strong> Menú hamburguesa</li>
+                            </ul>
+                            <div class="demo-actions">
+                                <button class="btn btn-primary" data-demo="resize">
+                                    Simular Mobile
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Demo 2: Accesibilidad -->
+                    <div class="demo-card">
+                        <div class="demo-card-header">
+                            <span class="demo-icon" aria-hidden="true">♿</span>
+                            <h3 class="demo-card-title">Accesibilidad</h3>
+                        </div>
+                        <div class="demo-card-body">
+                            <p>Características de accesibilidad implementadas:</p>
+                            <ul class="demo-list" role="list">
+                                <li>Navegación por teclado</li>
+                                <li>Screen reader friendly</li>
+                                <li>Contraste WCAG AA</li>
+                                <li>Focus visible</li>
+                                <li>ARIA labels</li>
+                            </ul>
+                            <div class="demo-actions">
+                                <button class="btn btn-secondary" data-demo="keyboard">
+                                    Probar Teclado
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Demo 3: Animaciones -->
+                    <div class="demo-card">
+                        <div class="demo-card-header">
+                            <span class="demo-icon" aria-hidden="true">🎬</span>
+                            <h3 class="demo-card-title">Animaciones</h3>
+                        </div>
+                        <div class="demo-card-body">
+                            <p>Transiciones y animaciones suaves:</p>
+                            <ul class="demo-list" role="list">
+                                <li>Hamburger → X</li>
+                                <li>Despliegue menú</li>
+                                <li>Hover effects</li>
+                                <li>Scroll effects</li>
+                            </ul>
+                            <div class="demo-actions">
+                                <button class="btn btn-accent" data-demo="animations">
+                                    Ver Animaciones
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Instrucciones -->
+        <section class="instructions" aria-labelledby="instructions-title">
+            <div class="container">
+                <h2 id="instructions-title" class="section-title">Instrucciones</h2>
+                
+                <div class="instructions-content">
+                    <div class="instruction-step">
+                        <div class="step-number" aria-hidden="true">1</div>
+                        <div class="step-content">
+                            <h3>Redimensiona la ventana</h3>
+                            <p>Cambia el tamaño del navegador para ver cómo el navbar se adapta a diferentes dispositivos.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number" aria-hidden="true">2</div>
+                        <div class="step-content">
+                            <h3>Prueba el menú móvil</h3>
+                            <p>En dispositivos pequeños, haz clic en el ícono de hamburguesa para abrir el menú.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number" aria-hidden="true">3</div>
+                        <div class="step-content">
+                            <h3>Navega con teclado</h3>
+                            <p>Usa Tab, Shift+Tab y las teclas de flecha para navegar sin mouse.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="instruction-step">
+                        <div class="step-number" aria-hidden="true">4</div>
+                        <div class="step-content">
+                            <h3>Verifica accesibilidad</h3>
+                            <p>Abre las herramientas de desarrollador y prueba con lectores de pantalla.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Estado actual -->
+        <div class="status-bar" role="status" aria-live="polite" aria-atomic="true">
+            <div class="container">
+                <div class="status-content">
+                    <span class="status-label">Estado actual:</span>
+                    <span class="status-value" id="currentStatus">
+                        <span class="status-device">Desktop</span>
+                        <span class="status-menu">· Menú abierto: No</span>
+                        <span class="status-theme">· Tema: Claro</span>
+                    </span>
+                </div>
+            </div>
+        </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo" aria-hidden="true">🚀</span>
+                    <span class="footer-text">Navbar Responsive Demo</span>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="#github" class="footer-link">
+                        <span class="footer-icon" aria-hidden="true">💻</span>
+                        Código Fuente
+                    </a>
+                    <a href="#documentation" class="footer-link">
+                        <span class="footer-icon" aria-hidden="true">📚</span>
+                        Documentación
+                    </a>
+                    <a href="#issues" class="footer-link">
+                        <span class="footer-icon" aria-hidden="true">🐛</span>
+                        Reportar Bug
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
     <script src="script.js" defer></script>
+    
+    <!-- Google Fonts (cargado asíncronamente) -->
+    <script>
+        // Cargar fuentes de manera asíncrona
+        const fontLink = document.createElement('link');
+        fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap';
+        fontLink.rel = 'stylesheet';
+        document.head.appendChild(fontLink);
+    </script>
 </body>
 </html>
