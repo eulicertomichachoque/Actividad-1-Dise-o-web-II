@@ -1,1112 +1,1146 @@
-// ===========================================
-// CONFIGURACIÓN Y CONSTANTES
-// ===========================================
+/* ===== CSS MODERNO CON VARIABLES Y NESTING ===== */
 
-const CONFIG = {
-    gallery: {
-        minColumns: 1,
-        maxColumns: 4,
-        defaultColumns: 'auto',
-        animationDuration: 300,
-        shuffleDuration: 500
-    },
-    modal: {
-        animationDuration: 300,
-        easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-    },
-    filters: {
-        animationDuration: 400
-    }
-};
-
-// ===========================================
-// ESTADO GLOBAL DE LA APLICACIÓN
-// ===========================================
-
-const AppState = {
-    currentView: 'grid',
-    currentColumns: CONFIG.gallery.defaultColumns,
-    activeFilter: 'all',
-    likedImages: new Set(),
-    currentModalImage: null,
-    isShuffling: false
-};
-
-// ===========================================
-// SELECTORES DEL DOM
-// ===========================================
-
-const DOM = {
-    // Contenedores principales
-    galleryContainer: document.querySelector('.gallery-container'),
-    modal: document.querySelector('.modal'),
+/* ===== VARIABLES CSS ===== */
+:root {
+    /* Colores principales */
+    --color-primary: #4f46e5;
+    --color-primary-dark: #4338ca;
+    --color-secondary: #7c3aed;
+    --color-accent: #10b981;
+    --color-danger: #ef4444;
+    --color-warning: #f59e0b;
     
-    // Controles
-    viewButtons: document.querySelectorAll('[data-view]'),
-    columnButtons: document.querySelectorAll('[data-columns]'),
-    filterButtons: document.querySelectorAll('[data-filter]'),
-    shuffleButton: document.querySelector('.shuffle-btn'),
+    /* Colores neutrales */
+    --color-light: #ffffff;
+    --color-dark: #1f2937;
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
     
-    // Elementos de galería
-    galleryItems: document.querySelectorAll('.gallery-item'),
-    likeButtons: document.querySelectorAll('.like-btn'),
-    zoomButtons: document.querySelectorAll('.zoom-btn'),
+    /* Gradientes */
+    --gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    --gradient-dark: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.3));
+    --gradient-light: linear-gradient(135deg, var(--color-light) 0%, var(--color-gray-100) 100%);
     
-    // Modal
-    modalClose: document.querySelector('.modal-close'),
-    modalImage: document.querySelector('.modal-image'),
-    modalTitle: document.querySelector('.modal-title'),
-    modalDescription: document.querySelector('.modal-description'),
-    modalMeta: document.querySelector('.modal-meta'),
+    /* Sombras */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+    --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.06);
     
-    // Footer
-    footerButtons: document.querySelectorAll('.footer-btn'),
-    currentYear: document.getElementById('currentYear'),
-    imageCount: document.getElementById('image-count'),
+    /* Bordes */
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-full: 9999px;
     
-    // Otros
-    headerStats: document.querySelector('.header-stats')
-};
-
-// ===========================================
-// UTILIDADES
-// ===========================================
-
-const Utils = {
-    /**
-     * Debounce para optimizar eventos frecuentes
-     */
-    debounce: (func, wait) => {
-        let timeout;
-        return (...args) => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-    },
-
-    /**
-     * Genera un número aleatorio entre min y max
-     */
-    randomInt: (min, max) => Math.floor(Math.random() * (max - min + 1)) + min,
-
-    /**
-     * Shuffle array usando algoritmo Fisher-Yates
-     */
-    shuffleArray: (array) => {
-        const shuffled = [...array];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        return shuffled;
-    },
-
-    /**
-     * Animación de fade in
-     */
-    fadeIn: (element, duration = 300) => {
-        element.style.opacity = '0';
-        element.style.display = 'block';
-        
-        setTimeout(() => {
-            element.style.transition = `opacity ${duration}ms`;
-            element.style.opacity = '1';
-        }, 10);
-    },
-
-    /**
-     * Animación de fade out
-     */
-    fadeOut: (element, duration = 300) => {
-        element.style.transition = `opacity ${duration}ms`;
-        element.style.opacity = '0';
-        
-        setTimeout(() => {
-            element.style.display = 'none';
-        }, duration);
-    },
-
-    /**
-     * Obtiene la categoría de un elemento
-     */
-    getImageCategory: (element) => {
-        return element.getAttribute('data-category') || 'all';
-    },
-
-    /**
-     * Formatea número con separador de miles
-     */
-    formatNumber: (num) => {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-};
-
-// ===========================================
-// SISTEMA DE GESTIÓN DE VISTA
-// ===========================================
-
-const ViewManager = {
-    /**
-     * Inicializa los controles de vista
-     */
-    init: () => {
-        DOM.viewButtons.forEach(button => {
-            button.addEventListener('click', ViewManager.handleViewChange);
-        });
-    },
-
-    /**
-     * Maneja el cambio de vista
-     */
-    handleViewChange: (event) => {
-        const button = event.currentTarget;
-        const viewType = button.getAttribute('data-view');
-        
-        // Actualizar estado
-        AppState.currentView = viewType;
-        
-        // Actualizar UI
-        ViewManager.updateViewButtons(button);
-        
-        // Aplicar cambios
-        ViewManager.applyView(viewType);
-    },
-
-    /**
-     * Actualiza los botones de vista activos
-     */
-    updateViewButtons: (activeButton) => {
-        DOM.viewButtons.forEach(button => {
-            const isActive = button === activeButton;
-            button.classList.toggle('active', isActive);
-            button.setAttribute('aria-pressed', isActive);
-        });
-    },
-
-    /**
-     * Aplica la vista seleccionada
-     */
-    applyView: (viewType) => {
-        const gallery = DOM.galleryContainer;
-        
-        // Remover clases anteriores
-        gallery.classList.remove('grid-view', 'masonry-view');
-        
-        // Añadir nueva clase
-        gallery.classList.add(`${viewType}-view`);
-        
-        // Disparar evento personalizado
-        gallery.dispatchEvent(new CustomEvent('viewChanged', {
-            detail: { view: viewType }
-        }));
-    }
-};
-
-// ===========================================
-// SISTEMA DE GESTIÓN DE COLUMNAS
-// ===========================================
-
-const ColumnManager = {
-    /**
-     * Inicializa los controles de columnas
-     */
-    init: () => {
-        DOM.columnButtons.forEach(button => {
-            button.addEventListener('click', ColumnManager.handleColumnChange);
-        });
-    },
-
-    /**
-     * Maneja el cambio de columnas
-     */
-    handleColumnChange: (event) => {
-        const button = event.currentTarget;
-        const columns = button.getAttribute('data-columns');
-        
-        // Actualizar estado
-        AppState.currentColumns = columns;
-        
-        // Actualizar UI
-        ColumnManager.updateColumnButtons(button);
-        
-        // Aplicar cambios
-        ColumnManager.applyColumns(columns);
-    },
-
-    /**
-     * Actualiza los botones de columnas activos
-     */
-    updateColumnButtons: (activeButton) => {
-        DOM.columnButtons.forEach(button => {
-            const isActive = button === activeButton;
-            button.classList.toggle('active', isActive);
-            button.setAttribute('aria-pressed', isActive);
-        });
-    },
-
-    /**
-     * Aplica el número de columnas seleccionado
-     */
-    applyColumns: (columns) => {
-        const gallery = DOM.galleryContainer;
-        
-        if (columns === 'auto') {
-            // Usar auto-fit
-            gallery.style.gridTemplateColumns = '';
-            gallery.removeAttribute('data-columns');
-        } else {
-            // Usar número fijo
-            gallery.style.gridTemplateColumns = `repeat(${columns}, minmax(250px, 1fr))`;
-            gallery.setAttribute('data-columns', columns);
-        }
-        
-        // Actualizar estadísticas
-        ColumnManager.updateColumnStats(columns);
-        
-        // Disparar evento personalizado
-        gallery.dispatchEvent(new CustomEvent('columnsChanged', {
-            detail: { columns }
-        }));
-    },
-
-    /**
-     * Actualiza las estadísticas de columnas
-     */
-    updateColumnStats: (columns) => {
-        const columnStat = DOM.headerStats?.querySelector('.stat:last-child .stat-number');
-        if (columnStat) {
-            columnStat.textContent = columns === 'auto' ? 'auto' : columns;
-        }
-    }
-};
-
-// ===========================================
-// SISTEMA DE FILTRADO
-// ===========================================
-
-const FilterManager = {
-    /**
-     * Inicializa los filtros
-     */
-    init: () => {
-        DOM.filterButtons.forEach(button => {
-            button.addEventListener('click', FilterManager.handleFilterChange);
-        });
-    },
-
-    /**
-     * Maneja el cambio de filtro
-     */
-    handleFilterChange: (event) => {
-        const button = event.currentTarget;
-        const filter = button.getAttribute('data-filter');
-        
-        // Actualizar estado
-        AppState.activeFilter = filter;
-        
-        // Actualizar UI
-        FilterManager.updateFilterButtons(button);
-        
-        // Aplicar filtro
-        FilterManager.applyFilter(filter);
-    },
-
-    /**
-     * Actualiza los botones de filtro activos
-     */
-    updateFilterButtons: (activeButton) => {
-        DOM.filterButtons.forEach(button => {
-            const isActive = button === activeButton;
-            button.classList.toggle('active', isActive);
-            button.setAttribute('aria-label', 
-                isActive ? `Filtro activo: ${button.textContent}` : `Aplicar filtro: ${button.textContent}`
-            );
-        });
-    },
-
-    /**
-     * Aplica el filtro seleccionado
-     */
-    applyFilter: (filter) => {
-        const items = DOM.galleryItems;
-        
-        items.forEach(item => {
-            const categories = item.getAttribute('data-category');
-            const isVisible = filter === 'all' || categories.includes(filter);
-            
-            // Animación de transición
-            if (!isVisible) {
-                item.classList.add('filtered-out');
-                item.classList.remove('filtered-in');
-            } else {
-                item.classList.remove('filtered-out');
-                item.classList.add('filtered-in');
-            }
-            
-            // Actualizar accesibilidad
-            item.setAttribute('aria-hidden', !isVisible);
-        });
-        
-        // Actualizar contador
-        FilterManager.updateFilterStats(filter);
-        
-        // Disparar evento personalizado
-        document.dispatchEvent(new CustomEvent('filterChanged', {
-            detail: { filter }
-        }));
-    },
-
-    /**
-     * Actualiza las estadísticas del filtro
-     */
-    updateFilterStats: (filter) => {
-        const visibleItems = filter === 'all' 
-            ? DOM.galleryItems.length 
-            : Array.from(DOM.galleryItems).filter(item => {
-                const categories = item.getAttribute('data-category');
-                return categories.includes(filter);
-            }).length;
-        
-        // Actualizar contador en el header
-        if (DOM.imageCount) {
-            DOM.imageCount.textContent = visibleItems;
-        }
-        
-        // Actualizar contadores en sidebar
-        FilterManager.updateCategoryCounts();
-    },
-
-    /**
-     * Actualiza los contadores de categorías
-     */
-    updateCategoryCounts: () => {
-        const categories = ['nature', 'urban', 'water', 'tech'];
-        
-        categories.forEach(category => {
-            const count = Array.from(DOM.galleryItems).filter(item => {
-                const categories = item.getAttribute('data-category');
-                return categories.includes(category);
-            }).length;
-            
-            const countElement = document.querySelector(`.category[data-category="${category}"] .category-count`);
-            if (countElement) {
-                countElement.textContent = `${count} imagen${count !== 1 ? 'es' : ''}`;
-            }
-        });
-    }
-};
-
-// ===========================================
-// SISTEMA DE SHUFFLE (ALEATORIZAR)
-// ===========================================
-
-const ShuffleManager = {
-    /**
-     * Inicializa el botón de shuffle
-     */
-    init: () => {
-        if (DOM.shuffleButton) {
-            DOM.shuffleButton.addEventListener('click', ShuffleManager.handleShuffle);
-        }
-    },
-
-    /**
-     * Maneja el shuffle de imágenes
-     */
-    handleShuffle: () => {
-        if (AppState.isShuffling) return;
-        
-        AppState.isShuffling = true;
-        const gallery = DOM.galleryContainer;
-        const items = Array.from(DOM.galleryItems);
-        
-        // Añadir clase de animación
-        gallery.classList.add('shuffling');
-        
-        // Animación de shuffle
-        items.forEach((item, index) => {
-            item.style.animationDelay = `${index * 50}ms`;
-        });
-        
-        // Mezclar y reordenar
-        setTimeout(() => {
-            const shuffledItems = Utils.shuffleArray(items);
-            
-            // Reordenar en el DOM
-            shuffledItems.forEach(item => {
-                gallery.appendChild(item);
-            });
-            
-            // Remover clase de animación
-            setTimeout(() => {
-                gallery.classList.remove('shuffling');
-                AppState.isShuffling = false;
-                
-                // Disparar evento personalizado
-                gallery.dispatchEvent(new CustomEvent('shuffled'));
-            }, CONFIG.gallery.shuffleDuration);
-            
-        }, CONFIG.gallery.shuffleDuration / 2);
-    }
-};
-
-// ===========================================
-// SISTEMA DE LIKES
-// ===========================================
-
-const LikeManager = {
-    /**
-     * Inicializa los botones de like
-     */
-    init: () => {
-        DOM.likeButtons.forEach(button => {
-            button.addEventListener('click', LikeManager.handleLike);
-        });
-        
-        // Cargar likes del localStorage
-        LikeManager.loadLikes();
-    },
-
-    /**
-     * Maneja el like de una imagen
-     */
-    handleLike: (event) => {
-        event.stopPropagation();
-        const button = event.currentTarget;
-        const item = button.closest('.gallery-item');
-        const imageId = item.getAttribute('data-id') || item.querySelector('img').src;
-        
-        // Alternar like
-        if (AppState.likedImages.has(imageId)) {
-            LikeManager.unlikeImage(button, imageId);
-        } else {
-            LikeManager.likeImage(button, imageId);
-        }
-    },
-
-    /**
-     * Da like a una imagen
-     */
-    likeImage: (button, imageId) => {
-        AppState.likedImages.add(imageId);
-        
-        // Actualizar UI
-        button.classList.add('liked');
-        button.innerHTML = '<span class="action-icon" aria-hidden="true">❤️</span><span class="action-count">' + 
-                          (parseInt(button.querySelector('.action-count').textContent) + 1) + '</span>';
-        
-        // Guardar en localStorage
-        LikeManager.saveLikes();
-        
-        // Disparar evento personalizado
-        button.dispatchEvent(new CustomEvent('imageLiked', {
-            detail: { imageId }
-        }));
-    },
-
-    /**
-     * Quita like a una imagen
-     */
-    unlikeImage: (button, imageId) => {
-        AppState.likedImages.delete(imageId);
-        
-        // Actualizar UI
-        button.classList.remove('liked');
-        button.innerHTML = '<span class="action-icon" aria-hidden="true">🤍</span><span class="action-count">' + 
-                          (parseInt(button.querySelector('.action-count').textContent) - 1) + '</span>';
-        
-        // Guardar en localStorage
-        LikeManager.saveLikes();
-        
-        // Disparar evento personalizado
-        button.dispatchEvent(new CustomEvent('imageUnliked', {
-            detail: { imageId }
-        }));
-    },
-
-    /**
-     * Guarda los likes en localStorage
-     */
-    saveLikes: () => {
-        try {
-            const likesArray = Array.from(AppState.likedImages);
-            localStorage.setItem('galleryLikes', JSON.stringify(likesArray));
-        } catch (error) {
-            console.error('Error al guardar likes:', error);
-        }
-    },
-
-    /**
-     * Carga los likes desde localStorage
-     */
-    loadLikes: () => {
-        try {
-            const savedLikes = localStorage.getItem('galleryLikes');
-            if (savedLikes) {
-                const likesArray = JSON.parse(savedLikes);
-                AppState.likedImages = new Set(likesArray);
-                
-                // Actualizar UI con los likes cargados
-                LikeManager.updateLikesUI();
-            }
-        } catch (error) {
-            console.error('Error al cargar likes:', error);
-        }
-    },
-
-    /**
-     * Actualiza la UI con los likes cargados
-     */
-    updateLikesUI: () => {
-        DOM.galleryItems.forEach(item => {
-            const imageId = item.getAttribute('data-id') || item.querySelector('img').src;
-            const likeButton = item.querySelector('.like-btn');
-            
-            if (AppState.likedImages.has(imageId) && likeButton) {
-                likeButton.classList.add('liked');
-                likeButton.innerHTML = '<span class="action-icon" aria-hidden="true">❤️</span><span class="action-count">' + 
-                                      (parseInt(likeButton.querySelector('.action-count').textContent) + 1) + '</span>';
-            }
-        });
-    }
-};
-
-// ===========================================
-// SISTEMA DE MODAL (ZOOM)
-// ===========================================
-
-const ModalManager = {
-    /**
-     * Inicializa el sistema de modal
-     */
-    init: () => {
-        // Botones de zoom
-        DOM.zoomButtons.forEach(button => {
-            button.addEventListener('click', ModalManager.handleZoom);
-        });
-        
-        // Cerrar modal
-        DOM.modalClose.addEventListener('click', ModalManager.closeModal);
-        
-        // Cerrar con Escape
-        document.addEventListener('keydown', ModalManager.handleKeydown);
-        
-        // Cerrar haciendo clic fuera
-        DOM.modal.addEventListener('click', ModalManager.handleOutsideClick);
-    },
-
-    /**
-     * Maneja el zoom de una imagen
-     */
-    handleZoom: (event) => {
-        event.stopPropagation();
-        const button = event.currentTarget;
-        const item = button.closest('.gallery-item');
-        
-        ModalManager.openModal(item);
-    },
-
-    /**
-     * Abre el modal con la imagen
-     */
-    openModal: (item) => {
-        const image = item.querySelector('.gallery-image');
-        const title = item.querySelector('.image-title');
-        const description = item.querySelector('.image-description');
-        const meta = item.querySelector('.image-meta');
-        
-        // Guardar imagen actual
-        AppState.currentModalImage = item;
-        
-        // Configurar modal
-        DOM.modalImage.src = image.src;
-        DOM.modalImage.alt = image.alt;
-        DOM.modalTitle.textContent = title?.textContent || '';
-        DOM.modalDescription.textContent = description?.textContent || '';
-        DOM.modalMeta.innerHTML = meta?.innerHTML || '';
-        
-        // Mostrar modal
-        DOM.modal.removeAttribute('hidden');
-        DOM.modal.classList.add('active');
-        
-        // Añadir clase al body para evitar scroll
-        document.body.style.overflow = 'hidden';
-        
-        // Enfocar el botón de cerrar para accesibilidad
-        setTimeout(() => {
-            DOM.modalClose.focus();
-        }, 100);
-        
-        // Disparar evento personalizado
-        DOM.modal.dispatchEvent(new CustomEvent('modalOpened', {
-            detail: { image: image.src }
-        }));
-    },
-
-    /**
-     * Cierra el modal
-     */
-    closeModal: () => {
-        DOM.modal.classList.remove('active');
-        
-        setTimeout(() => {
-            DOM.modal.setAttribute('hidden', 'true');
-            document.body.style.overflow = '';
-            
-            // Disparar evento personalizado
-            DOM.modal.dispatchEvent(new CustomEvent('modalClosed'));
-        }, CONFIG.modal.animationDuration);
-    },
-
-    /**
-     * Maneja teclas del teclado
-     */
-    handleKeydown: (event) => {
-        if (event.key === 'Escape' && DOM.modal.classList.contains('active')) {
-            ModalManager.closeModal();
-        }
-        
-        // Navegación entre imágenes con flechas
-        if (DOM.modal.classList.contains('active')) {
-            if (event.key === 'ArrowRight') {
-                ModalManager.navigateModal(1);
-            } else if (event.key === 'ArrowLeft') {
-                ModalManager.navigateModal(-1);
-            }
-        }
-    },
-
-    /**
-     * Maneja clic fuera del modal
-     */
-    handleOutsideClick: (event) => {
-        if (event.target === DOM.modal) {
-            ModalManager.closeModal();
-        }
-    },
-
-    /**
-     * Navega entre imágenes en el modal
-     */
-    navigateModal: (direction) => {
-        const items = Array.from(DOM.galleryItems).filter(item => {
-            const categories = item.getAttribute('data-category');
-            return AppState.activeFilter === 'all' || categories.includes(AppState.activeFilter);
-        });
-        
-        const currentIndex = items.findIndex(item => item === AppState.currentModalImage);
-        const nextIndex = (currentIndex + direction + items.length) % items.length;
-        
-        ModalManager.openModal(items[nextIndex]);
-    }
-};
-
-// ===========================================
-// SISTEMA DE FOOTER
-// ===========================================
-
-const FooterManager = {
-    /**
-     * Inicializa los botones del footer
-     */
-    init: () => {
-        DOM.footerButtons.forEach(button => {
-            const action = button.querySelector('.btn-text').textContent.toLowerCase();
-            button.addEventListener('click', () => FooterManager.handleAction(action));
-        });
-        
-        // Actualizar año actual
-        FooterManager.updateCurrentYear();
-    },
-
-    /**
-     * Maneja las acciones del footer
-     */
-    handleAction: (action) => {
-        switch (action) {
-            case 'recargar':
-                FooterManager.reloadGallery();
-                break;
-            case 'código':
-                FooterManager.downloadCode();
-                break;
-            case 'compartir':
-                FooterManager.shareGallery();
-                break;
-        }
-    },
-
-    /**
-     * Recarga la galería
-     */
-    reloadGallery: () => {
-        // Animación de recarga
-        DOM.galleryContainer.classList.add('loading');
-        
-        setTimeout(() => {
-            // Resetear filtros
-            FilterManager.applyFilter('all');
-            FilterManager.updateFilterButtons(DOM.filterButtons[0]);
-            
-            // Resetear vista
-            ColumnManager.applyColumns(CONFIG.gallery.defaultColumns);
-            ColumnManager.updateColumnButtons(
-                document.querySelector(`[data-columns="${CONFIG.gallery.defaultColumns}"]`)
-            );
-            
-            // Remover clase de carga
-            setTimeout(() => {
-                DOM.galleryContainer.classList.remove('loading');
-            }, 500);
-            
-            // Disparar evento personalizado
-            document.dispatchEvent(new CustomEvent('galleryReloaded'));
-        }, 1000);
-    },
-
-    /**
-     * Descarga el código fuente
-     */
-    downloadCode: () => {
-        const code = `
-/* Código fuente de la Galería Responsive */
-/* HTML, CSS y JavaScript completos */
-
-// Para obtener el código completo visita:
-// ${window.location.href}
-        `;
-        
-        const blob = new Blob([code], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        
-        a.href = url;
-        a.download = 'galeria-responsive-codigo.txt';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    },
-
-    /**
-     * Comparte la galería
-     */
-    shareGallery: () => {
-        if (navigator.share) {
-            navigator.share({
-                title: 'Galería Responsive - CSS Grid Auto-fit',
-                text: 'Mira esta increíble galería responsive con CSS Grid auto-fit y minmax()',
-                url: window.location.href
-            });
-        } else {
-            // Fallback: copiar al portapapeles
-            navigator.clipboard.writeText(window.location.href)
-                .then(() => {
-                    alert('¡Enlace copiado al portapapeles!');
-                })
-                .catch(err => {
-                    console.error('Error al copiar:', err);
-                });
-        }
-    },
-
-    /**
-     * Actualiza el año actual en el footer
-     */
-    updateCurrentYear: () => {
-        if (DOM.currentYear) {
-            DOM.currentYear.textContent = new Date().getFullYear();
-        }
-    }
-};
-
-// ===========================================
-// SISTEMA DE EVENTOS PERSONALIZADOS
-// ===========================================
-
-const EventManager = {
-    /**
-     * Configura todos los eventos personalizados
-     */
-    init: () => {
-        // Vista cambiada
-        DOM.galleryContainer.addEventListener('viewChanged', (event) => {
-            console.log('Vista cambiada a:', event.detail.view);
-        });
-
-        // Columnas cambiadas
-        DOM.galleryContainer.addEventListener('columnsChanged', (event) => {
-            console.log('Columnas cambiadas a:', event.detail.columns);
-        });
-
-        // Filtro cambiado
-        document.addEventListener('filterChanged', (event) => {
-            console.log('Filtro cambiado a:', event.detail.filter);
-        });
-
-        // Galería mezclada
-        DOM.galleryContainer.addEventListener('shuffled', () => {
-            console.log('Galería mezclada');
-        });
-
-        // Modal abierto/cerrado
-        DOM.modal.addEventListener('modalOpened', (event) => {
-            console.log('Modal abierto para imagen:', event.detail.image);
-        });
-
-        DOM.modal.addEventListener('modalClosed', () => {
-            console.log('Modal cerrado');
-        });
-
-        // Imagen likeada/unlikeada
-        document.addEventListener('imageLiked', (event) => {
-            console.log('Imagen likeada:', event.detail.imageId);
-        });
-
-        document.addEventListener('imageUnliked', (event) => {
-            console.log('Imagen unlikeada:', event.detail.imageId);
-        });
-
-        // Galería recargada
-        document.addEventListener('galleryReloaded', () => {
-            console.log('Galería recargada');
-        });
-    }
-};
-
-// ===========================================
-// SISTEMA DE RESPONSIVE DINÁMICO
-// ===========================================
-
-const ResponsiveManager = {
-    /**
-     * Inicializa el sistema responsive
-     */
-    init: () => {
-        // Ajustar columnas basado en el tamaño de pantalla
-        ResponsiveManager.handleResize();
-        
-        // Escuchar cambios de tamaño
-        window.addEventListener('resize', 
-            Utils.debounce(ResponsiveManager.handleResize, 250)
-        );
-    },
-
-    /**
-     * Maneja el cambio de tamaño de pantalla
-     */
-    handleResize: () => {
-        const width = window.innerWidth;
-        
-        // Solo ajustar si estamos en modo auto
-        if (AppState.currentColumns === 'auto') {
-            if (width < 480) {
-                // 1 columna en móviles pequeños
-                DOM.galleryContainer.style.gridTemplateColumns = '1fr';
-            } else if (width < 768) {
-                // 2 columnas en tablets pequeñas
-                DOM.galleryContainer.style.gridTemplateColumns = 'repeat(2, minmax(200px, 1fr))';
-            } else if (width < 1024) {
-                // auto-fit normal
-                DOM.galleryContainer.style.gridTemplateColumns = '';
-            }
-        }
-        
-        // Actualizar estadísticas responsive
-        ResponsiveManager.updateResponsiveStats(width);
-    },
-
-    /**
-     * Actualiza estadísticas responsive
-     */
-    updateResponsiveStats: (width) => {
-        const responsiveStat = DOM.headerStats?.querySelector('.stat:nth-child(2) .stat-number');
-        if (responsiveStat) {
-            if (width < 480) {
-                responsiveStat.textContent = 'Mobile S';
-            } else if (width < 768) {
-                responsiveStat.textContent = 'Mobile L';
-            } else if (width < 1024) {
-                responsiveStat.textContent = 'Tablet';
-            } else {
-                responsiveStat.textContent = 'Desktop';
-            }
-        }
-    }
-};
-
-// ===========================================
-// INICIALIZACIÓN DE LA APLICACIÓN
-// ===========================================
-
-const App = {
-    /**
-     * Inicializa toda la aplicación
-     */
-    init: () => {
-        try {
-            // Inicializar sistemas
-            ViewManager.init();
-            ColumnManager.init();
-            FilterManager.init();
-            ShuffleManager.init();
-            LikeManager.init();
-            ModalManager.init();
-            FooterManager.init();
-            EventManager.init();
-            ResponsiveManager.init();
-            
-            // Configurar estado inicial
-            App.setupInitialState();
-            
-            // Configurar eventos globales
-            App.setupGlobalEvents();
-            
-            console.log('🎨 Galería Responsive inicializada correctamente');
-            
-            // Disparar evento de carga completa
-            document.dispatchEvent(new CustomEvent('galleryLoaded'));
-            
-        } catch (error) {
-            console.error('Error al inicializar la galería:', error);
-            App.showError();
-        }
-    },
-
-    /**
-     * Configura el estado inicial
-     */
-    setupInitialState: () => {
-        // Asignar IDs a los items si no los tienen
-        DOM.galleryItems.forEach((item, index) => {
-            if (!item.getAttribute('data-id')) {
-                item.setAttribute('data-id', `image-${index + 1}`);
-            }
-        });
-        
-        // Contar imágenes totales
-        if (DOM.imageCount) {
-            DOM.imageCount.textContent = DOM.galleryItems.length;
-        }
-        
-        // Actualizar contadores de categorías
-        FilterManager.updateCategoryCounts();
-    },
-
-    /**
-     * Configura eventos globales
-     */
-    setupGlobalEvents: () => {
-        // Abrir modal haciendo clic en la imagen
-        DOM.galleryItems.forEach(item => {
-            item.addEventListener('click', (event) => {
-                if (!event.target.closest('.like-btn') && !event.target.closest('.zoom-btn')) {
-                    ModalManager.openModal(item);
-                }
-            });
-        });
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (event) => {
-            // Shift + S para shuffle
-            if (event.shiftKey && event.key === 'S') {
-                event.preventDefault();
-                ShuffleManager.handleShuffle();
-            }
-            
-            // Shift + F para resetear filtros
-            if (event.shiftKey && event.key === 'F') {
-                event.preventDefault();
-                const allFilter = document.querySelector('[data-filter="all"]');
-                if (allFilter) {
-                    allFilter.click();
-                }
-            }
-            
-            // Shift + R para recargar
-            if (event.shiftKey && event.key === 'R') {
-                event.preventDefault();
-                FooterManager.reloadGallery();
-            }
-        });
-    },
-
-    /**
-     * Muestra mensaje de error
-     */
-    showError: () => {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
-        errorDiv.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ef4444;
-            color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            z-index: 9999;
-            max-width: 300px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        `;
-        errorDiv.innerHTML = `
-            <strong>⚠️ Error de inicialización</strong>
-            <p>Algunas funciones pueden no estar disponibles.</p>
-            <button onclick="this.parentElement.remove()" style="
-                background: white;
-                color: #ef4444;
-                border: none;
-                padding: 0.5rem 1rem;
-                border-radius: 4px;
-                margin-top: 0.5rem;
-                cursor: pointer;
-                font-weight: bold;
-            ">Cerrar</button>
-        `;
-        document.body.appendChild(errorDiv);
-    }
-};
-
-// ===========================================
-// INICIALIZAR APLICACIÓN CUANDO EL DOM ESTÉ LISTO
-// ===========================================
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', App.init);
-} else {
-    App.init();
+    /* Transiciones */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    /* Espaciado */
+    --space-xs: 0.5rem;
+    --space-sm: 0.75rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+    
+    /* Tipografía */
+    --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 1.875rem;
+    --font-size-4xl: 2.25rem;
+    --font-size-5xl: 3rem;
+    
+    /* Layout */
+    --header-height: 4rem;
+    --container-max: 1400px;
+    --gallery-gap: 1.5rem;
+    --image-height: 250px;
 }
 
-// ===========================================
-// EXPORTAR PARA USO GLOBAL (SI ES NECESARIO)
-// ===========================================
+/* ===== DARK MODE SUPPORT ===== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-light: #111827;
+        --color-dark: #f9fafb;
+        --color-gray-50: #1f2937;
+        --color-gray-100: #374151;
+        --color-gray-200: #4b5563;
+        --color-gray-300: #6b7280;
+        --color-gray-400: #9ca3af;
+        --color-gray-500: #d1d5db;
+        --color-gray-600: #e5e7eb;
+        --color-gray-700: #f3f4f6;
+        --color-gray-800: #f9fafb;
+        --color-gray-900: #ffffff;
+        
+        --gradient-dark: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.5));
+    }
+}
 
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        AppState,
-        ViewManager,
-        ColumnManager,
-        FilterManager,
-        ShuffleManager,
-        LikeManager,
-        ModalManager,
-        FooterManager
-    };
-} else {
-    // Hacer disponible globalmente para debugging
-    window.GalleryApp = {
-        state: AppState,
-        managers: {
-            view: ViewManager,
-            columns: ColumnManager,
-            filter: FilterManager,
-            shuffle: ShuffleManager,
-            like: LikeManager,
-            modal: ModalManager,
-            footer: FooterManager
-        },
-        utils: Utils,
-        reload: () => FooterManager.reloadGallery(),
-        shuffle: () => ShuffleManager.handleShuffle()
-    };
+/* ===== HIGH CONTRAST MODE ===== */
+@media (prefers-contrast: high) {
+    :root {
+        --color-primary: #0000ff;
+        --color-secondary: #800080;
+        --gradient-dark: linear-gradient(to top, #000000, #333333);
+    }
+}
+
+/* ===== RESET MEJORADO ===== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--color-gray-800);
+    background: var(--gradient-primary);
+    min-height: 100vh;
+    padding: var(--space-md);
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 50%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-light);
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    font-weight: 600;
+    z-index: 10000;
+    transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+    top: var(--space-sm);
+}
+
+/* ===== CONTAINER ===== */
+.container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    background: var(--color-light);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-2xl);
+    position: relative;
+    animation: containerSlideUp var(--transition-slow) ease;
+}
+
+@keyframes containerSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== HEADER MEJORADO ===== */
+.header {
+    padding: var(--space-3xl) var(--space-xl) var(--space-2xl);
+    text-align: center;
+    background: var(--gradient-light);
+    border-bottom: 1px solid var(--color-gray-200);
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+}
+
+.header-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.header-icon {
+    font-size: 4rem;
+    margin-bottom: var(--space-lg);
+    animation: float 3s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.header-text {
+    margin-bottom: var(--space-xl);
+}
+
+.header-title {
+    color: var(--color-gray-900);
+    font-size: clamp(var(--font-size-4xl), 5vw, var(--font-size-5xl));
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: var(--space-sm);
+    background: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textReveal 0.8s ease-out;
+}
+
+@keyframes textReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.header-subtitle {
+    color: var(--color-gray-600);
+    font-size: clamp(var(--font-size-lg), 2vw, var(--font-size-xl));
+    max-width: 600px;
+    margin: 0 auto;
+    animation: textReveal 0.8s ease-out 0.2s both;
+}
+
+/* ===== IMAGE COUNTER ===== */
+.image-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background: var(--color-primary);
+    color: var(--color-light);
+    padding: var(--space-xs) var(--space-lg);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    margin-top: var(--space-md);
+    animation: counterPopIn 0.6s var(--transition-bounce) 0.4s both;
+}
+
+@keyframes counterPopIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    70% {
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.counter-number {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.counter-text {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+}
+
+/* ===== FILTER NAVIGATION ===== */
+.filter-nav {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    background: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--color-light);
+    color: var(--color-gray-700);
+    border: 2px solid var(--color-gray-300);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+    min-width: 100px;
+}
+
+.filter-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-primary);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    z-index: 1;
+}
+
+.filter-btn span {
+    position: relative;
+    z-index: 2;
+}
+
+.filter-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.filter-btn.active {
+    background: var(--gradient-primary);
+    color: var(--color-light);
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.filter-btn.active::before {
+    opacity: 1;
+}
+
+.filter-btn:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    padding: var(--space-xl);
+}
+
+/* ===== GALLERY GRID MEJORADO ===== */
+.gallery {
+    container-type: inline-size;
+    container-name: gallery;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: var(--gallery-gap);
+    animation: gridFadeIn 0.6s ease-out 0.6s both;
+}
+
+@keyframes gridFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ===== GALLERY ITEM MEJORADO ===== */
+.gallery-item {
+    position: relative;
+    background: var(--color-light);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-normal) var(--transition-bounce);
+    will-change: transform, box-shadow;
+    aspect-ratio: 4/3;
+    animation: itemSlideUp 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+/* Animación escalonada para los items */
+.gallery-item:nth-child(1) { animation-delay: 0.7s; }
+.gallery-item:nth-child(2) { animation-delay: 0.8s; }
+.gallery-item:nth-child(3) { animation-delay: 0.9s; }
+.gallery-item:nth-child(4) { animation-delay: 1.0s; }
+.gallery-item:nth-child(5) { animation-delay: 1.1s; }
+.gallery-item:nth-child(6) { animation-delay: 1.2s; }
+.gallery-item:nth-child(7) { animation-delay: 1.3s; }
+.gallery-item:nth-child(8) { animation-delay: 1.4s; }
+.gallery-item:nth-child(9) { animation-delay: 1.5s; }
+.gallery-item:nth-child(10) { animation-delay: 1.6s; }
+.gallery-item:nth-child(11) { animation-delay: 1.7s; }
+.gallery-item:nth-child(12) { animation-delay: 1.8s; }
+
+@keyframes itemSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.gallery-item:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: var(--shadow-2xl);
+    z-index: 10;
+}
+
+.gallery-item:focus-within {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* ===== IMAGE CONTAINER ===== */
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--color-gray-100);
+}
+
+.gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    opacity: 0;
+    animation: imageFadeIn 0.5s ease-out 0.3s forwards;
+}
+
+@keyframes imageFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.gallery-image.loaded {
+    opacity: 1;
+}
+
+.gallery-item:hover .gallery-image {
+    transform: scale(1.15);
+}
+
+/* ===== LOADING OVERLAY ===== */
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color-gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity var(--transition-normal);
+    z-index: 2;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--color-gray-300);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== OVERLAY MEJORADO ===== */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--gradient-dark);
+    color: var(--color-light);
+    padding: var(--space-xl);
+    transform: translateY(100%);
+    transition: transform var(--transition-normal) cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 50%;
+    backdrop-filter: blur(10px);
+}
+
+.gallery-item:hover .overlay {
+    transform: translateY(0);
+}
+
+.overlay-content {
+    flex: 1;
+}
+
+.image-title {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+    line-height: 1.3;
+}
+
+.image-desc {
+    font-size: var(--font-size-sm);
+    opacity: 0.9;
+    margin-bottom: var(--space-md);
+    line-height: 1.4;
+}
+
+/* ===== IMAGE META ===== */
+.image-meta {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-lg);
+}
+
+.meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background: rgba(255, 255, 255, 0.15);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    backdrop-filter: blur(5px);
+}
+
+/* ===== VIEW BUTTON ===== */
+.view-btn {
+    align-self: flex-start;
+    background: var(--color-light);
+    color: var(--color-primary);
+    border: none;
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: auto;
+}
+
+.view-btn:hover {
+    background: var(--color-primary);
+    color: var(--color-light);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.view-btn:focus {
+    outline: 2px solid var(--color-light);
+    outline-offset: 2px;
+}
+
+/* ===== LOADING INDICATOR ===== */
+.loading-indicator {
+    text-align: center;
+    padding: var(--space-2xl);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-xl);
+    margin-top: var(--space-xl);
+    border: 2px dashed var(--color-gray-300);
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--color-gray-300);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto var(--space-md);
+}
+
+/* ===== GALLERY STATS ===== */
+.gallery-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-2xl);
+    padding: var(--space-xl);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-xl);
+}
+
+.stat-item {
+    text-align: center;
+    padding: var(--space-lg);
+    background: var(--color-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-fast);
+}
+
+.stat-item:hover {
+    transform: translateY(-4px);
+}
+
+.stat-number {
+    display: block;
+    font-size: var(--font-size-3xl);
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ===== IMAGE MODAL ===== */
+.image-modal {
+    border: none;
+    background: transparent;
+    padding: 0;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+}
+
+.image-modal::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative;
+    background: var(--color-light);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    max-width: 1200px;
+    width: 100%;
+    animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-header {
+    padding: var(--space-lg) var(--space-xl);
+    background: var(--gradient-primary);
+    color: var(--color-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--color-light);
+    font-size: var(--font-size-2xl);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--transition-fast);
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-body {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-xl);
+    padding: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
+}
+
+.modal-image-container {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-gray-100);
+    aspect-ratio: 16/9;
+}
+
+.modal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.image-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--color-gray-300);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.modal-info {
+    padding: var(--space-lg);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+}
+
+.modal-info h3 {
+    font-size: var(--font-size-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    color: var(--color-gray-900);
+}
+
+.modal-info p {
+    color: var(--color-gray-600);
+    margin-bottom: var(--space-lg);
+    line-height: 1.6;
+}
+
+.modal-meta {
+    display: flex;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.modal-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--color-light);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-gray-700);
+}
+
+.modal-footer {
+    padding: var(--space-lg) var(--space-xl);
+    background: var(--color-gray-50);
+    border-top: 1px solid var(--color-gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-nav {
+    padding: var(--space-sm) var(--space-lg);
+    background: var(--color-light);
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-full);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.modal-nav:hover {
+    background: var(--color-primary);
+    color: var(--color-light);
+    transform: translateY(-2px);
+}
+
+.modal-nav:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.modal-counter {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-gray-700);
+}
+
+/* ===== FOOTER MEJORADO ===== */
+.footer {
+    padding: var(--space-2xl) var(--space-xl);
+    background: var(--color-gray-900);
+    color: var(--color-light);
+    border-top: 1px solid var(--color-gray-800);
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-text {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-lg);
+    opacity: 0.9;
+}
+
+.footer-text a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color var(--transition-fast);
+}
+
+.footer-text a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
+.footer-tech {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+}
+
+.tech-tag {
+    background: rgba(255, 255, 255, 0.1);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    transition: all var(--transition-fast);
+}
+
+.tech-tag:hover {
+    background: var(--color-primary);
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   CONTAINER QUERIES RESPONSIVE
+   Usando container queries en lugar de media queries
+   ======================================== */
+
+/* Container query para galería */
+@container gallery (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+    
+    .gallery-item {
+        aspect-ratio: 3/2;
+    }
+}
+
+@container gallery (min-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--space-xl);
+    }
+}
+
+@container gallery (min-width: 1024px) {
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+}
+
+@container gallery (min-width: 1400px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ========================================
+   MEDIA QUERIES FALLBACK
+   Para navegadores que no soportan container queries
+   ======================================== */
+
+/* Móvil pequeño */
+@media (max-width: 480px) {
+    body {
+        padding: var(--space-xs);
+    }
+    
+    .container {
+        border-radius: var(--radius-lg);
+    }
+    
+    .header {
+        padding: var(--space-2xl) var(--space-lg);
+    }
+    
+    .filter-nav {
+        padding: var(--space-md);
+    }
+    
+    .filter-btn {
+        min-width: auto;
+        padding: var(--space-xs) var(--space-md);
+        font-size: var(--font-size-xs);
+    }
+    
+    .main-content {
+        padding: var(--space-lg);
+    }
+    
+    .gallery-stats {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+        padding: var(--space-lg);
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+    .header {
+        padding: var(--space-3xl) var(--space-2xl);
+    }
+    
+    .gallery-grid {
+        gap: var(--space-xl);
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .header-title {
+        font-size: var(--font-size-5xl);
+    }
+    
+    .header-subtitle {
+        font-size: var(--font-size-xl);
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+}
+
+/* Desktop grande */
+@media (min-width: 1400px) {
+    .gallery-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* ========================================
+   PREFERS-REDUCED-MOTION
+   Respetar preferencias de movimiento
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .gallery-item:hover {
+        transform: translateY(-4px);
+    }
+    
+    .gallery-item:hover .gallery-image {
+        transform: scale(1.05);
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+   Optimización para impresión
+   ======================================== */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+        padding: 0 !important;
+    }
+    
+    .container {
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        max-width: 100% !important;
+    }
+    
+    .header,
+    .filter-nav,
+    .view-btn,
+    .loading-indicator,
+    .footer,
+    .modal-content {
+        display: none !important;
+    }
+    
+    .gallery-grid {
+        display: block !important;
+    }
+    
+    .gallery-item {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: 1cm;
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+    }
+    
+    .gallery-image {
+        height: auto !important;
+        max-height: 10cm !important;
+    }
+    
+    .overlay {
+        position: static !important;
+        transform: none !important;
+        background: white !important;
+        color: black !important;
+        padding: 0.5cm !important;
+    }
+}
+
+/* ========================================
+   DARK MODE OVERRIDES
+   Ajustes específicos para dark mode
+   ======================================== */
+@media (prefers-color-scheme: dark) {
+    .gallery-item {
+        border: 1px solid var(--color-gray-800);
+    }
+    
+    .stat-item {
+        background: var(--color-gray-800);
+    }
+    
+    .modal-content {
+        background: var(--color-gray-900);
+        color: var(--color-light);
+    }
+    
+    .modal-info {
+        background: var(--color-gray-800);
+    }
+    
+    .modal-nav {
+        background: var(--color-gray-800);
+        color: var(--color-light);
+        border-color: var(--color-primary);
+    }
 }
