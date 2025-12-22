@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calculadora de Índice de Masa Corporal (IMC) con análisis detallado y recomendaciones personalizadas">
+    <title>Calculadora de IMC - Índice de Masa Corporal | Salud y Bienestar</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <main class="container" role="main">
+        <article class="calculator-card">
+            <header class="calculator-header">
+                <div class="header-icon" aria-hidden="true">
+                    <i class="fas fa-weight-scale"></i>
+                </div>
+                <h1 id="main-title">Calculadora de IMC</h1>
+                <p class="subtitle" id="subtitle">Calcula tu Índice de Masa Corporal y obtén recomendaciones personalizadas</p>
+            </header>
+
+            <form id="imcForm" aria-labelledby="main-title" novalidate>
+                <fieldset class="form-section" aria-labelledby="personal-data">
+                    <legend id="personal-data" class="section-title">
+                        <i class="fas fa-user" aria-hidden="true"></i> Datos Personales
+                    </legend>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="peso" class="form-label">
+                                <i class="fas fa-weight" aria-hidden="true"></i> Peso
+                                <span class="required-indicator" aria-hidden="true">*</span>
+                            </label>
+                            <div class="input-with-unit">
+                                <input 
+                                    type="number" 
+                                    id="peso" 
+                                    name="peso"
+                                    placeholder="70.5"
+                                    min="1"
+                                    max="300"
+                                    step="0.1"
+                                    required
+                                    aria-describedby="peso-error peso-hint"
+                                    class="form-input"
+                                >
+                                <span class="input-unit">kg</span>
+                            </div>
+                            <span id="peso-error" class="error-message" aria-live="polite"></span>
+                            <p id="peso-hint" class="form-hint">Entre 1 y 300 kg</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="altura" class="form-label">
+                                <i class="fas fa-ruler-vertical" aria-hidden="true"></i> Altura
+                                <span class="required-indicator" aria-hidden="true">*</span>
+                            </label>
+                            <div class="input-with-unit">
+                                <input 
+                                    type="number" 
+                                    id="altura" 
+                                    name="altura"
+                                    placeholder="170"
+                                    min="50"
+                                    max="250"
+                                    step="0.1"
+                                    required
+                                    aria-describedby="altura-error altura-hint"
+                                    class="form-input"
+                                >
+                                <span class="input-unit">cm</span>
+                            </div>
+                            <span id="altura-error" class="error-message" aria-live="polite"></span>
+                            <p id="altura-hint" class="form-hint">Entre 50 y 250 cm</p>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edad" class="form-label">
+                                <i class="fas fa-birthday-cake" aria-hidden="true"></i> Edad
+                                <span class="required-indicator" aria-hidden="true">*</span>
+                            </label>
+                            <div class="input-with-unit">
+                                <input 
+                                    type="number" 
+                                    id="edad" 
+                                    name="edad"
+                                    placeholder="25"
+                                    min="1"
+                                    max="120"
+                                    required
+                                    aria-describedby="edad-error edad-hint"
+                                    class="form-input"
+                                >
+                                <span class="input-unit">años</span>
+                            </div>
+                            <span id="edad-error" class="error-message" aria-live="polite"></span>
+                            <p id="edad-hint" class="form-hint">Entre 1 y 120 años</p>
+                        </div>
+
+                        <div class="form-group">
+                            <fieldset class="gender-group" aria-labelledby="gender-label">
+                                <legend id="gender-label" class="gender-label">
+                                    <i class="fas fa-venus-mars" aria-hidden="true"></i> Sexo
+                                </legend>
+                                <div class="radio-options">
+                                    <div class="radio-option">
+                                        <input 
+                                            type="radio" 
+                                            id="masculino" 
+                                            name="sexo" 
+                                            value="masculino" 
+                                            checked
+                                            aria-describedby="gender-hint"
+                                            class="radio-input"
+                                        >
+                                        <label for="masculino" class="radio-label">
+                                            <span class="radio-icon" aria-hidden="true">
+                                                <i class="fas fa-mars"></i>
+                                            </span>
+                                            <span class="radio-text">Masculino</span>
+                                        </label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input 
+                                            type="radio" 
+                                            id="femenino" 
+                                            name="sexo" 
+                                            value="femenino"
+                                            class="radio-input"
+                                        >
+                                        <label for="femenino" class="radio-label">
+                                            <span class="radio-icon" aria-hidden="true">
+                                                <i class="fas fa-venus"></i>
+                                            </span>
+                                            <span class="radio-text">Femenino</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <p id="gender-hint" class="form-hint">Selecciona tu sexo biológico</p>
+                            </fieldset>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-calculate" id="calculateBtn">
+                        <span class="btn-icon" aria-hidden="true">
+                            <i class="fas fa-calculator"></i>
+                        </span>
+                        <span class="btn-text">Calcular IMC</span>
+                        <span class="btn-loader" aria-hidden="true"></span>
+                    </button>
+                    
+                    <button type="button" class="btn btn-secondary btn-reset" id="resetBtn" aria-label="Limpiar formulario">
+                        <span class="btn-icon" aria-hidden="true">
+                            <i class="fas fa-redo"></i>
+                        </span>
+                        <span class="btn-text">Limpiar</span>
+                    </button>
+                </div>
+            </form>
+
+            <section class="result-section" id="resultSection" aria-labelledby="result-title" hidden>
+                <header class="result-header">
+                    <h2 id="result-title">
+                        <i class="fas fa-chart-line" aria-hidden="true"></i> Tu Resultado
+                    </h2>
+                    <button class="btn-close-result" id="closeResultBtn" aria-label="Cerrar resultados">
+                        <i class="fas fa-times" aria-hidden="true"></i>
+                    </button>
+                </header>
+                
+                <div class="imc-display">
+                    <div class="imc-value-container">
+                        <span class="imc-label">Tu IMC es:</span>
+                        <div class="imc-value" id="imcValue" aria-live="polite" role="status">0.0</div>
+                        <div class="imc-unit">kg/m²</div>
+                    </div>
+                    <div class="imc-category" id="imcCategory" role="alert" aria-live="assertive">-</div>
+                </div>
+
+                <div class="imc-visualization">
+                    <div class="imc-bar-container" aria-label="Barra de rangos de IMC">
+                        <div class="imc-bar" role="progressbar" aria-valuemin="15" aria-valuemax="40" aria-valuenow="0" aria-valuetext="IMC no calculado">
+                            <div class="imc-indicator" id="imcIndicator"></div>
+                            <div class="bar-segment bajo-peso" data-range="<18.5">
+                                <span class="segment-label">Bajo peso</span>
+                                <span class="segment-range">&lt;18.5</span>
+                            </div>
+                            <div class="bar-segment normal" data-range="18.5-24.9">
+                                <span class="segment-label">Normal</span>
+                                <span class="segment-range">18.5-24.9</span>
+                            </div>
+                            <div class="bar-segment sobrepeso" data-range="25-29.9">
+                                <span class="segment-label">Sobrepeso</span>
+                                <span class="segment-range">25-29.9</span>
+                            </div>
+                            <div class="bar-segment obesidad" data-range="≥30">
+                                <span class="segment-label">Obesidad</span>
+                                <span class="segment-range">≥30</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="imc-details">
+                    <div class="detail-card">
+                        <div class="detail-icon" aria-hidden="true">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="detail-content">
+                            <h3>Estado de salud</h3>
+                            <p id="healthStatus" class="detail-text">No calculado</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-card">
+                        <div class="detail-icon" aria-hidden="true">
+                            <i class="fas fa-weight"></i>
+                        </div>
+                        <div class="detail-content">
+                            <h3>Peso saludable</h3>
+                            <p id="healthyWeight" class="detail-text">No calculado</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendations" id="recommendations">
+                    <h3 class="recommendations-title">
+                        <i class="fas fa-lightbulb" aria-hidden="true"></i> Recomendaciones personalizadas
+                    </h3>
+                    <div class="recommendations-content" id="recommendationText">
+                        <p>Calcula tu IMC para obtener recomendaciones personalizadas según tu perfil.</p>
+                    </div>
+                    <div class="recommendations-actions">
+                        <button class="btn btn-outline" id="saveResultBtn" aria-label="Guardar este resultado en el historial">
+                            <i class="fas fa-save" aria-hidden="true"></i> Guardar Resultado
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="history-section" aria-labelledby="history-title">
+                <header class="history-header">
+                    <h2 id="history-title">
+                        <i class="fas fa-history" aria-hidden="true"></i> Historial de Cálculos
+                    </h2>
+                    <div class="history-stats" id="historyStats" aria-live="polite">
+                        <span class="stat-item">
+                            <i class="fas fa-calculator" aria-hidden="true"></i>
+                            <span id="totalCalculations">0</span> cálculos
+                        </span>
+                    </div>
+                </header>
+                
+                <div class="history-container">
+                    <div id="historyList" class="history-list">
+                        <div class="empty-history" id="emptyHistory">
+                            <div class="empty-icon" aria-hidden="true">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <p>No hay cálculos previos</p>
+                            <p class="empty-hint">Los cálculos que realices aparecerán aquí</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="history-actions" id="historyActions" hidden>
+                    <button class="btn btn-danger btn-clear-history" id="clearHistoryBtn" aria-label="Eliminar todo el historial">
+                        <span class="btn-icon" aria-hidden="true">
+                            <i class="fas fa-trash-alt"></i>
+                        </span>
+                        <span class="btn-text">Limpiar Historial</span>
+                    </button>
+                    
+                    <button class="btn btn-secondary btn-export" id="exportHistoryBtn" aria-label="Exportar historial como archivo">
+                        <span class="btn-icon" aria-hidden="true">
+                            <i class="fas fa-download"></i>
+                        </span>
+                        <span class="btn-text">Exportar</span>
+                    </button>
+                </div>
+            </aside>
+
+            <footer class="calculator-footer">
+                <div class="disclaimer">
+                    <p><strong>Nota importante:</strong> El IMC es una medida general y no tiene en cuenta la composición corporal (músculo vs. grasa). Consulta a un profesional de la salud para una evaluación completa.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link" aria-label="Más información sobre el IMC">
+                        <i class="fas fa-info-circle" aria-hidden="true"></i> Más información
+                    </a>
+                    <a href="#" class="footer-link" aria-label="Consejos para un estilo de vida saludable">
+                        <i class="fas fa-apple-alt" aria-hidden="true"></i> Consejos saludables
+                    </a>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
