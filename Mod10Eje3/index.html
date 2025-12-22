@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Buscador avanzado con filtros inteligentes para encontrar productos y servicios de manera eficiente">
+    <title>Buscador Avanzado | Filtros Inteligentes de Búsqueda</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container" role="application" aria-label="Buscador avanzado con filtros">
+        <!-- Panel de Filtros -->
+        <aside class="filters-panel" role="complementary" aria-labelledby="filters-title">
+            <header class="filters-header">
+                <h2 id="filters-title">
+                    <i class="fas fa-sliders-h" aria-hidden="true"></i> Filtros Avanzados
+                </h2>
+                <button 
+                    type="button" 
+                    class="btn-collapse-filters" 
+                    id="collapseFiltersBtn"
+                    aria-label="Mostrar u ocultar filtros"
+                    aria-expanded="true"
+                >
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                </button>
+            </header>
+
+            <form id="filterForm" class="filters-form" aria-label="Formulario de filtros de búsqueda">
+                <!-- Filtro de búsqueda por palabra clave -->
+                <fieldset class="filter-section" aria-labelledby="search-title">
+                    <legend id="search-title" class="filter-legend">
+                        <i class="fas fa-search" aria-hidden="true"></i> Búsqueda por Palabra Clave
+                    </legend>
+                    <div class="filter-group">
+                        <label for="search" class="filter-label">
+                            Buscar productos
+                            <span class="required-indicator" aria-hidden="true">*</span>
+                        </label>
+                        <div class="search-input-wrapper">
+                            <input 
+                                type="text" 
+                                id="search" 
+                                name="q"
+                                placeholder="Ej: Laptop gaming, Camisa formal, Sofá cama..."
+                                aria-describedby="search-hint"
+                                class="filter-input search-input"
+                                autocomplete="off"
+                            >
+                            <button 
+                                type="button" 
+                                class="btn-clear-search" 
+                                id="clearSearchBtn"
+                                aria-label="Limpiar búsqueda"
+                                tabindex="-1"
+                            >
+                                <i class="fas fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <p id="search-hint" class="filter-hint">
+                            Puedes buscar por nombre, marca o características del producto
+                        </p>
+                    </div>
+                </fieldset>
+
+                <!-- Filtro de categoría -->
+                <fieldset class="filter-section" aria-labelledby="category-title">
+                    <legend id="category-title" class="filter-legend">
+                        <i class="fas fa-tags" aria-hidden="true"></i> Categorías
+                    </legend>
+                    <div class="filter-group">
+                        <label for="category" class="filter-label">
+                            Selecciona una categoría
+                        </label>
+                        <div class="select-wrapper">
+                            <select 
+                                name="category" 
+                                id="category"
+                                aria-describedby="category-hint"
+                                class="filter-select"
+                            >
+                                <option value="">Todas las categorías</option>
+                                <option value="electronics">
+                                    <i class="fas fa-laptop" aria-hidden="true"></i> Electrónica
+                                </option>
+                                <option value="clothing">
+                                    <i class="fas fa-tshirt" aria-hidden="true"></i> Ropa y Accesorios
+                                </option>
+                                <option value="home">
+                                    <i class="fas fa-home" aria-hidden="true"></i> Hogar y Jardín
+                                </option>
+                                <option value="sports">
+                                    <i class="fas fa-futbol" aria-hidden="true"></i> Deportes y Aire Libre
+                                </option>
+                                <option value="beauty">
+                                    <i class="fas fa-spa" aria-hidden="true"></i> Belleza y Cuidado Personal
+                                </option>
+                                <option value="books">
+                                    <i class="fas fa-book" aria-hidden="true"></i> Libros y Educación
+                                </option>
+                            </select>
+                            <i class="fas fa-chevron-down select-icon" aria-hidden="true"></i>
+                        </div>
+                        <p id="category-hint" class="filter-hint">
+                            Filtra por categoría principal del producto
+                        </p>
+                    </div>
+                </fieldset>
+
+                <!-- Filtro de precio -->
+                <fieldset class="filter-section" aria-labelledby="price-title">
+                    <legend id="price-title" class="filter-legend">
+                        <i class="fas fa-dollar-sign" aria-hidden="true"></i> Rango de Precio
+                    </legend>
+                    <div class="filter-group">
+                        <div class="price-header">
+                            <label for="maxPrice" class="filter-label">
+                                Precio máximo
+                            </label>
+                            <output 
+                                id="priceValue" 
+                                class="price-value" 
+                                for="maxPrice minPrice"
+                                aria-live="polite"
+                            >
+                                $0 - $1,000
+                            </output>
+                        </div>
+                        
+                        <div class="price-slider-container">
+                            <div class="price-labels">
+                                <span class="price-min">$0</span>
+                                <span class="price-max">$1,000</span>
+                            </div>
+                            
+                            <div class="slider-wrapper">
+                                <input 
+                                    type="range" 
+                                    name="minPrice" 
+                                    id="minPrice" 
+                                    min="0" 
+                                    max="1000" 
+                                    step="50" 
+                                    value="0"
+                                    aria-label="Precio mínimo"
+                                    class="price-slider"
+                                >
+                                <input 
+                                    type="range" 
+                                    name="maxPrice" 
+                                    id="maxPrice" 
+                                    min="0" 
+                                    max="1000" 
+                                    step="50" 
+                                    value="1000"
+                                    aria-label="Precio máximo"
+                                    class="price-slider"
+                                >
+                                <div class="slider-track">
+                                    <div class="slider-range" id="sliderRange"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="price-presets">
+                            <button 
+                                type="button" 
+                                class="btn-price-preset" 
+                                data-min="0" 
+                                data-max="100"
+                            >
+                                Menos de $100
+                            </button>
+                            <button 
+                                type="button" 
+                                class="btn-price-preset" 
+                                data-min="100" 
+                                data-max="500"
+                            >
+                                $100 - $500
+                            </button>
+                            <button 
+                                type="button" 
+                                class="btn-price-preset" 
+                                data-min="500" 
+                                data-max="1000"
+                            >
+                                $500 - $1,000
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Filtro de calificación -->
+                <fieldset class="filter-section" aria-labelledby="rating-title">
+                    <legend id="rating-title" class="filter-legend">
+                        <i class="fas fa-star" aria-hidden="true"></i> Calificación
+                    </legend>
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            Calificación mínima
+                        </label>
+                        <div class="rating-options" role="radiogroup" aria-labelledby="rating-title">
+                            <div class="rating-option">
+                                <input 
+                                    type="radio" 
+                                    id="rating5" 
+                                    name="rating" 
+                                    value="5"
+                                    class="rating-input"
+                                    aria-describedby="rating5-desc"
+                                >
+                                <label for="rating5" class="rating-label">
+                                    <span class="stars" aria-hidden="true">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </span>
+                                    <span class="rating-text">5 estrellas</span>
+                                    <span id="rating5-desc" class="visually-hidden">Filtrar por productos con 5 estrellas o más</span>
+                                </label>
+                            </div>
+                            <div class="rating-option">
+                                <input 
+                                    type="radio" 
+                                    id="rating4" 
+                                    name="rating" 
+                                    value="4"
+                                    class="rating-input"
+                                    aria-describedby="rating4-desc"
+                                >
+                                <label for="rating4" class="rating-label">
+                                    <span class="stars" aria-hidden="true">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </span>
+                                    <span class="rating-text">4+ estrellas</span>
+                                    <span id="rating4-desc" class="visually-hidden">Filtrar por productos con 4 estrellas o más</span>
+                                </label>
+                            </div>
+                            <div class="rating-option">
+                                <input 
+                                    type="radio" 
+                                    id="rating3" 
+                                    name="rating" 
+                                    value="3"
+                                    class="rating-input"
+                                    aria-describedby="rating3-desc"
+                                >
+                                <label for="rating3" class="rating-label">
+                                    <span class="stars" aria-hidden="true">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </span>
+                                    <span class="rating-text">3+ estrellas</span>
+                                    <span id="rating3-desc" class="visually-hidden">Filtrar por productos con 3 estrellas o más</span>
+                                </label>
+                            </div>
+                            <div class="rating-option">
+                                <input 
+                                    type="radio" 
+                                    id="ratingAll" 
+                                    name="rating" 
+                                    value="0"
+                                    checked
+                                    class="rating-input"
+                                    aria-describedby="ratingAll-desc"
+                                >
+                                <label for="ratingAll" class="rating-label">
+                                    <span class="stars" aria-hidden="true">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </span>
+                                    <span class="rating-text">Todas las calificaciones</span>
+                                    <span id="ratingAll-desc" class="visually-hidden">Mostrar todos los productos sin filtrar por calificación</span>
+                                </label>
+                            </div>
+                        </div>
+                        <p class="filter-hint">
+                            Filtra por calificación promedio de los usuarios
+                        </p>
+                    </div>
+                </fieldset>
+
+                <!-- Filtro de disponibilidad -->
+                <fieldset class="filter-section" aria-labelledby="availability-title">
+                    <legend id="availability-title" class="filter-legend">
+                        <i class="fas fa-box" aria-hidden="true"></i> Disponibilidad
+                    </legend>
+                    <div class="filter-group">
+                        <label class="filter-label">
+                            Estado del producto
+                        </label>
+                        <div class="checkbox-options">
+                            <div class="checkbox-option">
+                                <input 
+                                    type="checkbox" 
+                                    id="inStock" 
+                                    name="inStock"
+                                    checked
+                                    class="checkbox-input"
+                                    aria-describedby="inStock-desc"
+                                >
+                                <label for="inStock" class="checkbox-label">
+                                    <i class="fas fa-check-circle checkbox-icon" aria-hidden="true"></i>
+                                    <span class="checkbox-text">En stock</span>
+                                    <span id="inStock-desc" class="visually-hidden">Mostrar solo productos disponibles en inventario</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input 
+                                    type="checkbox" 
+                                    id="fastDelivery" 
+                                    name="fastDelivery"
+                                    class="checkbox-input"
+                                    aria-describedby="fastDelivery-desc"
+                                >
+                                <label for="fastDelivery" class="checkbox-label">
+                                    <i class="fas fa-shipping-fast checkbox-icon" aria-hidden="true"></i>
+                                    <span class="checkbox-text">Envío rápido</span>
+                                    <span id="fastDelivery-desc" class="visually-hidden">Mostrar solo productos con envío rápido disponible</span>
+                                </label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input 
+                                    type="checkbox" 
+                                    id="freeShipping" 
+                                    name="freeShipping"
+                                    class="checkbox-input"
+                                    aria-describedby="freeShipping-desc"
+                                >
+                                <label for="freeShipping" class="checkbox-label">
+                                    <i class="fas fa-truck checkbox-icon" aria-hidden="true"></i>
+                                    <span class="checkbox-text">Envío gratis</span>
+                                    <span id="freeShipping-desc" class="visually-hidden">Mostrar solo productos con envío gratuito</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- Filtro de ordenamiento -->
+                <fieldset class="filter-section" aria-labelledby="sort-title">
+                    <legend id="sort-title" class="filter-legend">
+                        <i class="fas fa-sort-amount-down" aria-hidden="true"></i> Ordenar por
+                    </legend>
+                    <div class="filter-group">
+                        <label for="sort" class="filter-label">
+                            Criterio de ordenamiento
+                        </label>
+                        <div class="select-wrapper">
+                            <select 
+                                name="sort" 
+                                id="sort"
+                                aria-describedby="sort-hint"
+                                class="filter-select"
+                            >
+                                <option value="relevance">Más relevantes</option>
+                                <option value="price_asc">Precio: Menor a Mayor</option>
+                                <option value="price_desc">Precio: Mayor a Menor</option>
+                                <option value="rating">Mejor calificados</option>
+                                <option value="newest">Más recientes</option>
+                                <option value="popular">Más populares</option>
+                            </select>
+                            <i class="fas fa-chevron-down select-icon" aria-hidden="true"></i>
+                        </div>
+                        <p id="sort-hint" class="filter-hint">
+                            Ordena los resultados según tu preferencia
+                        </p>
+                    </div>
+                </fieldset>
+
+                <!-- Acciones de filtros -->
+                <div class="filter-actions">
+                    <button 
+                        type="button" 
+                        id="applyFiltersBtn" 
+                        class="btn btn-primary btn-apply-filters"
+                    >
+                        <i class="fas fa-filter" aria-hidden="true"></i>
+                        <span class="btn-text">Aplicar Filtros</span>
+                        <span class="btn-loader" aria-hidden="true"></span>
+                    </button>
+                    
+                    <button 
+                        type="button" 
+                        id="clearBtn" 
+                        class="btn btn-secondary btn-clear-filters"
+                        aria-label="Restablecer todos los filtros"
+                    >
+                        <i class="fas fa-redo" aria-hidden="true"></i>
+                        <span class="btn-text">Limpiar Todo</span>
+                    </button>
+                </div>
+
+                <!-- Contador de filtros activos -->
+                <div class="active-filters" id="activeFilters" aria-live="polite" role="status" hidden>
+                    <h3 class="active-filters-title">
+                        <i class="fas fa-filter" aria-hidden="true"></i> Filtros Activos
+                    </h3>
+                    <div class="active-filters-list" id="activeFiltersList"></div>
+                </div>
+            </form>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content" role="main" aria-labelledby="results-title">
+            <!-- Header de resultados -->
+            <header class="results-header" aria-live="polite">
+                <div class="results-header-content">
+                    <h1 id="results-title" class="results-title">
+                        <i class="fas fa-search" aria-hidden="true"></i> Resultados de Búsqueda
+                    </h1>
+                    
+                    <div class="results-info">
+                        <span id="resultsCount" class="results-count" role="status">
+                            <span class="count-number">0</span> productos encontrados
+                        </span>
+                        
+                        <div class="view-controls">
+                            <button 
+                                type="button" 
+                                class="btn-view-toggle active" 
+                                id="gridViewBtn"
+                                aria-label="Ver en cuadrícula"
+                                data-view="grid"
+                            >
+                                <i class="fas fa-th-large" aria-hidden="true"></i>
+                            </button>
+                            <button 
+                                type="button" 
+                                class="btn-view-toggle" 
+                                id="listViewBtn"
+                                aria-label="Ver en lista"
+                                data-view="list"
+                            >
+                                <i class="fas fa-list" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Búsqueda rápida -->
+                <div class="quick-search" role="search">
+                    <div class="search-suggestions" id="searchSuggestions" aria-live="polite" hidden></div>
+                </div>
+            </header>
+
+            <!-- Grid de resultados -->
+            <div id="resultsContainer" class="results-container">
+                <div id="resultsGrid" class="results-grid" role="list" aria-label="Lista de productos"></div>
+                
+                <!-- Estado de carga -->
+                <div id="loadingState" class="loading-state" role="status" aria-live="polite" hidden>
+                    <div class="loading-spinner" aria-hidden="true"></div>
+                    <p class="loading-text">Buscando productos...</p>
+                </div>
+                
+                <!-- Estado vacío -->
+                <div id="emptyState" class="empty-state" role="status" aria-live="polite" hidden>
+                    <div class="empty-icon" aria-hidden="true">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h2 class="empty-title">No se encontraron resultados</h2>
+                    <p class="empty-description">
+                        Intenta con otros términos de búsqueda o ajusta los filtros
+                    </p>
+                    <button id="resetSearchBtn" class="btn btn-outline btn-reset-search">
+                        <i class="fas fa-redo" aria-hidden="true"></i>
+                        Reiniciar búsqueda
+                    </button>
+                </div>
+            </div>
+
+            <!-- Paginación -->
+            <footer class="pagination-container" aria-label="Paginación de resultados">
+                <nav class="pagination" role="navigation" aria-label="Navegación de páginas">
+                    <button 
+                        id="prevBtn" 
+                        class="btn btn-pagination btn-prev"
+                        aria-label="Página anterior"
+                        disabled
+                    >
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                        <span class="btn-text">Anterior</span>
+                    </button>
+                    
+                    <div class="pagination-info">
+                        <span id="pageInfo" class="page-info" aria-live="polite">
+                            Página <span id="currentPage">1</span> de <span id="totalPages">1</span>
+                        </span>
+                        <span class="page-stats">
+                            Mostrando <span id="itemsShown">0</span> de <span id="totalItems">0</span> productos
+                        </span>
+                    </div>
+                    
+                    <button 
+                        id="nextBtn" 
+                        class="btn btn-pagination btn-next"
+                        aria-label="Página siguiente"
+                        disabled
+                    >
+                        <span class="btn-text">Siguiente</span>
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                </nav>
+                
+                <div class="pagination-options">
+                    <label for="itemsPerPage" class="pagination-label">
+                        Productos por página:
+                    </label>
+                    <select 
+                        id="itemsPerPage" 
+                        name="itemsPerPage"
+                        class="pagination-select"
+                        aria-label="Cantidad de productos por página"
+                    >
+                        <option value="12">12</option>
+                        <option value="24" selected>24</option>
+                        <option value="48">48</option>
+                        <option value="96">96</option>
+                    </select>
+                </div>
+            </footer>
+        </main>
+
+        <!-- Botón flotante para móviles -->
+        <button 
+            id="mobileFiltersBtn" 
+            class="btn-mobile-filters"
+            aria-label="Abrir filtros"
+            aria-expanded="false"
+        >
+            <i class="fas fa-filter" aria-hidden="true"></i>
+            <span class="btn-text">Filtros</span>
+            <span class="filter-badge" id="mobileFilterCount" aria-hidden="true">0</span>
+        </button>
+    </div>
+
+    <script src="javascript.js" defer></script>
+</body>
+</html>
