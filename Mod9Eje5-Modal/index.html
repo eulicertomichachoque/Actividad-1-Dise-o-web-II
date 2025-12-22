@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="es-ES" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de modales dinámicos con JavaScript. Ventanas emergentes accesibles, responsive y con múltiples tipos: formularios, confirmaciones, información y galerías.">
+    <meta name="keywords" content="modal dialog, ventanas emergentes, JavaScript modales, UI componentes, accesibilidad web, formularios emergentes">
+    <meta name="author" content="Sistema de Modales">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sistema de Modales Dinámicos - Componente UI Accesible">
+    <meta property="og:description" content="Implementación de modales con JavaScript puro, totalmente accesible y responsive.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="es_ES">
+    
+    <title>Sistema de Modales Dinámicos | Ventanas Emergentes Accesibles</title>
+    
+    <!-- Preload recursos críticos -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="script.js" as="script">
+    
+    <!-- Preconnect para imágenes externas -->
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
+    
+    <!-- Hojas de estilo -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪟</text></svg>">
+    
+    <!-- Estilos críticos inlined -->
+    <style>
+        /* Variables CSS para modales */
+        :root {
+            --modal-z-index: 1000;
+            --modal-overlay-bg: rgba(0, 0, 0, 0.75);
+            --modal-bg: #ffffff;
+            --modal-border-radius: 16px;
+            --modal-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --modal-transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Prevenir scroll cuando modal está abierto */
+        body.modal-open {
+            overflow: hidden;
+            padding-right: var(--scrollbar-width, 0);
+        }
+        
+        /* Estados de loading */
+        .js-loading .modal {
+            display: none;
+        }
+        
+        /* Estilos para screen readers */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        
+        .sr-only-focusable:focus,
+        .sr-only-focusable:active {
+            position: static;
+            width: auto;
+            height: auto;
+            overflow: visible;
+            clip: auto;
+            white-space: normal;
+        }
+        
+        /* Estilos adicionales para ejemplos */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .example-card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 2px solid #e1e5e9;
+            transition: all 0.3s ease;
+        }
+        
+        .example-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: #4a6cf7;
+        }
+        
+        .example-card h4 {
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .example-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .example-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .example-card li:before {
+            content: "✓";
+            color: #2ecc71;
+            font-weight: bold;
+        }
+        
+        .example-btn {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #4a6cf7 0%, #6b5aed 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .example-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 108, 247, 0.3);
+        }
+    </style>
+</head>
+<body class="js-loading">
+    <!-- Skip link para accesibilidad -->
+    <a href="#main-content" class="sr-only sr-only-focusable">
+        Saltar al contenido principal
+    </a>
+    
+    <div class="page-container" role="main">
+        <!-- Header -->
+        <header class="header" role="banner" itemscope itemtype="https://schema.org/WebPage">
+            <h1 itemprop="headline">
+                <span role="img" aria-label="Ventana modal">🪟</span>
+                Sistema de Modales Dinámicos
+            </h1>
+            <p class="subtitle" itemprop="description">
+                Componente de ventanas emergentes implementado con JavaScript puro, siguiendo las mejores prácticas de accesibilidad.
+            </p>
+        </header>
+
+        <!-- Contenido principal -->
+        <main id="main-content" class="content" tabindex="-1">
+            <!-- Introducción -->
+            <section class="intro" aria-labelledby="intro-heading">
+                <h2 id="intro-heading">¿Qué es un Modal Dialog?</h2>
+                <p>
+                    Un <strong>modal</strong> (también conocido como ventana emergente o diálogo) es un componente de interfaz que aparece 
+                    sobre el contenido principal y requiere la interacción del usuario antes de continuar. 
+                    Los modales son ideales para formularios, confirmaciones, mensajes importantes y galerías.
+                </p>
+            </section>
+
+            <!-- Botones de demostración -->
+            <section class="demo-buttons" aria-labelledby="demo-heading">
+                <h3 id="demo-heading">Tipos de Modales Disponibles</h3>
+                <p class="section-description">
+                    Haz clic en cualquier botón para abrir un ejemplo de modal diferente:
+                </p>
+                
+                <div class="button-group" role="group" aria-label="Tipos de modales">
+                    <button 
+                        class="btn btn-primary" 
+                        data-modal="modal1"
+                        aria-haspopup="dialog"
+                        aria-controls="modal1"
+                        aria-label="Abrir modal de formulario de contacto"
+                    >
+                        <span class="btn-icon" aria-hidden="true">📝</span>
+                        Formulario de Contacto
+                    </button>
+                    
+                    <button 
+                        class="btn btn-success" 
+                        data-modal="modal2"
+                        aria-haspopup="dialog"
+                        aria-controls="modal2"
+                        aria-label="Abrir modal de confirmación de acción"
+                    >
+                        <span class="btn-icon" aria-hidden="true">✅</span>
+                        Diálogo de Confirmación
+                    </button>
+                    
+                    <button 
+                        class="btn btn-info" 
+                        data-modal="modal3"
+                        aria-haspopup="dialog"
+                        aria-controls="modal3"
+                        aria-label="Abrir modal de información importante"
+                    >
+                        <span class="btn-icon" aria-hidden="true">ℹ️</span>
+                        Información Importante
+                    </button>
+                    
+                    <button 
+                        class="btn btn-warning" 
+                        data-modal="modal4"
+                        aria-haspopup="dialog"
+                        aria-controls="modal4"
+                        aria-label="Abrir modal de galería de imágenes"
+                    >
+                        <span class="btn-icon" aria-hidden="true">🖼️</span>
+                        Galería de Imágenes
+                    </button>
+                    
+                    <button 
+                        class="btn btn-primary" 
+                        data-modal="modal5"
+                        aria-haspopup="dialog"
+                        aria-controls="modal5"
+                        aria-label="Abrir modal de selección de producto"
+                    >
+                        <span class="btn-icon" aria-hidden="true">🛒</span>
+                        Selección de Producto
+                    </button>
+                </div>
+                
+                <div class="demo-note" role="note">
+                    <p>
+                        <strong>Consejo:</strong> Puedes cerrar los modales presionando 
+                        <kbd aria-label="Tecla Escape">ESC</kbd>, haciendo clic fuera de ellos 
+                        o usando el botón de cierre.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Características -->
+            <section class="features-grid" aria-labelledby="features-heading">
+                <h3 id="features-heading" class="sr-only">Características del Sistema de Modales</h3>
+                
+                <article class="feature-card" role="article" itemscope itemtype="https://schema.org/WebPageElement">
+                    <div class="feature-icon-container" aria-hidden="true">
+                        <span class="feature-icon" role="img">🎯</span>
+                    </div>
+                    <h4 class="feature-title" itemprop="name">Fácil de Usar</h4>
+                    <p class="feature-description" itemprop="description">
+                        Interface intuitiva y completamente accesible para todos los usuarios.
+                    </p>
+                    <meta itemprop="position" content="1">
+                </article>
+                
+                <article class="feature-card" role="article" itemscope itemtype="https://schema.org/WebPageElement">
+                    <div class="feature-icon-container" aria-hidden="true">
+                        <span class="feature-icon" role="img">⚡</span>
+                    </div>
+                    <h4 class="feature-title" itemprop="name">Rendimiento Óptimo</h4>
+                    <p class="feature-description" itemprop="description">
+                        Carga instantánea sin recargar la página, con animaciones fluidas.
+                    </p>
+                    <meta itemprop="position" content="2">
+                </article>
+                
+                <article class="feature-card" role="article" itemscope itemtype="https://schema.org/WebPageElement">
+                    <div class="feature-icon-container" aria-hidden="true">
+                        <span class="feature-icon" role="img">🔒</span>
+                    </div>
+                    <h4 class="feature-title" itemprop="name">Seguro y Estable</h4>
+                    <p class="feature-description" itemprop="description">
+                        Previene el scroll del fondo y atrapa el foco para mejor accesibilidad.
+                    </p>
+                    <meta itemprop="position" content="3">
+                </article>
+                
+                <article class="feature-card" role="article" itemscope itemtype="https://schema.org/WebPageElement">
+                    <div class="feature-icon-container" aria-hidden="true">
+                        <span class="feature-icon" role="img">♿</span>
+                    </div>
+                    <h4 class="feature-title" itemprop="name">Totalmente Accesible</h4>
+                    <p class="feature-description" itemprop="description">
+                        Compatible con navegación por teclado y lectores de pantalla.
+                    </p>
+                    <meta itemprop="position" content="4">
+                </article>
+            </section>
+            
+            <!-- Ejemplos de uso CON BOTONES -->
+            <section class="examples-section" aria-labelledby="examples-heading">
+                <h3 id="examples-heading">Ejemplos de Uso en la Vida Real</h3>
+                <p class="section-description">
+                    Haz clic en cualquier ejemplo para ver cómo se implementaría en una aplicación real:
+                </p>
+                
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <h4><span aria-hidden="true">🎯</span> Caso 1: Comercio Electrónico</h4>
+                        <p>En una tienda online, los modales se usan para:</p>
+                        <ul>
+                            <li>Carrito de compras rápido</li>
+                            <li>Confirmación de pedido</li>
+                            <li>Inicio de sesión/registro</li>
+                            <li>Detalles de producto</li>
+                        </ul>
+                        <button 
+                            class="example-btn" 
+                            data-modal="modal-ecommerce"
+                            aria-haspopup="dialog"
+                            aria-controls="modal-ecommerce"
+                            aria-label="Ver ejemplo de comercio electrónico"
+                        >
+                            <span aria-hidden="true">🛍️</span>
+                            Ver Ejemplo
+                        </button>
+                    </div>
+                    
+                    <div class="example-card">
+                        <h4><span aria-hidden="true">📱</span> Caso 2: Aplicaciones Móviles</h4>
+                        <p>En apps móviles, los modales son esenciales para:</p>
+                        <ul>
+                            <li>Permisos de la app</li>
+                            <li>Configuraciones rápidas</li>
+                            <li>Notificaciones push</li>
+                            <li>Compartir contenido</li>
+                        </ul>
+                        <button 
+                            class="example-btn" 
+                            data-modal="modal-mobile"
+                            aria-haspopup="dialog"
+                            aria-controls="modal-mobile"
+                            aria-label="Ver ejemplo de aplicación móvil"
+                        >
+                            <span aria-hidden="true">📱</span>
+                            Ver Ejemplo
+                        </button>
+                    </div>
+                    
+                    <div class="example-card">
+                        <h4><span aria-hidden="true">💼</span> Caso 3: Dashboard Empresarial</h4>
+                        <p>En sistemas empresariales, los modales ayudan con:</p>
+                        <ul>
+                            <li>Reportes detallados</li>
+                            <li>Edición de datos</li>
+                            <li>Alertas del sistema</li>
+                            <li>Configuración de usuario</li>
+                        </ul>
+                        <button 
+                            class="example-btn" 
+                            data-modal="modal-dashboard"
+                            aria-haspopup="dialog"
+                            aria-controls="modal-dashboard"
+                            aria-label="Ver ejemplo de dashboard empresarial"
+                        >
+                            <span aria-hidden="true">📊</span>
+                            Ver Ejemplo
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+            <div class="footer-content">
+                <p>
+                    <strong>Sistema de Modales Dinámicos</strong> – 
+                    Implementación siguiendo las 
+                    <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialogmodal/" 
+                       target="_blank" 
+                       rel="noopener noreferrer">
+                        especificaciones ARIA para diálogos modales
+                    </a>
+                </p>
+                <p class="footer-note">
+                    ℹ️ Este componente cumple con las 
+                    <abbr title="Web Content Accessibility Guidelines" lang="en">WCAG</abbr> 2.1 
+                    nivel AA.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- =========================================================================== -->
+    <!-- MODALES - Utilizando <dialog> nativo con polyfill para navegadores antiguos -->
+    <!-- =========================================================================== -->
+
+    <!-- Modal 1: Formulario de Contacto -->
+    <dialog 
+        id="modal1" 
+        class="modal" 
+        aria-labelledby="modal1-title"
+        aria-describedby="modal1-description"
+        data-modal-type="form"
+    >
+        <div class="modal-overlay" data-modal-close></div>
+        <div class="modal-content" role="document">
+            <header class="modal-header">
+                <h2 id="modal1-title" class="modal-title">
+                    <span class="modal-title-icon" aria-hidden="true">📝</span>
+                    Formulario de Contacto
+                </h2>
+                <button 
+                    class="modal-close"
+                    data-modal-close
+                    aria-label="Cerrar formulario de contacto"
+                >
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </header>
+            
+            <div class="modal-body">
+                <p id="modal1-description" class="modal-description">
+                    Completa el siguiente formulario para ponerte en contacto con nosotros. 
+                    Todos los campos marcados con asterisco (*) son obligatorios.
+                </p>
+                
+                <form 
+                    class="modal-form" 
+                    id="contactForm"
+                    novalidate
+                    aria-labelledby="modal1-title"
+                    itemscope 
+                    itemtype="https://schema.org/ContactPage"
+                >
+                    <meta itemprop="description" content="Formulario de contacto emergente">
+                    
+                    <div class="form-group">
+                        <label for="contact-name" class="form-label">
+                            Nombre completo
+                            <span class="required" aria-hidden="true">*</span>
+                            <span class="sr-only">(obligatorio)</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="contact-name"
+                            name="name"
+                            class="form-input"
+                            placeholder="Ej: María González"
+                            required
+                            aria-required="true"
+                            autocomplete="name"
+                            itemprop="name"
+                        >
+                        <div class="form-error" id="nameError" role="alert" aria-live="polite"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-email" class="form-label">
+                            Correo electrónico
+                            <span class="required" aria-hidden="true">*</span>
+                            <span class="sr-only">(obligatorio)</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="contact-email"
+                            name="email"
+                            class="form-input"
+                            placeholder="tu@email.com"
+                            required
+                            aria-required="true"
+                            autocomplete="email"
+                            itemprop="email"
+                        >
+                        <div class="form-error" id="emailError" role="alert" aria-live="polite"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-message" class="form-label">
+                            Mensaje
+                            <span class="required" aria-hidden="true">*</span>
+                            <span class="sr-only">(obligatorio)</span>
+                        </label>
+                        <textarea 
+                            id="contact-message"
+                            name="message"
+                            class="form-textarea"
+                            rows="5"
+                            placeholder="Describe tu consulta, proyecto o sugerencia..."
+                            required
+                            aria-required="true"
+                            minlength="10"
+                            maxlength="500"
+                            aria-describedby="messageHelp"
+                        ></textarea>
+                        <small id="messageHelp" class="form-help">
+                            Mínimo 10 caracteres, máximo 500. Quedan 
+                            <span id="char-count">500</span> caracteres disponibles.
+                        </small>
+                        <div class="form-error" id="messageError" role="alert" aria-live="polite"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-subject" class="form-label">
+                            Asunto
+                        </label>
+                        <select 
+                            id="contact-subject"
+                            name="subject"
+                            class="form-select"
+                            aria-describedby="subjectHelp"
+                        >
+                            <option value="" selected disabled>Selecciona el motivo de tu contacto</option>
+                            <option value="info">Información General</option>
+                            <option value="support">Soporte Técnico</option>
+                            <option value="quote">Cotización de Proyecto</option>
+                            <option value="feedback">Comentarios o Sugerencias</option>
+                            <option value="other">Otro</option>
+                        </select>
+                        <small id="subjectHelp" class="form-help">
+                            Esto nos ayudará a dirigir tu mensaje al departamento correcto
+                        </small>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <input 
+                            type="checkbox" 
+                            id="contact-newsletter"
+                            name="newsletter"
+                            class="form-checkbox"
+                        >
+                        <label for="contact-newsletter" class="checkbox-label">
+                            Deseo recibir noticias y actualizaciones por correo electrónico
+                        </label>
+                    </div>
+                    
+                    <div class="form-group checkbox-group">
+                        <input 
+                            type="checkbox" 
+                            id="contact-privacy"
+                            name="privacy"
+                            class="form-checkbox"
+                            required
+                            aria-required="true"
+                        >
+                        <label for="contact-privacy" class="checkbox-label">
+                            He leído y acepto la 
+                            <a href="#" target="_blank" rel="noopener">política de privacidad</a>
+                            <span class="required" aria-hidden="true">*</span>
+                            <span class="sr-only">(obligatorio)</span>
+                        </label>
+                        <div class="form-error" id="privacyError" role="alert" aria-live="polite"></div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button 
+                            type="submit" 
+                            class="btn btn-primary"
+                            aria-label="Enviar formulario de contacto"
+                        >
+                            <span class="btn-icon" aria-hidden="true">📨</span>
+                            Enviar Mensaje
+                        </button>
+                        <button 
+                            type="reset" 
+                            class="btn btn-secondary"
+                            aria-label="Limpiar formulario de contacto"
+                        >
+                            <span class="btn-icon" aria-hidden="true">🗑️</span>
+                            Limpiar
+                        </button>
+                        <button 
+                            type="button" 
+                            class="btn btn-text close-form-btn"
+                            data-modal-close
+                            aria-label="Cancelar y cerrar formulario"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <footer class="modal-footer">
+                <p class="modal-footer-note">
+                    <span aria-hidden="true">🔒</span>
+                    Tus datos están protegidos. No compartimos tu información con terceros.
+                </p>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- Modal 2: Confirmación -->
+    <dialog 
+        id="modal2" 
+        class="modal" 
+        aria-labelledby="modal2-title"
+        aria-describedby="modal2-description"
+        data-modal-type="confirmation"
+    >
+        <div class="modal-overlay" data-modal-close></div>
+        <div class="modal-content modal-small" role="document">
+            <header class="modal-header">
+                <h2 id="modal2-title" class="modal-title">
+                    <span class="modal-title-icon" aria-hidden="true">⚠️</span>
+                    Confirmar Acción
+                </h2>
+                <button 
+                    class="modal-close"
+                    data-modal-close
+                    aria-label="Cerrar diálogo de confirmación"
+                >
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </header>
+            
+            <div class="modal-body">
+                <div class="modal-icon warning" aria-hidden="true" role="img">⚠️</div>
+                <p id="modal2-description" class="modal-description">
+                    Estás a punto de realizar una acción que <strong>no se puede deshacer</strong>. 
+                    Todos los datos relacionados serán eliminados permanentemente.
+                </p>
+                
+                <div class="confirmation-details">
+                    <h3 class="confirmation-title">Acción a realizar:</h3>
+                    <ul class="confirmation-list" role="list">
+                        <li role="listitem"><span aria-hidden="true">🗑️</span> Eliminar cuenta de usuario</li>
+                        <li role="listitem"><span aria-hidden="true">📁</span> Borrar todos los archivos asociados</li>
+                        <li role="listitem"><span aria-hidden="true">📊</span> Eliminar historial de actividad</li>
+                        <li role="listitem"><span aria-hidden="true">🔐</span> Revocar todos los permisos de acceso</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-alert" role="alert">
+                    <p>
+                        <strong>Advertencia:</strong> Esta acción es permanente y no puede revertirse. 
+                        Por favor, confirma que realmente deseas continuar.
+                    </p>
+                </div>
+            </div>
+            
+            <footer class="modal-footer">
+                <div class="modal-actions" role="toolbar" aria-label="Acciones de confirmación">
+                    <button 
+                        class="btn btn-secondary cancel-btn"
+                        data-modal-close
+                        aria-label="Cancelar acción y cerrar diálogo"
+                    >
+                        <span class="btn-icon" aria-hidden="true">←</span>
+                        Cancelar
+                    </button>
+                    <button 
+                        class="btn btn-danger confirm-btn"
+                        aria-label="Confirmar y proceder con la acción"
+                    >
+                        <span class="btn-icon" aria-hidden="true">✅</span>
+                        Confirmar Eliminación
+                    </button>
+                </div>
+                <p class="modal-footer-note">
+                    Presiona <kbd aria-label="Tecla Escape">ESC</kbd> para cancelar sin realizar cambios.
+                </p>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- Modal 3: Información -->
+    <dialog 
+        id="modal3" 
+        class="modal" 
+        aria-labelledby="modal3-title"
+        aria-describedby="modal3-description"
+        data-modal-type="information"
+    >
+        <div class="modal-overlay" data-modal-close></div>
+        <div class="modal-content" role="document">
+            <header class="modal-header">
+                <h2 id="modal3-title" class="modal-title">
+                    <span class="modal-title-icon" aria-hidden="true">ℹ️</span>
+                    Información Importante
+                </h2>
+                <button 
+                    class="modal-close"
+                    data-modal-close
+                    aria-label="Cerrar diálogo de información"
+                >
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </header>
+            
+            <div class="modal-body">
+                <div class="modal-icon info" aria-hidden="true" role="img">ℹ️</div>
+                
+                <section class="info-section" aria-labelledby="usage-heading">
+                    <h3 id="usage-heading" class="info-section-title">Usos Comunes de los Modales</h3>
+                    <ul class="info-list" role="list">
+                        <li role="listitem">
+                            <span class="list-icon" aria-hidden="true">📝</span>
+                            <strong>Formularios de contacto</strong> – Para no interrumpir el flujo principal
+                        </li>
+                        <li role="listitem">
+                            <span class="list-icon" aria-hidden="true">✅</span>
+                            <strong>Confirmaciones de acción</strong> – Evita operaciones accidentales
+                        </li>
+                        <li role="listitem">
+                            <span class="list-icon" aria-hidden="true">⚠️</span>
+                            <strong>Alertas y advertencias</strong> – Para mensajes de alta prioridad
+                        </li>
+                        <li role="listitem">
+                            <span class="list-icon" aria-hidden="true">🖼️</span>
+                            <strong>Galerías de imágenes</strong> – Experiencia de visualización mejorada
+                        </li>
+                        <li role="listitem">
+                            <span class="list-icon" aria-hidden="true">🔐</span>
+                            <strong>Inicio de sesión/registro</strong> – Sin abandonar la página actual
+                        </li>
+                    </ul>
+                </section>
+                
+                <section class="info-section" aria-labelledby="features-heading-modal">
+                    <h3 id="features-heading-modal" class="info-section-title">Características Implementadas</h3>
+                    <ul class="info-list" role="list">
+                        <li role="listitem">
+                            <span class="list-icon success" aria-hidden="true">✅</span>
+                            <strong>Cierre con clic fuera</strong> – Haz clic en el overlay para cerrar
+                        </li>
+                        <li role="listitem">
+                            <span class="list-icon success" aria-hidden="true">✅</span>
+                            <strong>Cierre con tecla ESC</strong> – Presiona Escape para cerrar rápidamente
+                        </li>
+                        <li role="listitem">
+                            <span class="list-icon success" aria-hidden="true">✅</span>
+                            <strong>Prevención de scroll</strong> – Evita el desplazamiento del fondo
+                        </li>
+                        <li role="listitem">
+                            <span class="list-icon success" aria-hidden="true">✅</span>
+                            <strong>Trap de foco</strong> – El foco se mantiene dentro del modal
+                        </li>
+                        <li role="listitem">
+                            <span class="list-icon success" aria-hidden="true">✅</span>
+                            <strong>Animaciones CSS</strong> – Transiciones suaves al abrir/cerrar
+                        </li>
+                        <li role="listitem">
+                            <span class="list-icon success" aria-hidden="true">✅</span>
+                            <strong>Responsive design</strong> – Se adapta a todos los dispositivos
+                        </li>
+                    </ul>
+                </section>
+                
+                <section class="info-section" aria-labelledby="accessibility-heading">
+                    <h3 id="accessibility-heading" class="info-section-title">Accesibilidad</h3>
+                    <p>
+                        Este componente sigue las 
+                        <a href="https://www.w3.org/WAI/ARIA/apg/patterns/dialogmodal/" 
+                           target="_blank" 
+                           rel="noopener noreferrer">
+                            pautas ARIA para diálogos modales
+                        </a> 
+                        y cumple con los estándares WCAG 2.1.
+                    </p>
+                    
+                    <div class="accessibility-features">
+                        <h4>Características de Accesibilidad:</h4>
+                        <ul>
+                            <li>✅ Navegación completa por teclado</li>
+                            <li>✅ Soporte para lectores de pantalla</li>
+                            <li>✅ Contraste de color adecuado</li>
+                            <li>✅ Textos alternativos para imágenes</li>
+                            <li>✅ Manejo adecuado del foco</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+            
+            <footer class="modal-footer">
+                <p class="modal-footer-note">
+                    ℹ️ Para más información sobre buenas prácticas de modales, consulta la 
+                    <a href="https://developer.mozilla.org/docs/Web/HTML/Element/dialog" 
+                       target="_blank" 
+                       rel="noopener noreferrer">
+                        documentación de MDN
+                    </a>.
+                </p>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- Modal 4: Galería -->
+    <dialog 
+        id="modal4" 
+        class="modal" 
+        aria-labelledby="modal4-title"
+        aria-describedby="modal4-description"
+        data-modal-type="gallery"
+    >
+        <div class="modal-overlay" data-modal-close></div>
+        <div class="modal-content modal-large" role="document">
+            <header class="modal-header">
+                <h2 id="modal4-title" class="modal-title">
+                    <span class="modal-title-icon" aria-hidden="true">🖼️</span>
+                    Galería de Imágenes
+                </h2>
+                <button 
+                    class="modal-close"
+                    data-modal-close
+                    aria-label="Cerrar galería de imágenes"
+                >
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </header>
+            
+            <div class="modal-body">
+                <p id="modal4-description" class="modal-description">
+                    Explora nuestra colección de imágenes. Haz clic en cualquier imagen para verla en tamaño completo.
+                    Usa las flechas del teclado para navegar entre imágenes.
+                </p>
+                
+                <div class="gallery-container" role="region" aria-label="Galería de imágenes">
+                    <div class="gallery-controls" role="toolbar" aria-label="Controles de la galería">
+                        <button 
+                            class="gallery-nav prev" 
+                            aria-label="Imagen anterior"
+                            disabled
+                        >
+                            <span aria-hidden="true">←</span>
+                        </button>
+                        <div class="gallery-counter" aria-live="polite">
+                            <span class="current-image">1</span> de 
+                            <span class="total-images">4</span>
+                        </div>
+                        <button 
+                            class="gallery-nav next" 
+                            aria-label="Siguiente imagen"
+                        >
+                            <span aria-hidden="true">→</span>
+                        </button>
+                    </div>
+                    
+                    <div class="gallery-main">
+                        <figure class="gallery-figure" role="group" aria-labelledby="gallery-caption">
+                            <img 
+                                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&auto=format&fit=crop&q=80" 
+                                alt="Montañas nevadas con un lago cristalino en primer plano, cielo azul despejado"
+                                class="gallery-image"
+                                loading="lazy"
+                                width="1200"
+                                height="800"
+                                data-gallery-index="0"
+                            >
+                            <figcaption id="gallery-caption" class="gallery-caption">
+                                <strong>Montañas del Norte</strong> – Paisaje alpino en la cordillera central. 
+                                <span class="image-info">Fotografía: @photographer • Resolución: 1200×800</span>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    
+                    <div class="gallery-thumbnails" role="list" aria-label="Miniaturas de la galería">
+                        <button 
+                            class="thumbnail active" 
+                            role="listitem"
+                            aria-label="Ver imagen 1: Montañas nevadas"
+                            data-gallery-index="0"
+                        >
+                            <img 
+                                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=200&auto=format&fit=crop&q=80" 
+                                alt="Miniatura de montañas"
+                                width="200"
+                                height="133"
+                                loading="lazy"
+                            >
+                            <span class="thumbnail-number">1</span>
+                        </button>
+                        <button 
+                            class="thumbnail" 
+                            role="listitem"
+                            aria-label="Ver imagen 2: Bosque verde"
+                            data-gallery-index="1"
+                        >
+                            <img 
+                                src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=200&auto=format&fit=crop&q=80" 
+                                alt="Miniatura de bosque"
+                                width="200"
+                                height="133"
+                                loading="lazy"
+                            >
+                            <span class="thumbnail-number">2</span>
+                        </button>
+                        <button 
+                            class="thumbnail" 
+                            role="listitem"
+                            aria-label="Ver imagen 3: Playa tropical"
+                            data-gallery-index="2"
+                        >
+                            <img 
+                                src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=200&auto=format&fit=crop&q=80" 
+                                alt="Miniatura de playa"
+                                width="200"
+                                height="133"
+                                loading="lazy"
+                            >
+                            <span class="thumbnail-number">3</span>
+                        </button>
+                        <button 
+                            class="thumbnail" 
+                            role="listitem"
+                            aria-label="Ver imagen 4: Ciudad moderna"
+                            data-gallery-index="3"
+                        >
+                            <img 
+                                src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=200&auto=format&fit=crop&q=80" 
+                                alt="Miniatura de ciudad"
+                                width="200"
+                                height="133"
+                                loading="lazy"
+                            >
+                            <span class="thumbnail-number">4</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="gallery-info">
+                    <h3 class="gallery-info-title">Información de la Galería</h3>
+                    <ul class="gallery-info-list" role="list">
+                        <li role="listitem">🖱️ Haz clic en las miniaturas para cambiar de imagen</li>
+                        <li role="listitem">← → Usa las flechas del teclado para navegar</li>
+                        <li role="listitem">ESC Presiona Escape para cerrar la galería</li>
+                        <li role="listitem">🔍 La imagen actual se muestra en alta resolución</li>
+                        <li role="listitem">⌨️ También puedes usar las teclas A y D para navegar</li>
+                    </ul>
+                    
+                    <div class="current-image-info">
+                        <h4>Información de la imagen actual:</h4>
+                        <p><strong>Título:</strong> Montañas del Norte</p>
+                        <p><strong>Resolución:</strong> 1200×800 px</p>
+                        <p><strong>Tamaño aproximado:</strong> 450 KB</p>
+                        <p><strong>Formato:</strong> JPEG optimizado</p>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="modal-footer">
+                <p class="modal-footer-note">
+                    📷 Imágenes cortesía de 
+                    <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">
+                        Unsplash
+                    </a>
+                </p>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- Modal 5: Selección de Producto -->
+    <dialog 
+        id="modal5" 
+        class="modal" 
+        aria-labelledby="modal5-title"
+        aria-describedby="modal5-description"
+        data-modal-type="product"
+    >
+        <div class="modal-overlay" data-modal-close></div>
+        <div class="modal-content modal-large" role="document">
+            <header class="modal-header">
+                <h2 id="modal5-title" class="modal-title">
+                    <span class="modal-title-icon" aria-hidden="true">🛒</span>
+                    Seleccionar Producto
+                </h2>
+                <button 
+                    class="modal-close"
+                    data-modal-close
+                    aria-label="Cerrar selector de producto"
+                >
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </header>
+            
+            <div class="modal-body">
+                <p id="modal5-description" class="modal-description">
+                    Selecciona el producto que deseas agregar a tu carrito. Puedes ver detalles, 
+                    cambiar cantidad y seleccionar variantes.
+                </p>
+                
+                <div class="product-selection">
+                    <div class="product-preview">
+                        <img 
+                            src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80" 
+                            alt="Auriculares premium color negro con almohadillas de cuero"
+                            class="product-image"
+                            loading="lazy"
+                            width="600"
+                            height="400"
+                        >
+                        <div class="product-badges">
+                            <span class="badge badge-popular">🔥 Popular</span>
+                            <span class="badge badge-discount">-20%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="product-details">
+                        <h3 class="product-title">Auriculares Premium Pro X</h3>
+                        <div class="product-rating">
+                            <span class="stars" aria-hidden="true">★★★★★</span>
+                            <span class="rating-text">4.8 (342 reseñas)</span>
+                        </div>
+                        
+                        <div class="product-price">
+                            <span class="current-price">$299.99</span>
+                            <span class="original-price">$374.99</span>
+                            <span class="discount">Ahorras $75.00</span>
+                        </div>
+                        
+                        <div class="product-description">
+                            <p>Auriculares de alta fidelidad con cancelación de ruido activa, 
+                            batería de 30 horas y sonido envolvente 360°.</p>
+                        </div>
+                        
+                        <div class="product-variants">
+                            <h4>Color:</h4>
+                            <div class="variant-options">
+                                <button class="variant-option active" data-variant="black" aria-label="Seleccionar color negro">
+                                    <span class="variant-color black"></span>
+                                    Negro
+                                </button>
+                                <button class="variant-option" data-variant="white" aria-label="Seleccionar color blanco">
+                                    <span class="variant-color white"></span>
+                                    Blanco
+                                </button>
+                                <button class="variant-option" data-variant="blue" aria-label="Seleccionar color azul">
+                                    <span class="variant-color blue"></span>
+                                    Azul
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="product-quantity">
+                            <h4>Cantidad:</h4>
+                            <div class="quantity-selector">
+                                <button class="quantity-btn minus" aria-label="Reducir cantidad">−</button>
+                                <input 
+                                    type="number" 
+                                    class="quantity-input"
+                                    value="1"
+                                    min="1"
+                                    max="10"
+                                    aria-label="Cantidad de productos"
+                                >
+                                <button class="quantity-btn plus" aria-label="Aumentar cantidad">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="product-features">
+                            <h4>Características:</h4>
+                            <ul>
+                                <li>✅ Cancelación activa de ruido</li>
+                                <li>✅ Batería 30 horas</li>
+                                <li>✅ Bluetooth 5.2</li>
+                                <li>✅ Micrófono integrado</li>
+                                <li>✅ Control táctil</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <footer class="modal-footer">
+                <div class="modal-actions product-actions">
+                    <button 
+                        class="btn btn-secondary"
+                        data-modal-close
+                        aria-label="Continuar comprando"
+                    >
+                        <span class="btn-icon" aria-hidden="true">←</span>
+                        Seguir Comprando
+                    </button>
+                    <button 
+                        class="btn btn-primary"
+                        aria-label="Agregar al carrito"
+                    >
+                        <span class="btn-icon" aria-hidden="true">🛒</span>
+                        Agregar al Carrito
+                        <span class="btn-badge">1</span>
+                    </button>
+                    <button 
+                        class="btn btn-success"
+                        aria-label="Comprar ahora"
+                    >
+                        <span class="btn-icon" aria-hidden="true">⚡</span>
+                        Comprar Ahora
+                    </button>
+                </div>
+                
+                <div class="product-shipping">
+                    <p>🚚 <strong>Envío gratuito</strong> en pedidos superiores a $50</p>
+                    <p>🔄 <strong>30 días de devolución</strong> garantizada</p>
+                </div>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- =========================================================================== -->
+    <!-- MODALES DE EJEMPLOS POR CASO DE USO -->
+    <!-- =========================================================================== -->
+
+    <!-- Modal E-commerce: Ejemplo de carrito de compras -->
+    <dialog 
+        id="modal-ecommerce" 
+        class="modal" 
+        aria-labelledby="modal-ecommerce-title"
+        aria-describedby="modal-ecommerce-description"
+        data-modal-type="ecommerce"
+    >
+        <div class="modal-overlay" data-modal-close></div>
+        <div class="modal-content modal-large" role="document">
+            <header class="modal-header">
+                <h2 id="modal-ecommerce-title" class="modal-title">
+                    <span class="modal-title-icon" aria-hidden="true">🛍️</span>
+                    Ejemplo: Carrito de Compras (E-commerce)
+                </h2>
+                <button 
+                    class="modal-close"
+                    data-modal-close
+                    aria-label="Cerrar ejemplo de comercio electrónico"
+                >
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </header>
+            
+            <div class="modal-body">
+                <p id="modal-ecommerce-description" class="modal-description">
+                    Este es un ejemplo real de cómo se usa un modal en una tienda online para el carrito de compras.
+                </p>
+                
+                <div class="ecommerce-example">
+                    <div class="cart-header">
+                        <h3>🛒 Tu Carrito de Compras</h3>
+                        <p class="cart-summary">3 productos • Total: $449.97</p>
+                    </div>
+                    
+                    <div class="cart-items">
+                        <div class="cart-item">
+                            <div class="item-image">
+                                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&auto=format&fit=crop&q=80" 
+                                     alt="Auriculares negros" width="100" height="100">
+                            </div>
+                            <div class="item-details">
+                                <h4>Auriculares Premium Pro X</h4>
+                                <p class="item-variant">Color: Negro</p>
+                                <div class="item-price">$299.99</div>
+                            </div>
+                            <div class="item-quantity">
+                                <button class="qty-btn minus" aria-label="Reducir cantidad">-</button>
+                                <span class="qty-value">1</span>
+                                <button class="qty-btn plus" aria-label="Aumentar cantidad">+</button>
+                            </div>
+                            <button class="item-remove" aria-label="Eliminar producto">🗑️</button>
+                        </div>
+                        
+                        <div class="cart-item">
+                            <div class="item-image">
+                                <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=100&auto=format&fit=crop&q=80" 
+                                     alt="Smartwatch negro" width="100" height="100">
+                            </div>
+                            <div class="item-details">
+                                <h4>Smartwatch Deportivo</h4>
+                                <p class="item-variant">Modelo: Pro 2024</p>
+                                <div class="item-price">$129.99</div>
+                            </div>
+                            <div class="item-quantity">
+                                <button class="qty-btn minus" aria-label="Reducir cantidad">-</button>
+                                <span class="qty-value">1</span>
+                                <button class="qty-btn plus" aria-label="Aumentar cantidad">+</button>
+                            </div>
+                            <button class="item-remove" aria-label="Eliminar producto">🗑️</button>
+                        </div>
+                        
+                        <div class="cart-item">
+                            <div class="item-image">
+                                <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=100&auto=format&fit=crop&q=80" 
+                                     alt="Cámara digital" width="100" height="100">
+                            </div>
+                            <div class="item-details">
+                                <h4>Cámara Digital Compacta</h4>
+                                <p class="item-variant">24MP • Zoom 10x</p>
+                                <div class="item-price">$19.99</div>
+                            </div>
+                            <div class="item-quantity">
+                                <button class="qty-btn minus" aria-label="Reducir cantidad">-</button>
+                                <span class="qty-value">1</span>
+                                <button class="qty-btn plus" aria-label="Aumentar cantidad">+</button>
+                            </div>
+                            <button class="item-remove" aria-label="Eliminar producto">🗑️</button>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-summary-details">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span>$449.97</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Envío:</span>
+                            <span class="free-shipping">¡Gratis!</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Descuento:</span>
+                            <span class="discount">-$20.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span><strong>Total:</strong></span>
+                            <span><strong>$429.97</strong></span>
+                        </div>
+                    </div>
+                    
+                    <div class="promo-code">
+                        <input type="text" placeholder="Código de descuento" aria-label="Código de descuento">
+                        <button class="btn btn-secondary">Aplicar</button>
+                    </div>
+                </div>
+                
+                <div class="example-explanation">
+                    <h4>💡 ¿Por qué usar un modal para el carrito?</h4>
+                    <ul>
+                        <li><strong>Experiencia de usuario mejorada:</strong> Los usuarios pueden seguir viendo los productos mientras agregan al carrito</li>
+                        <li><strong>Acción rápida:</strong> No necesitan navegar a otra página</li>
+                        <li><strong>Contexto mantenido:</strong> Los usuarios no pierden su lugar en el catálogo</li>
+                        <li><strong>Conversión aumentada:</strong> Reduce la fricción en el proceso de compra</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <footer class="modal-footer">
+                <div class="modal-actions">
+                    <button 
+                        class="btn btn-secondary"
+                        data-modal-close
+                        aria-label="Cerrar ejemplo"
+                    >
+                        Cerrar Ejemplo
+                    </button>
+                    <button 
+                        class="btn btn-primary"
+                        aria-label="Proceder al pago (ejemplo)"
+                    >
+                        ⚡ Proceder al Pago
+                    </button>
+                </div>
+                <p class="modal-footer-note">
+                    Este es un ejemplo funcional que simula un carrito de compras real.
+                </p>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- Modal Mobile: Ejemplo de permisos de app -->
+    <dialog 
+        id="modal-mobile" 
+        class="modal" 
+        aria-labelledby="modal-mobile-title"
+        aria-describedby="modal-mobile-description"
+        data-modal-type="mobile"
+    >
+        <div class="modal-overlay" data-modal-close></div>
+        <div class="modal-content modal-small" role="document">
+            <header class="modal-header">
+                <h2 id="modal-mobile-title" class="modal-title">
+                    <span class="modal-title-icon" aria-hidden="true">📱</span>
+                    Ejemplo: Permisos de App Móvil
+                </h2>
+                <button 
+                    class="modal-close"
+                    data-modal-close
+                    aria-label="Cerrar ejemplo de aplicación móvil"
+                >
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </header>
+            
+            <div class="modal-body">
+                <div class="modal-icon info" aria-hidden="true" role="img">📱</div>
+                <p id="modal-mobile-description" class="modal-description">
+                    Las aplicaciones móviles usan modales para solicitar permisos y configuraciones.
+                </p>
+                
+                <div class="mobile-permissions">
+                    <h4>📸 Acceso a la Cámara</h4>
+                    <p>"FotoApp" quiere acceder a tu cámara para:</p>
+                    <ul class="permissions-list">
+                        <li>Tomar fotos y videos</li>
+                        <li>Escanear códigos QR</li>
+                        <li>Realizar videollamadas</li>
+                    </ul>
+                    
+                    <div class="permission-warning">
+                        <p><strong>⚠️ Importante:</strong> Solo usaremos tu cámara cuando tú lo solicites explícitamente.</p>
+                    </div>
+                    
+                    <div class="permission-options">
+                        <h5>¿Cómo quieres compartir tus fotos?</h5>
+                        <div class="permission-buttons">
+                            <button class="permission-option active">
+                                <span class="option-icon">📁</span>
+                                Solo en esta app
+                            </button>
+                            <button class="permission-option">
+                                <span class="option-icon">☁️</span>
+                                En la nube también
+                            </button>
+                            <button class="permission-option">
+                                <span class="option-icon">🔒</span>
+                                Solo esta vez
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="example-explanation">
+                    <h4>💡 Mejores prácticas para modales móviles:</h4>
+                    <ul>
+                        <li><strong>Explicación clara:</strong> Los usuarios deben entender por qué necesitas el permiso</li>
+                        <li><strong>Opciones específicas:</strong> Ofrecer diferentes niveles de permiso</li>
+                        <li><strong>Diseño nativo:</strong> Seguir las guías de diseño del sistema operativo</li>
+                        <li><strong>Timing adecuado:</strong> Solicitar permisos en el momento correcto</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <footer class="modal-footer">
+                <div class="modal-actions">
+                    <button 
+                        class="btn btn-secondary"
+                        data-modal-close
+                        aria-label="Denegar permiso"
+                    >
+                        No Permitir
+                    </button>
+                    <button 
+                        class="btn btn-primary"
+                        aria-label="Permitir acceso a cámara"
+                    >
+                        Permitir
+                    </button>
+                </div>
+                <p class="modal-footer-note">
+                    En una app real, estos permisos se integrarían con las APIs nativas del dispositivo.
+                </p>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- Modal Dashboard: Ejemplo de reporte empresarial -->
+    <dialog 
+        id="modal-dashboard" 
+        class="modal" 
+        aria-labelledby="modal-dashboard-title"
+        aria-describedby="modal-dashboard-description"
+        data-modal-type="dashboard"
+    >
+        <div class="modal-overlay" data-modal-close></div>
+        <div class="modal-content modal-large" role="document">
+            <header class="modal-header">
+                <h2 id="modal-dashboard-title" class="modal-title">
+                    <span class="modal-title-icon" aria-hidden="true">📊</span>
+                    Ejemplo: Reporte Empresarial (Dashboard)
+                </h2>
+                <button 
+                    class="modal-close"
+                    data-modal-close
+                    aria-label="Cerrar ejemplo de dashboard empresarial"
+                >
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Cerrar</span>
+                </button>
+            </header>
+            
+            <div class="modal-body">
+                <p id="modal-dashboard-description" class="modal-description">
+                    En sistemas empresariales, los modales se usan para mostrar reportes detallados sin salir del contexto.
+                </p>
+                
+                <div class="dashboard-report">
+                    <div class="report-header">
+                        <div class="report-info">
+                            <h3>📈 Reporte de Ventas - Q4 2024</h3>
+                            <p class="report-period">Período: Octubre 1 - Diciembre 31, 2024</p>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn btn-icon" aria-label="Descargar reporte">
+                                <span aria-hidden="true">📥</span> Descargar PDF
+                            </button>
+                            <button class="btn btn-icon" aria-label="Compartir reporte">
+                                <span aria-hidden="true">📤</span> Compartir
+                            </button>
+                            <button class="btn btn-icon" aria-label="Imprimir reporte">
+                                <span aria-hidden="true">🖨️</span> Imprimir
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="report-metrics">
+                        <div class="metric-card">
+                            <div class="metric-value">$1,250,450</div>
+                            <div class="metric-label">Ventas Totales</div>
+                            <div class="metric-trend positive">+15.2% vs Q3</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">3,458</div>
+                            <div class="metric-label">Órdenes Procesadas</div>
+                            <div class="metric-trend positive">+8.7% vs Q3</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">$361.50</div>
+                            <div class="metric-label">Ticket Promedio</div>
+                            <div class="metric-trend positive">+6.1% vs Q3</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">94.2%</div>
+                            <div class="metric-label">Satisfacción Cliente</div>
+                            <div class="metric-trend stable">+0.3% vs Q3</div>
+                        </div>
+                    </div>
+                    
+                    <div class="report-details">
+                        <div class="detail-section">
+                            <h4>📋 Top Productos Q4 2024</h4>
+                            <table class="products-table">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Unidades</th>
+                                        <th>Ingresos</th>
+                                        <th>Crecimiento</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Auriculares Premium Pro X</td>
+                                        <td>1,245</td>
+                                        <td>$373,500</td>
+                                        <td class="positive">+22%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smartwatch Deportivo</td>
+                                        <td>987</td>
+                                        <td>$128,310</td>
+                                        <td class="positive">+18%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tablet Pro 12"</td>
+                                        <td>654</td>
+                                        <td>$392,400</td>
+                                        <td class="positive">+12%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="detail-section">
+                            <h4>🌍 Distribución por Región</h4>
+                            <div class="region-distribution">
+                                <div class="region">
+                                    <span class="region-name">América del Norte</span>
+                                    <div class="region-bar">
+                                        <div class="bar-fill" style="width: 45%"></div>
+                                    </div>
+                                    <span class="region-percent">45%</span>
+                                </div>
+                                <div class="region">
+                                    <span class="region-name">Europa</span>
+                                    <div class="region-bar">
+                                        <div class="bar-fill" style="width: 30%"></div>
+                                    </div>
+                                    <span class="region-percent">30%</span>
+                                </div>
+                                <div class="region">
+                                    <span class="region-name">Asia-Pacífico</span>
+                                    <div class="region-bar">
+                                        <div class="bar-fill" style="width: 20%"></div>
+                                    </div>
+                                    <span class="region-percent">20%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="example-explanation">
+                    <h4>💡 Ventajas de usar modales en dashboards:</h4>
+                    <ul>
+                        <li><strong>Contexto mantenido:</strong> Los analistas no pierden su vista principal</li>
+                        <li><strong>Comparación rápida:</strong> Pueden abrir múltiples reportes y compararlos</li>
+                        <li><strong>Foco en datos:</strong> El modal elimina distracciones del dashboard principal</li>
+                        <li><strong>Acciones inmediatas:</strong> Pueden exportar o compartir sin navegar</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <footer class="modal-footer">
+                <div class="modal-actions">
+                    <button 
+                        class="btn btn-secondary"
+                        data-modal-close
+                        aria-label="Cerrar reporte"
+                    >
+                        Cerrar Reporte
+                    </button>
+                    <button 
+                        class="btn btn-primary"
+                        aria-label="Generar nuevo reporte"
+                    >
+                        📊 Generar Nuevo Reporte
+                    </button>
+                </div>
+                <p class="modal-footer-note">
+                    Los datos mostrados son de ejemplo para demostrar capacidades del modal.
+                </p>
+            </footer>
+        </div>
+    </dialog>
+
+    <!-- Scripts -->
+    <script>
+        // Inicialización básica - remover clase de loading
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.remove('js-loading');
+            
+            // Enfocar el contenido principal para accesibilidad
+            const mainContent = document.getElementById('main-content');
+            if (mainContent) {
+                mainContent.focus();
+            }
+            
+            console.log('✅ Sistema de modales listo para inicializar');
+            console.log('📋 8 modales disponibles:');
+            console.log('   1. Formulario de contacto');
+            console.log('   2. Diálogo de confirmación');
+            console.log('   3. Información importante');
+            console.log('   4. Galería de imágenes');
+            console.log('   5. Selección de producto');
+            console.log('   6. Ejemplo: E-commerce');
+            console.log('   7. Ejemplo: App móvil');
+            console.log('   8. Ejemplo: Dashboard empresarial');
+        });
+    </script>
+    
+    <!-- Polyfill para <dialog> en navegadores antiguos -->
+    <script>
+        // Detectar si el navegador soporta <dialog> nativo
+        if (!('HTMLDialogElement' in window) || !document.createElement('dialog').showModal) {
+            console.log('Navegador no soporta <dialog> nativo, cargando polyfill...');
+            // En un caso real, aquí cargarías un polyfill como dialog-polyfill
+        }
+    </script>
+    
+    <script src="script.js" defer></script>
+</body>
+</html>
