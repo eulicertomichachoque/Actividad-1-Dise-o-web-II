@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explorador interactivo de APIs HTML5 modernas con demostraciones prácticas">
+    <meta name="keywords" content="HTML5, APIs, JavaScript, Geolocation, Canvas, Fetch, LocalStorage">
+    <title>Explorador de APIs HTML5 | Demostraciones Interactivas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container">
+        <header class="app-header">
+            <h1>
+                <span class="header-icon" aria-hidden="true">🚀</span>
+                Explorador de APIs HTML5
+            </h1>
+            <p class="header-subtitle">Demostraciones interactivas de APIs modernas del navegador</p>
+        </header>
+
+        <section class="apis-intro" aria-labelledby="intro-heading">
+            <h2 id="intro-heading" class="visually-hidden">Introducción</h2>
+            <p>Prueba las siguientes APIs HTML5 en tiempo real. Todas funcionan completamente en el navegador.</p>
+        </section>
+
+        <div class="apis-grid" role="region" aria-label="Demostraciones de APIs">
+            <!-- Geolocation API -->
+            <article class="api-card" aria-labelledby="geolocation-heading">
+                <header class="card-header">
+                    <h2 id="geolocation-heading">
+                        <span class="card-icon" aria-hidden="true">📍</span>
+                        Geolocation API
+                    </h2>
+                    <p class="card-description">Obtiene tu ubicación geográfica actual</p>
+                </header>
+                <div class="card-content">
+                    <button 
+                        id="getLocation" 
+                        class="btn btn-primary"
+                        aria-describedby="geolocation-desc"
+                    >
+                        Obtener Mi Ubicación
+                    </button>
+                    <p id="geolocation-desc" class="hint-text">
+                        Permite al navegador acceder a tu ubicación. Se te pedirá permiso.
+                    </p>
+                    <div id="locationResult" class="result" role="status" aria-live="polite"></div>
+                </div>
+                <footer class="card-footer">
+                    <small class="api-requirements">Requiere permiso de ubicación</small>
+                </footer>
+            </article>
+
+            <!-- LocalStorage API -->
+            <article class="api-card" aria-labelledby="storage-heading">
+                <header class="card-header">
+                    <h2 id="storage-heading">
+                        <span class="card-icon" aria-hidden="true">💾</span>
+                        LocalStorage API
+                    </h2>
+                    <p class="card-description">Almacenamiento persistente en el navegador</p>
+                </header>
+                <div class="card-content">
+                    <div class="form-group">
+                        <label for="storageInput" class="visually-hidden">Texto para almacenar</label>
+                        <input 
+                            type="text" 
+                            id="storageInput" 
+                            placeholder="Escribe algo para guardar..."
+                            aria-describedby="storage-hint"
+                        >
+                        <p id="storage-hint" class="hint-text">El texto se guardará en tu navegador</p>
+                    </div>
+                    <div class="button-group" role="group" aria-label="Acciones de almacenamiento">
+                        <button id="saveStorage" class="btn btn-primary">
+                            Guardar
+                        </button>
+                        <button id="loadStorage" class="btn btn-secondary">
+                            Cargar
+                        </button>
+                        <button id="clearStorage" class="btn btn-danger">
+                            Limpiar
+                        </button>
+                    </div>
+                    <div id="storageResult" class="result" role="status" aria-live="polite"></div>
+                </div>
+                <footer class="card-footer">
+                    <small class="api-requirements">Datos persistentes hasta que se limpien</small>
+                </footer>
+            </article>
+
+            <!-- Fetch API -->
+            <article class="api-card" aria-labelledby="fetch-heading">
+                <header class="card-header">
+                    <h2 id="fetch-heading">
+                        <span class="card-icon" aria-hidden="true">🌐</span>
+                        Fetch API
+                    </h2>
+                    <p class="card-description">Solicitudes HTTP modernas</p>
+                </header>
+                <div class="card-content">
+                    <button 
+                        id="fetchData" 
+                        class="btn btn-primary"
+                        aria-describedby="fetch-desc"
+                    >
+                        Cargar Datos de API
+                    </button>
+                    <p id="fetch-desc" class="hint-text">
+                        Obtiene datos de una API pública de ejemplo
+                    </p>
+                    <div id="fetchResult" class="result" role="status" aria-live="polite">
+                        <div class="loading-indicator" id="fetchLoading" hidden>
+                            <span class="loading-text" aria-hidden="true">Cargando...</span>
+                            <span class="visually-hidden">Cargando datos de la API</span>
+                        </div>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <small class="api-requirements">Requiere conexión a internet</small>
+                </footer>
+            </article>
+
+            <!-- Canvas API -->
+            <article class="api-card canvas-card" aria-labelledby="canvas-heading">
+                <header class="card-header">
+                    <h2 id="canvas-heading">
+                        <span class="card-icon" aria-hidden="true">🎨</span>
+                        Canvas API
+                    </h2>
+                    <p class="card-description">Dibujo gráfico en tiempo real</p>
+                </header>
+                <div class="card-content">
+                    <div class="canvas-container">
+                        <div class="canvas-wrapper">
+                            <canvas 
+                                id="myCanvas" 
+                                width="400" 
+                                height="200"
+                                aria-label="Área de dibujo Canvas"
+                                role="img"
+                                aria-describedby="canvas-desc"
+                            >
+                                <p id="canvas-desc">
+                                    Tu navegador no soporta el elemento Canvas. 
+                                    Aquí podrías dibujar formas geométricas.
+                                </p>
+                            </canvas>
+                        </div>
+                        <div class="canvas-controls" role="group" aria-label="Controles de dibujo">
+                            <button id="drawRect" class="btn btn-secondary">
+                                <span class="btn-icon" aria-hidden="true">⬜</span>
+                                Rectángulo
+                            </button>
+                            <button id="drawCircle" class="btn btn-secondary">
+                                <span class="btn-icon" aria-hidden="true">⚪</span>
+                                Círculo
+                            </button>
+                            <button id="drawLine" class="btn btn-secondary">
+                                <span class="btn-icon" aria-hidden="true">📏</span>
+                                Línea
+                            </button>
+                            <button id="clearCanvas" class="btn btn-danger">
+                                <span class="btn-icon" aria-hidden="true">🗑️</span>
+                                Limpiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <small class="api-requirements">Soporte nativo en navegadores modernos</small>
+                </footer>
+            </article>
+
+            <!-- Drag and Drop API -->
+            <article class="api-card" aria-labelledby="dragdrop-heading">
+                <header class="card-header">
+                    <h2 id="dragdrop-heading">
+                        <span class="card-icon" aria-hidden="true">🔄</span>
+                        Drag & Drop API
+                    </h2>
+                    <p class="card-description">Arrastrar y soltar elementos</p>
+                </header>
+                <div class="card-content">
+                    <div class="drop-zones-container">
+                        <div class="zone-container" aria-labelledby="source-zone-heading">
+                            <h3 id="source-zone-heading" class="zone-heading">Zona de Origen</h3>
+                            <div 
+                                class="zone source-zone" 
+                                id="zone1"
+                                role="region"
+                                aria-label="Zona con elementos arrastrables"
+                            >
+                                <div 
+                                    class="draggable" 
+                                    draggable="true"
+                                    role="button"
+                                    tabindex="0"
+                                    aria-grabbed="false"
+                                    aria-describedby="drag-instructions"
+                                >
+                                    Item 1
+                                </div>
+                                <div 
+                                    class="draggable" 
+                                    draggable="true"
+                                    role="button"
+                                    tabindex="0"
+                                    aria-grabbed="false"
+                                >
+                                    Item 2
+                                </div>
+                                <div 
+                                    class="draggable" 
+                                    draggable="true"
+                                    role="button"
+                                    tabindex="0"
+                                    aria-grabbed="false"
+                                >
+                                    Item 3
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="zone-container" aria-labelledby="target-zone-heading">
+                            <h3 id="target-zone-heading" class="zone-heading">Zona de Destino</h3>
+                            <div 
+                                class="zone target-zone" 
+                                id="zone2"
+                                role="region"
+                                aria-label="Zona para soltar elementos"
+                                aria-describedby="drop-instructions"
+                            >
+                                <p id="drop-instructions">Arrastra items aquí para soltarlos</p>
+                                <div class="drop-placeholder" aria-hidden="true">
+                                    💧 Suelta aquí
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p id="drag-instructions" class="hint-text">
+                        Usa el mouse o el teclado (Tab + Enter + flechas) para arrastrar elementos
+                    </p>
+                </div>
+                <footer class="card-footer">
+                    <small class="api-requirements">Soporte completo en navegadores modernos</small>
+                </footer>
+            </article>
+
+            <!-- Notification API -->
+            <article class="api-card" aria-labelledby="notification-heading">
+                <header class="card-header">
+                    <h2 id="notification-heading">
+                        <span class="card-icon" aria-hidden="true">🔔</span>
+                        Notification API
+                    </h2>
+                    <p class="card-description">Notificaciones del sistema</p>
+                </header>
+                <div class="card-content">
+                    <div class="button-group" role="group" aria-label="Controles de notificación">
+                        <button 
+                            id="requestNotification" 
+                            class="btn btn-primary"
+                            aria-describedby="notification-desc"
+                        >
+                            Solicitar Permiso
+                        </button>
+                        <button 
+                            id="showNotification" 
+                            class="btn btn-secondary"
+                            disabled
+                            aria-describedby="notification-hint"
+                        >
+                            Mostrar Notificación
+                        </button>
+                    </div>
+                    <p id="notification-desc" class="hint-text">
+                        Permite al sitio web mostrar notificaciones del sistema
+                    </p>
+                    <p id="notification-hint" class="hint-text">
+                        Primero solicita permiso para mostrar notificaciones
+                    </p>
+                    <div id="notificationResult" class="result" role="status" aria-live="polite"></div>
+                </div>
+                <footer class="card-footer">
+                    <small class="api-requirements">Requiere permiso del usuario</small>
+                </footer>
+            </article>
+
+            <!-- Audio API (Nuevo) -->
+            <article class="api-card" aria-labelledby="audio-heading">
+                <header class="card-header">
+                    <h2 id="audio-heading">
+                        <span class="card-icon" aria-hidden="true">🎵</span>
+                        Audio API
+                    </h2>
+                    <p class="card-description">Reproducción y manipulación de audio</p>
+                </header>
+                <div class="card-content">
+                    <div class="audio-player">
+                        <audio 
+                            id="audioPlayer" 
+                            controls
+                            aria-label="Reproductor de audio de demostración"
+                        >
+                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                            Tu navegador no soporta el elemento de audio.
+                        </audio>
+                    </div>
+                    <div class="audio-controls" role="group" aria-label="Controles de audio">
+                        <button id="playAudio" class="btn btn-secondary">
+                            ▶️ Reproducir
+                        </button>
+                        <button id="pauseAudio" class="btn btn-secondary">
+                            ⏸️ Pausar
+                        </button>
+                        <button id="changeVolume" class="btn btn-secondary">
+                            🔊 Volumen 50%
+                        </button>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <small class="api-requirements">Soporte nativo en navegadores modernos</small>
+                </footer>
+            </article>
+
+            <!-- Speech Synthesis API (Nuevo) -->
+            <article class="api-card" aria-labelledby="speech-heading">
+                <header class="card-header">
+                    <h2 id="speech-heading">
+                        <span class="card-icon" aria-hidden="true">🗣️</span>
+                        Speech Synthesis API
+                    </h2>
+                    <p class="card-description">Síntesis de voz del navegador</p>
+                </header>
+                <div class="card-content">
+                    <div class="form-group">
+                        <label for="speechText" class="visually-hidden">Texto para convertir a voz</label>
+                        <textarea 
+                            id="speechText" 
+                            rows="3"
+                            placeholder="Escribe texto para convertirlo en voz..."
+                            aria-describedby="speech-hint"
+                        >Hola, esto es una demostración de la API de síntesis de voz.</textarea>
+                        <p id="speech-hint" class="hint-text">El navegador leerá el texto en voz alta</p>
+                    </div>
+                    <div class="button-group" role="group" aria-label="Controles de síntesis de voz">
+                        <button id="speakText" class="btn btn-primary">
+                            🗣️ Hablar
+                        </button>
+                        <button id="pauseSpeech" class="btn btn-secondary" disabled>
+                            ⏸️ Pausar
+                        </button>
+                        <button id="resumeSpeech" class="btn btn-secondary" disabled>
+                            ▶️ Continuar
+                        </button>
+                        <button id="stopSpeech" class="btn btn-danger">
+                            ⏹️ Detener
+                        </button>
+                    </div>
+                </div>
+                <footer class="card-footer">
+                    <small class="api-requirements">Requiere soporte de síntesis de voz</small>
+                </footer>
+            </article>
+        </div>
+
+        <section class="apis-info" aria-labelledby="info-heading">
+            <h2 id="info-heading">ℹ️ Información sobre las APIs</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Compatibilidad</h3>
+                    <p>Todas las APIs mostradas tienen soporte en navegadores modernos (Chrome, Firefox, Safari, Edge).</p>
+                </div>
+                <div class="info-card">
+                    <h3>Seguridad</h3>
+                    <p>Algunas APIs requieren permisos explícitos del usuario (geolocalización, notificaciones).</p>
+                </div>
+                <div class="info-card">
+                    <h3>Funcionamiento</h3>
+                    <p>Todas las demostraciones funcionan completamente en el cliente, sin necesidad de servidor.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="app-footer">
+            <p>Explorador de APIs HTML5 - Demostraciones interactivas</p>
+            <p class="footer-note">
+                Este sitio es un proyecto educativo. No se almacenan datos personales.
+            </p>
+        </footer>
+    </main>
+
+    <!-- Toast para mensajes del sistema -->
+    <div 
+        class="toast" 
+        id="toast" 
+        role="alert" 
+        aria-live="assertive" 
+        aria-atomic="true"
+        hidden
+    >
+        <span class="toast-message"></span>
+    </div>
+
+    <!-- Modal para errores de permisos -->
+    <div 
+        class="modal" 
+        id="permissionModal" 
+        role="dialog" 
+        aria-labelledby="modalTitle" 
+        aria-describedby="modalDesc"
+        aria-modal="true"
+        hidden
+    >
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <h2 id="modalTitle">Permiso Requerido</h2>
+            <p id="modalDesc">Para usar esta función, necesitas otorgar permiso en la configuración de tu navegador.</p>
+            <button class="btn btn-primary" id="closeModal">Entendido</button>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
