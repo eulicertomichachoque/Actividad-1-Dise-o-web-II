@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formulario multi-paso para registro de usuarios con validación en tiempo real">
+    <meta name="keywords" content="formulario, registro, multi-paso, wizard, validación">
+    <title>Formulario Multi-paso | Registro Completo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container">
+        <article class="wizard-container" role="application" aria-label="Formulario de registro por pasos">
+            <header class="wizard-header">
+                <h1>Registro por Pasos</h1>
+                <p class="wizard-description">Completa los siguientes pasos para crear tu cuenta</p>
+            </header>
+
+            <!-- Barra de progreso -->
+            <nav aria-label="Progreso del formulario">
+                <ol class="progress-bar" role="list">
+                    <li class="progress-step active" role="listitem" aria-current="step">
+                        <div class="step-number" aria-hidden="true">1</div>
+                        <div class="step-label">Datos Personales</div>
+                        <span class="visually-hidden">Paso actual: Datos Personales</span>
+                    </li>
+                    <li class="progress-step" role="listitem">
+                        <div class="step-number" aria-hidden="true">2</div>
+                        <div class="step-label">Dirección</div>
+                        <span class="visually-hidden">Paso pendiente: Dirección</span>
+                    </li>
+                    <li class="progress-step" role="listitem">
+                        <div class="step-number" aria-hidden="true">3</div>
+                        <div class="step-label">Preferencias</div>
+                        <span class="visually-hidden">Paso pendiente: Preferencias</span>
+                    </li>
+                    <li class="progress-step" role="listitem">
+                        <div class="step-number" aria-hidden="true">4</div>
+                        <div class="step-label">Confirmación</div>
+                        <span class="visually-hidden">Paso pendiente: Confirmación</span>
+                    </li>
+                </ol>
+            </nav>
+
+            <form id="wizardForm" novalidate aria-labelledby="formTitle">
+                <!-- Paso 1: Datos Personales -->
+                <section 
+                    class="form-step active" 
+                    data-step="1"
+                    aria-labelledby="step1-title"
+                    aria-describedby="step1-description"
+                    role="region"
+                >
+                    <h2 id="step1-title">Datos Personales</h2>
+                    <p id="step1-description" class="visually-hidden">
+                        Complete sus datos personales básicos. Todos los campos marcados con asterisco (*) son obligatorios.
+                    </p>
+                    
+                    <div class="form-group">
+                        <label for="firstName">
+                            Nombre <span class="required-asterisk" aria-hidden="true">*</span>
+                            <span class="visually-hidden">(obligatorio)</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            name="firstName" 
+                            required
+                            aria-required="true"
+                            aria-describedby="firstName-error"
+                            placeholder="Ingrese su nombre"
+                            autocomplete="given-name"
+                        >
+                        <span id="firstName-error" class="error-message" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">
+                            Apellido <span class="required-asterisk" aria-hidden="true">*</span>
+                            <span class="visually-hidden">(obligatorio)</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="lastName" 
+                            name="lastName" 
+                            required
+                            aria-required="true"
+                            aria-describedby="lastName-error"
+                            placeholder="Ingrese su apellido"
+                            autocomplete="family-name"
+                        >
+                        <span id="lastName-error" class="error-message" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">
+                            Email <span class="required-asterisk" aria-hidden="true">*</span>
+                            <span class="visually-hidden">(obligatorio)</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required
+                            aria-required="true"
+                            aria-describedby="email-error email-hint"
+                            placeholder="usuario@ejemplo.com"
+                            autocomplete="email"
+                            inputmode="email"
+                        >
+                        <span id="email-hint" class="hint-message">Formato: usuario@ejemplo.com</span>
+                        <span id="email-error" class="error-message" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">
+                            Teléfono <span class="required-asterisk" aria-hidden="true">*</span>
+                            <span class="visually-hidden">(obligatorio)</span>
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone" 
+                            pattern="[0-9]{10}"
+                            required
+                            aria-required="true"
+                            aria-describedby="phone-error phone-hint"
+                            placeholder="10 dígitos sin espacios"
+                            autocomplete="tel"
+                            inputmode="numeric"
+                        >
+                        <span id="phone-hint" class="hint-message">Formato: 10 dígitos sin espacios ni guiones</span>
+                        <span id="phone-error" class="error-message" role="alert" aria-live="polite"></span>
+                    </div>
+                </section>
+
+                <!-- Paso 2: Dirección -->
+                <section 
+                    class="form-step" 
+                    data-step="2"
+                    aria-labelledby="step2-title"
+                    aria-describedby="step2-description"
+                    role="region"
+                    hidden
+                >
+                    <h2 id="step2-title">Dirección</h2>
+                    <p id="step2-description" class="visually-hidden">
+                        Complete su dirección de residencia. Todos los campos marcados con asterisco (*) son obligatorios.
+                    </p>
+                    
+                    <div class="form-group">
+                        <label for="street">
+                            Calle <span class="required-asterisk" aria-hidden="true">*</span>
+                            <span class="visually-hidden">(obligatorio)</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="street" 
+                            name="street" 
+                            required
+                            aria-required="true"
+                            aria-describedby="street-error"
+                            placeholder="Nombre de la calle y número"
+                            autocomplete="street-address"
+                        >
+                        <span id="street-error" class="error-message" role="alert" aria-live="polite"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">
+                                Ciudad <span class="required-asterisk" aria-hidden="true">*</span>
+                                <span class="visually-hidden">(obligatorio)</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="city" 
+                                name="city" 
+                                required
+                                aria-required="true"
+                                aria-describedby="city-error"
+                                placeholder="Nombre de la ciudad"
+                                autocomplete="address-level2"
+                            >
+                            <span id="city-error" class="error-message" role="alert" aria-live="polite"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="zipCode">
+                                Código Postal <span class="required-asterisk" aria-hidden="true">*</span>
+                                <span class="visually-hidden">(obligatorio)</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="zipCode" 
+                                name="zipCode" 
+                                pattern="[0-9]{5}"
+                                required
+                                aria-required="true"
+                                aria-describedby="zipCode-error zipCode-hint"
+                                placeholder="00000"
+                                autocomplete="postal-code"
+                                inputmode="numeric"
+                            >
+                            <span id="zipCode-hint" class="hint-message">5 dígitos</span>
+                            <span id="zipCode-error" class="error-message" role="alert" aria-live="polite"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">
+                            País <span class="required-asterisk" aria-hidden="true">*</span>
+                            <span class="visually-hidden">(obligatorio)</span>
+                        </label>
+                        <select 
+                            id="country" 
+                            name="country" 
+                            required
+                            aria-required="true"
+                            aria-describedby="country-error"
+                            autocomplete="country"
+                        >
+                            <option value="">Selecciona un país</option>
+                            <option value="mx">México</option>
+                            <option value="es">España</option>
+                            <option value="ar">Argentina</option>
+                            <option value="co">Colombia</option>
+                            <option value="cl">Chile</option>
+                            <option value="pe">Perú</option>
+                        </select>
+                        <span id="country-error" class="error-message" role="alert" aria-live="polite"></span>
+                    </div>
+                </section>
+
+                <!-- Paso 3: Preferencias -->
+                <section 
+                    class="form-step" 
+                    data-step="3"
+                    aria-labelledby="step3-title"
+                    aria-describedby="step3-description"
+                    role="region"
+                    hidden
+                >
+                    <h2 id="step3-title">Preferencias</h2>
+                    <p id="step3-description" class="visually-hidden">
+                        Configure sus preferencias personales. Los intereses son obligatorios.
+                    </p>
+                    
+                    <fieldset class="form-group" role="group" aria-labelledby="interests-label">
+                        <legend id="interests-label">
+                            Intereses <span class="required-asterisk" aria-hidden="true">*</span>
+                            <span class="visually-hidden">(seleccione al menos uno)</span>
+                        </legend>
+                        <div class="checkbox-group" role="group" aria-describedby="interests-error">
+                            <label class="checkbox-option">
+                                <input 
+                                    type="checkbox" 
+                                    name="interests" 
+                                    value="tecnologia"
+                                    aria-describedby="interests-error"
+                                >
+                                <span class="checkbox-custom" aria-hidden="true"></span>
+                                <span>Tecnología</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="interests" value="deportes">
+                                <span class="checkbox-custom" aria-hidden="true"></span>
+                                <span>Deportes</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="interests" value="musica">
+                                <span class="checkbox-custom" aria-hidden="true"></span>
+                                <span>Música</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="interests" value="viajes">
+                                <span class="checkbox-custom" aria-hidden="true"></span>
+                                <span>Viajes</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="interests" value="cocina">
+                                <span class="checkbox-custom" aria-hidden="true"></span>
+                                <span>Cocina</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="interests" value="lectura">
+                                <span class="checkbox-custom" aria-hidden="true"></span>
+                                <span>Lectura</span>
+                            </label>
+                        </div>
+                        <span id="interests-error" class="error-message" role="alert" aria-live="polite"></span>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <label class="checkbox-option">
+                            <input 
+                                type="checkbox" 
+                                id="newsletter" 
+                                name="newsletter"
+                                aria-describedby="newsletter-hint"
+                            >
+                            <span class="checkbox-custom" aria-hidden="true"></span>
+                            <span>Deseo recibir el newsletter</span>
+                        </label>
+                        <span id="newsletter-hint" class="hint-message">
+                            Recibirás actualizaciones y ofertas especiales por correo
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comments">Comentarios adicionales</label>
+                        <textarea 
+                            id="comments" 
+                            name="comments" 
+                            rows="4"
+                            aria-describedby="comments-hint"
+                            placeholder="Comparte cualquier información adicional que consideres relevante..."
+                        ></textarea>
+                        <span id="comments-hint" class="hint-message">Opcional</span>
+                    </div>
+                </section>
+
+                <!-- Paso 4: Confirmación -->
+                <section 
+                    class="form-step" 
+                    data-step="4"
+                    aria-labelledby="step4-title"
+                    aria-describedby="step4-description"
+                    role="region"
+                    hidden
+                >
+                    <h2 id="step4-title">Confirmación</h2>
+                    <p class="confirmation-text" id="step4-description">
+                        Por favor revisa tus datos antes de enviar:
+                    </p>
+                    
+                    <div class="summary-section" aria-labelledby="summary-personal-title">
+                        <h3 id="summary-personal-title">Datos Personales</h3>
+                        <div id="summaryPersonal" role="status" aria-live="polite"></div>
+                    </div>
+
+                    <div class="summary-section" aria-labelledby="summary-address-title">
+                        <h3 id="summary-address-title">Dirección</h3>
+                        <div id="summaryAddress" role="status" aria-live="polite"></div>
+                    </div>
+
+                    <div class="summary-section" aria-labelledby="summary-preferences-title">
+                        <h3 id="summary-preferences-title">Preferencias</h3>
+                        <div id="summaryPreferences" role="status" aria-live="polite"></div>
+                    </div>
+
+                    <fieldset class="form-group" role="group">
+                        <legend class="visually-hidden">Aceptación de términos y condiciones</legend>
+                        <label class="checkbox-option">
+                            <input 
+                                type="checkbox" 
+                                id="terms" 
+                                name="terms" 
+                                required
+                                aria-required="true"
+                                aria-describedby="terms-error"
+                            >
+                            <span class="checkbox-custom" aria-hidden="true"></span>
+                            <span>
+                                Acepto los 
+                                <a href="#" target="_blank" rel="noopener noreferrer">
+                                    términos y condiciones
+                                </a>
+                                <span class="required-asterisk" aria-hidden="true">*</span>
+                                <span class="visually-hidden">(obligatorio)</span>
+                            </span>
+                        </label>
+                        <span id="terms-error" class="error-message" role="alert" aria-live="polite"></span>
+                    </fieldset>
+                </section>
+
+                <!-- Botones de navegación -->
+                <div class="form-navigation" role="navigation" aria-label="Navegación del formulario">
+                    <button 
+                        type="button" 
+                        class="btn btn-secondary" 
+                        id="prevBtn" 
+                        style="display: none;"
+                        aria-label="Volver al paso anterior"
+                    >
+                        ← <span class="btn-text">Anterior</span>
+                    </button>
+                    
+                    <div class="navigation-center">
+                        <button 
+                            type="button" 
+                            class="btn btn-outline" 
+                            id="saveDraftBtn"
+                            style="display: none;"
+                        >
+                            Guardar borrador
+                        </button>
+                    </div>
+                    
+                    <button 
+                        type="button" 
+                        class="btn btn-primary" 
+                        id="nextBtn"
+                        aria-live="polite"
+                        aria-describedby="nextBtn-description"
+                    >
+                        <span class="btn-text">Siguiente</span> →
+                    </button>
+                    
+                    <button 
+                        type="submit" 
+                        class="btn btn-success" 
+                        id="submitBtn" 
+                        style="display: none;"
+                        aria-label="Enviar formulario completo"
+                    >
+                        <span class="btn-text">Enviar</span>
+                        <span class="btn-icon" aria-hidden="true">✓</span>
+                    </button>
+                </div>
+                
+                <p id="nextBtn-description" class="visually-hidden">
+                    Al hacer clic en siguiente, pasarás al siguiente paso del formulario si todos los campos son válidos.
+                </p>
+            </form>
+        </article>
+    </main>
+
+    <!-- Modal de éxito -->
+    <div 
+        class="modal" 
+        id="successModal" 
+        role="dialog" 
+        aria-labelledby="modalTitle" 
+        aria-describedby="modalDescription"
+        aria-modal="true"
+        hidden
+    >
+        <div class="modal-overlay" tabindex="-1"></div>
+        <div class="modal-content" role="document">
+            <div class="modal-icon" aria-hidden="true">✓</div>
+            <h2 id="modalTitle">¡Registro Exitoso!</h2>
+            <p id="modalDescription">Tus datos han sido enviados correctamente.</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="downloadDataBtn">
+                    Descargar datos
+                </button>
+                <button class="btn btn-primary" id="closeModalBtn">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast para mensajes -->
+    <div 
+        class="toast" 
+        id="toast" 
+        role="alert" 
+        aria-live="assertive" 
+        aria-atomic="true"
+        hidden
+    >
+        <span class="toast-message"></span>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
