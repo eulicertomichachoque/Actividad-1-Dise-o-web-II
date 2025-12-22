@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generador de contraseñas seguras y aleatorias con opciones personalizables">
+    <meta name="keywords" content="contraseñas, seguridad, generador, password, aleatorio">
+    <title>Generador de Contraseñas Seguras | Herramienta Online</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container">
+        <article class="generator-card">
+            <header class="card-header">
+                <h1>🔐 Generador de Contraseñas Seguras</h1>
+                <p class="subtitle">Crea contraseñas seguras y aleatorias personalizables</p>
+            </header>
+
+            <section aria-labelledby="passwordOutputLabel">
+                <h2 id="passwordOutputLabel" class="visually-hidden">Contraseña generada</h2>
+                <div class="password-display">
+                    <label for="passwordOutput" class="visually-hidden">Contraseña generada</label>
+                    <input 
+                        type="text" 
+                        id="passwordOutput" 
+                        readonly 
+                        value="Haz clic en 'Generar Contraseña' para comenzar"
+                        aria-describedby="passwordStrength"
+                    >
+                    <button 
+                        class="btn-copy" 
+                        id="copyBtn" 
+                        title="Copiar contraseña al portapapeles"
+                        aria-label="Copiar contraseña"
+                        disabled
+                    >
+                        <span aria-hidden="true">📋</span>
+                        <span class="visually-hidden">Copiar</span>
+                    </button>
+                </div>
+
+                <div class="strength-meter">
+                    <p id="passwordStrength" class="strength-label">Fuerza de la contraseña: No generada</p>
+                    <div class="strength-indicator" role="meter" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0" aria-labelledby="passwordStrength">
+                        <div class="strength-bar" id="strengthBar"></div>
+                    </div>
+                    <p class="strength-text" id="strengthText">Nivel: -</p>
+                </div>
+            </section>
+
+            <section aria-labelledby="settingsHeading">
+                <h2 id="settingsHeading" class="visually-hidden">Configuración del generador</h2>
+                <form id="generatorForm" aria-label="Configuración del generador de contraseñas">
+                    <div class="form-group">
+                        <label for="length">
+                            Longitud de la contraseña: <span id="lengthValue" aria-live="polite">12</span> caracteres
+                        </label>
+                        <input 
+                            type="range" 
+                            id="length" 
+                            name="length"
+                            min="4"
+                            max="32"
+                            value="12"
+                            aria-valuemin="4"
+                            aria-valuemax="32"
+                            aria-valuenow="12"
+                            aria-valuetext="12 caracteres"
+                        >
+                        <div class="range-labels">
+                            <span>4</span>
+                            <span>32</span>
+                        </div>
+                    </div>
+
+                    <fieldset class="options-group">
+                        <legend><h3>Tipos de caracteres:</h3></legend>
+                        
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="uppercase" id="uppercase" checked>
+                                <span class="checkbox-custom" aria-hidden="true"></span>
+                                <span>Incluir Mayúsculas (A-Z)</span>
+                            </label>
+
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="lowercase" id="lowercase" checked>
+                                <span class="checkbox-custom" aria-hidden="true"></span>
+                                <span>Incluir Minúsculas (a-z)</span>
+                            </label>
+
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="numbers" id="numbers" checked>
+                                <span class="checkbox-custom" aria-hidden="true"></span>
+                                <span>Incluir Números (0-9)</span>
+                            </label>
+
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="symbols" id="symbols">
+                                <span class="checkbox-custom" aria-hidden="true"></span>
+                                <span>Incluir Símbolos (!@#$%^&*)</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="btn-generate">
+                        <span aria-hidden="true">⚡</span> Generar Contraseña
+                    </button>
+                </form>
+            </section>
+
+            <section aria-labelledby="historyHeading" class="history-section">
+                <h3 id="historyHeading">Historial de Contraseñas Generadas</h3>
+                <div id="historyList" aria-live="polite">
+                    <p class="empty-history" role="status">No hay contraseñas generadas aún</p>
+                </div>
+                <button class="btn-clear" id="clearHistoryBtn" style="display: none;">
+                    Limpiar Historial
+                </button>
+            </section>
+
+            <aside class="tips" aria-labelledby="tipsHeading">
+                <h3 id="tipsHeading">💡 Consejos de Seguridad:</h3>
+                <ul>
+                    <li>Usa contraseñas de al menos 12 caracteres</li>
+                    <li>Combina mayúsculas, minúsculas, números y símbolos</li>
+                    <li>No reutilices contraseñas en diferentes sitios</li>
+                    <li>Cambia tus contraseñas periódicamente</li>
+                    <li>Usa un gestor de contraseñas confiable</li>
+                </ul>
+            </aside>
+        </article>
+    </main>
+
+    <div class="toast" id="toast" role="alert" aria-live="polite" aria-atomic="true" hidden>
+        <span class="toast-icon">✓</span>
+        <span class="toast-message">Contraseña copiada al portapapeles</span>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
