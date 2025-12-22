@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formulario de registro accesible y moderno para crear una nueva cuenta">
+    <title>Formulario de Registro - Crear Cuenta</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container" role="main">
+        <section class="form-wrapper" aria-labelledby="form-title">
+            <header class="form-header">
+                <h1 id="form-title">Crear Cuenta</h1>
+                <p class="subtitle">Regístrate para comenzar</p>
+            </header>
+            
+            <form id="registrationForm" novalidate aria-label="Formulario de registro">
+                <fieldset class="form-section" aria-labelledby="personal-info">
+                    <legend id="personal-info" class="visually-hidden">Información personal</legend>
+                    
+                    <div class="form-group">
+                        <label for="username" class="form-label">
+                            Nombre de Usuario <span class="required-indicator">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            required 
+                            minlength="3"
+                            autocomplete="username"
+                            aria-describedby="username-error"
+                            class="form-input"
+                        >
+                        <span id="username-error" class="error-message" aria-live="polite"></span>
+                        <span class="success-icon" aria-hidden="true">✓</span>
+                        <p class="form-hint">Mínimo 3 caracteres</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            Correo Electrónico <span class="required-indicator">*</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required 
+                            autocomplete="email"
+                            aria-describedby="email-error"
+                            class="form-input"
+                        >
+                        <span id="email-error" class="error-message" aria-live="polite"></span>
+                        <span class="success-icon" aria-hidden="true">✓</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="form-label">
+                            Teléfono (opcional)
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone" 
+                            pattern="[0-9]{10}"
+                            autocomplete="tel"
+                            aria-describedby="phone-error"
+                            class="form-input"
+                        >
+                        <span id="phone-error" class="error-message" aria-live="polite"></span>
+                        <span class="success-icon" aria-hidden="true">✓</span>
+                        <p class="form-hint">Formato: 10 dígitos sin espacios</p>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-section" aria-labelledby="security-info">
+                    <legend id="security-info" class="visually-hidden">Información de seguridad</legend>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            Contraseña <span class="required-indicator">*</span>
+                        </label>
+                        <div class="password-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                required 
+                                minlength="8"
+                                autocomplete="new-password"
+                                aria-describedby="password-error password-strength-text"
+                                class="form-input password-input"
+                            >
+                            <button type="button" class="toggle-password" aria-label="Mostrar contraseña">
+                                👁️
+                            </button>
+                        </div>
+                        <span id="password-error" class="error-message" aria-live="polite"></span>
+                        <span class="success-icon" aria-hidden="true">✓</span>
+                        
+                        <div class="password-strength" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                            <div class="strength-bar" id="strength-bar"></div>
+                            <span class="strength-text" id="password-strength-text">Seguridad de la contraseña</span>
+                        </div>
+                        <p class="form-hint">Mínimo 8 caracteres con mayúsculas, minúsculas y números</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">
+                            Confirmar Contraseña <span class="required-indicator">*</span>
+                        </label>
+                        <div class="password-wrapper">
+                            <input 
+                                type="password" 
+                                id="confirmPassword" 
+                                name="confirmPassword" 
+                                required 
+                                autocomplete="new-password"
+                                aria-describedby="confirm-error"
+                                class="form-input password-input"
+                            >
+                            <button type="button" class="toggle-password" aria-label="Mostrar contraseña">
+                                👁️
+                            </button>
+                        </div>
+                        <span id="confirm-error" class="error-message" aria-live="polite"></span>
+                        <span class="success-icon" aria-hidden="true">✓</span>
+                    </div>
+                </fieldset>
+
+                <div class="form-group checkbox-group">
+                    <input 
+                        type="checkbox" 
+                        id="terms" 
+                        name="terms" 
+                        required
+                        aria-describedby="terms-error"
+                        class="checkbox-input"
+                    >
+                    <label for="terms" class="checkbox-label">
+                        Acepto los <a href="#" class="terms-link">términos y condiciones</a>
+                        <span class="required-indicator">*</span>
+                    </label>
+                    <span id="terms-error" class="error-message" aria-live="polite"></span>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn" aria-label="Registrarse y crear cuenta">
+                    <span class="btn-text">Registrarse</span>
+                    <span class="btn-loader" aria-hidden="true"></span>
+                </button>
+                
+                <div class="form-feedback" id="formFeedback" aria-live="polite"></div>
+            </form>
+
+            <footer class="form-footer">
+                <p class="login-link">
+                    ¿Ya tienes cuenta? 
+                    <a href="#" class="login-action" aria-label="Ir a iniciar sesión">Iniciar sesión</a>
+                </p>
+            </footer>
+        </section>
+    </main>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
