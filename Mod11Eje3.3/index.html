@@ -1,0 +1,180 @@
+!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Paint Pro Ultra - Editor de imágenes con filtros y herramientas de dibujo profesional">
+    <meta name="keywords" content="editor de imágenes, dibujo digital, filtros, canvas HTML5">
+    <meta name="author" content="Paint Pro Ultra">
+    
+    <title>Paint Pro Ultra - Editor de Imágenes con Filtros y Herramientas</title>
+    
+    <!-- Preload para mejor performance -->
+    <link rel="preload" href="styles.css" as="style">
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+</head>
+<body>
+    <!-- Contenedor principal -->
+    <div class="app-container">
+        
+        <!-- Header semántico para la aplicación -->
+        <header class="app-header" aria-label="Cabecera de Paint Pro Ultra">
+            <h1 class="visually-hidden">Paint Pro Ultra - Editor de Imágenes Profesional</h1>
+        </header>
+        
+        <!-- Navegación principal -->
+        <nav class="sidebar" aria-label="Herramientas de edición">
+            <h2 class="sidebar__title">
+                <span aria-hidden="true">🎨</span>
+                Paint Studio
+            </h2>
+            
+            <!-- Sección Archivos -->
+            <section class="control-group" aria-labelledby="archivo-title">
+                <h3 id="archivo-title" class="section-title">Archivo</h3>
+                
+                <div class="file-controls">
+                    <label for="imageLoader" class="file-button">
+                        <span class="button-icon" aria-hidden="true">📂</span>
+                        <span class="button-text">Abrir Foto</span>
+                        <span class="visually-hidden">Seleccionar imagen desde tu dispositivo</span>
+                    </label>
+                    <input type="file" 
+                           id="imageLoader" 
+                           class="visually-hidden"
+                           accept="image/*"
+                           aria-label="Cargar imagen">
+                    
+                    <button id="downloadBtn" class="btn-primary" aria-label="Guardar imagen como PNG">
+                        <span class="button-icon" aria-hidden="true">💾</span>
+                        <span class="button-text">Guardar PNG</span>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Sección Herramientas -->
+            <section class="control-group" aria-labelledby="herramientas-title">
+                <h3 id="herramientas-title" class="section-title">Herramientas</h3>
+                
+                <div class="tool-grid" role="toolbar" aria-label="Herramientas de dibujo">
+                    <button class="tool active" 
+                            data-tool="brush"
+                            aria-label="Pincel"
+                            aria-pressed="true">
+                        <span aria-hidden="true">🖌️</span>
+                        <span class="tool-name">Pincel</span>
+                    </button>
+                    
+                    <button class="tool" 
+                            data-tool="rectangle"
+                            aria-label="Rectángulo"
+                            aria-pressed="false">
+                        <span aria-hidden="true">⏹️</span>
+                        <span class="tool-name">Rectángulo</span>
+                    </button>
+                    
+                    <button class="tool" 
+                            data-tool="circle"
+                            aria-label="Círculo"
+                            aria-pressed="false">
+                        <span aria-hidden="true">⭕</span>
+                        <span class="tool-name">Círculo</span>
+                    </button>
+                    
+                    <button class="tool" 
+                            data-tool="eraser"
+                            aria-label="Borrador"
+                            aria-pressed="false">
+                        <span aria-hidden="true">🧽</span>
+                        <span class="tool-name">Borrador</span>
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Sección Filtros -->
+            <section class="control-group" aria-labelledby="filtros-title">
+                <h3 id="filtros-title" class="section-title">Filtros Pro</h3>
+                
+                <div class="filter-controls">
+                    <button id="filterGray" class="filter-btn" aria-label="Aplicar filtro escala de grises">
+                        Escala Grises
+                    </button>
+                    
+                    <button id="filterInvert" class="filter-btn" aria-label="Aplicar filtro invertir colores">
+                        Invertir
+                    </button>
+                    
+                    <button id="filterSepia" class="filter-btn" aria-label="Aplicar filtro sepia">
+                        Sepia
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Sección Propiedades -->
+            <section class="control-group" aria-labelledby="propiedades-title">
+                <h3 id="propiedades-title" class="section-title">Propiedades</h3>
+                
+                <div class="property-controls">
+                    <label for="colorPicker" class="color-label">
+                        Color del pincel
+                    </label>
+                    <input type="color" 
+                           id="colorPicker" 
+                           value="#1a73e8"
+                           aria-label="Selector de color del pincel">
+                    
+                    <div class="slider-container">
+                        <label for="lineWidth" id="lineWidthLabel">
+                            Grosor del trazo: <span id="wLabel" aria-live="polite">5</span>px
+                        </label>
+                        <input type="range" 
+                               id="lineWidth" 
+                               min="1" 
+                               max="100" 
+                               value="5"
+                               aria-labelledby="lineWidthLabel">
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Área de información de estado -->
+            <div class="status-area" role="status" aria-live="polite">
+                <p>Listo para dibujar. Herramienta activa: <span id="currentTool">Pincel</span></p>
+            </div>
+        </nav>
+        
+        <!-- Área principal de edición -->
+        <main class="editor-area" aria-label="Área de edición de imagen">
+            <div class="canvas-container">
+                <canvas id="canvas" 
+                        width="800" 
+                        height="600"
+                        aria-label="Lienzo de dibujo"
+                        role="img">
+                    Tu navegador no soporta el elemento canvas.
+                    Por favor, actualiza a un navegador moderno.
+                </canvas>
+                
+                <!-- Mensaje de carga -->
+                <div id="loadingMessage" class="loading-message" hidden>
+                    <p>Cargando imagen...</p>
+                </div>
+            </div>
+            
+            <!-- Instrucciones de accesibilidad -->
+            <div class="accessibility-hint" role="note">
+                <p class="visually-hidden">
+                    Instrucciones: Usa el mouse o lápiz digital para dibujar en el lienzo.
+                    Selecciona herramientas desde el panel lateral.
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script src="javascript.js" defer></script>
+</body>
+</html>
