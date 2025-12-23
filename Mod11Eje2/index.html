@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aplicación del clima en tiempo real con pronóstico de 5 días y ciudades favoritas">
+    <meta name="keywords" content="clima, pronóstico, tiempo, meteorología, temperatura, lluvia">
+    <title>App del Clima | Pronóstico en Tiempo Real</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <main class="container">
+        <header class="app-header" role="banner">
+            <div class="header-content">
+                <h1>
+                    <span class="header-icon" aria-hidden="true">🌤️</span>
+                    Mi Clima App
+                </h1>
+                <p class="header-subtitle">Pronóstico del tiempo en tiempo real</p>
+            </div>
+        </header>
+
+        <div class="weather-app" role="main">
+            <!-- Búsqueda y controles -->
+            <section class="search-section" aria-labelledby="search-heading">
+                <h2 id="search-heading" class="visually-hidden">Buscar ciudad</h2>
+                <div class="controls">
+                    <form id="searchForm" role="search" aria-label="Buscar ciudad para el clima">
+                        <div class="search-box">
+                            <label for="citySearch" class="visually-hidden">Nombre de la ciudad</label>
+                            <input 
+                                type="text" 
+                                id="citySearch" 
+                                name="city"
+                                placeholder="🔍 Buscar ciudad (ej: Madrid, Barcelona, México)"
+                                aria-describedby="search-hint"
+                                autocomplete="off"
+                                spellcheck="false"
+                            >
+                            <button 
+                                id="searchBtn" 
+                                type="submit"
+                                class="btn btn-primary"
+                                aria-label="Buscar ciudad"
+                            >
+                                <span class="btn-text">Buscar</span>
+                            </button>
+                        </div>
+                        <p id="search-hint" class="hint-text">
+                            Presiona Enter para buscar o selecciona una sugerencia
+                        </p>
+                        <div id="suggestions" class="suggestions-list" role="listbox" hidden></div>
+                    </form>
+                    
+                    <div class="actions" role="group" aria-label="Acciones del clima">
+                        <button 
+                            id="locationBtn" 
+                            class="btn btn-secondary btn-icon"
+                            aria-label="Usar mi ubicación actual"
+                            title="Detectar ubicación automáticamente"
+                        >
+                            <span class="icon" aria-hidden="true">📍</span>
+                            <span class="btn-text">Mi ubicación</span>
+                        </button>
+                        
+                        <div class="unit-toggle" role="group" aria-label="Unidades de temperatura">
+                            <span class="unit-label">Temperatura:</span>
+                            <button 
+                                id="unitToggle" 
+                                class="btn-toggle"
+                                aria-pressed="true"
+                                aria-label="Cambiar entre Celsius y Fahrenheit"
+                                data-unit="celsius"
+                            >
+                                <span class="unit-celsius">°C</span>
+                                <span class="unit-separator">/</span>
+                                <span class="unit-fahrenheit">°F</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Clima actual -->
+            <section 
+                class="current-weather-section" 
+                aria-labelledby="current-weather-heading"
+                aria-live="polite"
+            >
+                <h2 id="current-weather-heading" class="visually-hidden">Clima actual</h2>
+                
+                <div class="current-weather" id="currentWeather" role="status">
+                    <div class="weather-loading" id="weatherLoading">
+                        <div class="loading-spinner" aria-hidden="true"></div>
+                        <p class="loading-text">Cargando datos del clima...</p>
+                        <span class="visually-hidden">Cargando información del clima</span>
+                    </div>
+                    
+                    <div class="weather-error" id="weatherError" hidden>
+                        <div class="error-icon" aria-hidden="true">⚠️</div>
+                        <p class="error-message" id="errorMessage"></p>
+                        <button class="btn btn-secondary" id="retryBtn">
+                            Reintentar
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="weather-stats" id="weatherStats" role="region" aria-label="Estadísticas del clima" hidden></div>
+            </section>
+
+            <!-- Pronóstico de 5 días -->
+            <section 
+                class="forecast-section" 
+                aria-labelledby="forecast-heading"
+                aria-live="polite"
+            >
+                <header class="section-header">
+                    <h2 id="forecast-heading">Pronóstico de 5 días</h2>
+                    <button 
+                        id="toggleForecast" 
+                        class="btn btn-text"
+                        aria-expanded="true"
+                        aria-controls="forecastGrid"
+                    >
+                        <span class="toggle-icon" aria-hidden="true">▼</span>
+                        <span class="toggle-text">Ocultar pronóstico</span>
+                    </button>
+                </header>
+                
+                <div class="forecast-grid" id="forecastGrid" role="list" aria-label="Pronóstico por días"></div>
+            </section>
+
+            <!-- Ciudades favoritas -->
+            <section 
+                class="favorites-section" 
+                aria-labelledby="favorites-heading"
+                aria-live="polite"
+            >
+                <header class="section-header">
+                    <h2 id="favorites-heading">Mis Ciudades Favoritas</h2>
+                    <button 
+                        id="manageFavorites" 
+                        class="btn btn-text"
+                        aria-label="Gestionar ciudades favoritas"
+                    >
+                        <span class="icon" aria-hidden="true">⚙️</span>
+                        <span class="btn-text">Gestionar</span>
+                    </button>
+                </header>
+                
+                <div class="favorites-container">
+                    <div class="favorites-list" id="favoritesList" role="list" aria-label="Lista de ciudades favoritas">
+                        <div class="empty-state" id="emptyFavorites">
+                            <p>No hay ciudades favoritas aún</p>
+                            <p class="hint-text">Usa el botón de favoritos en el clima actual para agregar ciudades</p>
+                        </div>
+                    </div>
+                    
+                    <div class="favorites-actions" role="group" aria-label="Acciones de ciudades favoritas">
+                        <button 
+                            id="importFavorites" 
+                            class="btn btn-secondary"
+                            aria-label="Importar ciudades favoritas"
+                        >
+                            Importar
+                        </button>
+                        <button 
+                            id="exportFavorites" 
+                            class="btn btn-secondary"
+                            aria-label="Exportar ciudades favoritas"
+                        >
+                            Exportar
+                        </button>
+                        <button 
+                            id="clearFavorites" 
+                            class="btn btn-danger"
+                            aria-label="Limpiar todas las ciudades favoritas"
+                        >
+                            Limpiar
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Historial de búsqueda -->
+            <section class="history-section" aria-labelledby="history-heading">
+                <h2 id="history-heading">Historial de Búsquedas</h2>
+                <div class="history-list" id="historyList" role="list" aria-label="Historial de ciudades buscadas"></div>
+            </section>
+
+            <!-- Información del clima -->
+            <section class="weather-info" aria-labelledby="info-heading">
+                <h2 id="info-heading">ℹ️ Información Meteorológica</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>🌡️ Sensación Térmica</h3>
+                        <p>La temperatura que realmente sentimos, considerando viento y humedad.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>💨 Índice UV</h3>
+                        <p>Intensidad de la radiación ultravioleta. Usa protección solar cuando sea alto.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>🌊 Presión Atmosférica</h3>
+                        <p>Indicador de cambios en el tiempo. Valores bajos suelen indicar mal tiempo.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>👁️ Visibilidad</h3>
+                        <p>Distancia máxima a la que se pueden ver objetos claramente.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Modal para errores -->
+        <div 
+            class="modal" 
+            id="errorModal" 
+            role="alertdialog" 
+            aria-labelledby="modalTitle" 
+            aria-describedby="modalDescription"
+            aria-modal="true"
+            hidden
+        >
+            <div class="modal-overlay" tabindex="-1"></div>
+            <div class="modal-content error">
+                <div class="modal-header">
+                    <h3 id="modalTitle" class="modal-title">
+                        <span class="modal-icon" aria-hidden="true">⚠️</span>
+                        Error
+                    </h3>
+                    <button 
+                        class="modal-close"
+                        aria-label="Cerrar modal"
+                        onclick="WeatherApp.UI.hideModal('errorModal')"
+                    >
+                        ×
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalDescription"></p>
+                </div>
+                <div class="modal-actions">
+                    <button 
+                        class="btn btn-primary"
+                        onclick="WeatherApp.UI.hideModal('errorModal')"
+                    >
+                        Aceptar
+                    </button>
+                    <button 
+                        class="btn btn-secondary"
+                        id="modalRetryBtn"
+                        onclick="WeatherApp.UI.hideModal('errorModal')"
+                    >
+                        Reintentar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para permisos de ubicación -->
+        <div 
+            class="modal" 
+            id="permissionModal" 
+            role="dialog" 
+            aria-labelledby="permissionTitle" 
+            aria-describedby="permissionDescription"
+            aria-modal="true"
+            hidden
+        >
+            <div class="modal-overlay"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="permissionTitle" class="modal-title">
+                        <span class="modal-icon" aria-hidden="true">📍</span>
+                        Permiso de Ubicación
+                    </h3>
+                </div>
+                <div class="modal-body">
+                    <p id="permissionDescription">
+                        Para obtener el clima de tu ubicación actual, necesitamos tu permiso.
+                        La ubicación solo se usa para mostrar el pronóstico del tiempo.
+                    </p>
+                    <p class="hint-text">
+                        Puedes modificar este permiso en cualquier momento desde la configuración de tu navegador.
+                    </p>
+                </div>
+                <div class="modal-actions">
+                    <button 
+                        class="btn btn-secondary"
+                        onclick="WeatherApp.UI.hideModal('permissionModal')"
+                    >
+                        Cancelar
+                    </button>
+                    <button 
+                        class="btn btn-primary"
+                        id="grantPermissionBtn"
+                    >
+                        Permitir ubicación
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast para notificaciones -->
+        <div 
+            class="toast" 
+            id="toast" 
+            role="status" 
+            aria-live="polite" 
+            aria-atomic="true"
+            hidden
+        >
+            <span class="toast-message" id="toastMessage"></span>
+        </div>
+    </main>
+
+    <footer class="app-footer" role="contentinfo">
+        <div class="footer-content">
+            <p>App del Clima v1.0</p>
+            <p class="footer-note">
+                Datos proporcionados por 
+                <a href="https://openweathermap.org/" target="_blank" rel="noopener noreferrer">
+                    OpenWeatherMap
+                </a>
+            </p>
+            <p class="footer-disclaimer">
+                Esta aplicación es solo para fines educativos. La precisión del pronóstico puede variar.
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
