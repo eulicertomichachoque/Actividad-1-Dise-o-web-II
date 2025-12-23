@@ -1,0 +1,403 @@
+:root {
+    /* Variables de color para consistencia */
+    --color-primary: #667eea;
+    --color-primary-dark: #5568d3;
+    --color-secondary: #764ba2;
+    --color-white: #ffffff;
+    --color-gray-50: #f8f9fa;
+    --color-gray-100: #f1f3f5;
+    --color-gray-200: #e9ecef;
+    --color-gray-300: #e0e0e0;
+    --color-gray-800: #333333;
+    
+    /* Variables de transición */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 500ms ease;
+    
+    /* Variables de border-radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+    --radius-xl: 15px;
+    
+    /* Variables de sombra */
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 5px 15px rgba(0, 0, 0, 0.2);
+    --shadow-primary: 0 0 20px rgba(102, 126, 234, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+*:focus:not(.focus-visible) {
+    outline: none;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    min-height: 100vh;
+    padding: 2rem;
+    line-height: 1.6;
+    color: var(--color-gray-800);
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s var(--transition-normal);
+}
+
+/* Header */
+.app-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.app-header h1 {
+    color: var(--color-white);
+    margin-bottom: 0.5rem;
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.header-icon {
+    font-size: 1.2em;
+}
+
+.subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Controles */
+.controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    background: var(--color-white);
+    color: var(--color-primary);
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    min-width: 120px;
+}
+
+.btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.btn-icon {
+    font-size: 1.1rem;
+}
+
+.btn-text {
+    font-weight: 600;
+}
+
+/* Columnas */
+.columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.column {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform var(--transition-normal);
+}
+
+.column:hover {
+    transform: translateY(-4px);
+}
+
+.column h2 {
+    color: var(--color-gray-800);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.column-icon {
+    font-size: 1.2em;
+}
+
+/* Dropzones */
+.dropzone {
+    min-height: 300px;
+    background: var(--color-gray-50);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+    border: 2px dashed var(--color-gray-300);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.dropzone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.03"><rect width="100" height="100" rx="10" fill="%23667eea"/></svg>');
+    pointer-events: none;
+}
+
+.dropzone.drag-over {
+    background: #e3f2fd;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-primary);
+    animation: pulse 1.5s infinite;
+}
+
+/* Items */
+.item {
+    background: var(--color-white);
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    border-radius: var(--radius-md);
+    cursor: move;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid transparent;
+}
+
+.item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+}
+
+.item:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.item.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+    z-index: 1000;
+    cursor: grabbing;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.drag-handle {
+    font-size: 1.2rem;
+    color: #999;
+    cursor: grab;
+    user-select: none;
+    transition: color var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    min-height: 24px;
+}
+
+.item:hover .drag-handle {
+    color: var(--color-primary);
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.item-text {
+    flex: 1;
+    font-weight: 500;
+    color: var(--color-gray-800);
+}
+
+/* Utilidades de accesibilidad */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    .columns {
+        grid-template-columns: 1fr;
+    }
+    
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .app-header h1 {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .column {
+        padding: 1rem;
+    }
+    
+    .dropzone {
+        min-height: 250px;
+        padding: 0.75rem;
+    }
+    
+    .item {
+        padding: 0.75rem;
+    }
+}
+
+/* Soporte para preferencias de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .item:hover,
+    .btn:hover:not(:disabled),
+    .column:hover {
+        transform: none !important;
+    }
+}
+
+/* Modo oscuro automático */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-gray-50: #2d2d2d;
+        --color-gray-100: #3d3d3d;
+        --color-gray-200: #4d4d4d;
+        --color-gray-300: #5d5d5d;
+        --color-gray-800: #f0f0f0;
+    }
+    
+    .column {
+        background: rgba(30, 30, 30, 0.95);
+    }
+    
+    .dropzone {
+        background: var(--color-gray-50);
+    }
+    
+    .item {
+        background: var(--color-gray-100);
+    }
+    
+    .drag-handle {
+        color: var(--color-gray-300);
+    }
+    
+    .item:hover .drag-handle {
+        color: var(--color-primary);
+    }
+}
