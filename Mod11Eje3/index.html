@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aplicación de ordenamiento con Drag and Drop - Arrastra elementos para reorganizarlos">
+    <title>Ordenador Drag and Drop | Reorganiza Elementos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="app-header">
+            <h1>
+                <span class="header-icon" aria-hidden="true">🎯</span>
+                Ordenador Drag and Drop
+            </h1>
+            <p class="subtitle">Arrastra los elementos para reorganizarlos</p>
+        </header>
+        
+        <div class="controls" role="toolbar" aria-label="Controles del ordenador">
+            <button class="btn" id="resetBtn" type="button" aria-label="Resetear orden a posición inicial">
+                <span class="btn-icon" aria-hidden="true">↻</span>
+                <span class="btn-text">Resetear Orden</span>
+            </button>
+            <button class="btn" id="addBtn" type="button" aria-label="Agregar nueva tarea">
+                <span class="btn-icon" aria-hidden="true">+</span>
+                <span class="btn-text">Agregar Tarea</span>
+            </button>
+        </div>
+
+        <div class="columns" role="application" aria-label="Tablero de tareas">
+            <div class="column" role="region" aria-labelledby="todo-heading">
+                <h2 id="todo-heading">
+                    <span class="column-icon" aria-hidden="true">📋</span>
+                    Por Hacer
+                </h2>
+                <div class="dropzone" 
+                     id="todo" 
+                     data-zone="todo"
+                     role="list"
+                     aria-labelledby="todo-heading"
+                     aria-describedby="todo-desc">
+                    <p id="todo-desc" class="visually-hidden">
+                        Arrastra elementos aquí o usa el botón de agregar tarea
+                    </p>
+                    
+                    <div class="item" 
+                         draggable="true" 
+                         data-id="1"
+                         role="listitem"
+                         aria-describedby="item1-desc"
+                         tabindex="0">
+                        <span class="drag-handle" aria-hidden="true">☰</span>
+                        <span class="item-text">Aprender HTML</span>
+                        <span id="item1-desc" class="visually-hidden">
+                            Elemento arrastrable, posición 1 en Por Hacer
+                        </span>
+                    </div>
+                    
+                    <div class="item" 
+                         draggable="true" 
+                         data-id="2"
+                         role="listitem"
+                         aria-describedby="item2-desc"
+                         tabindex="0">
+                        <span class="drag-handle" aria-hidden="true">☰</span>
+                        <span class="item-text">Estudiar CSS</span>
+                        <span id="item2-desc" class="visually-hidden">
+                            Elemento arrastrable, posición 2 en Por Hacer
+                        </span>
+                    </div>
+                    
+                    <div class="item" 
+                         draggable="true" 
+                         data-id="3"
+                         role="listitem"
+                         aria-describedby="item3-desc"
+                         tabindex="0">
+                        <span class="drag-handle" aria-hidden="true">☰</span>
+                        <span class="item-text">Practicar JavaScript</span>
+                        <span id="item3-desc" class="visually-hidden">
+                            Elemento arrastrable, posición 3 en Por Hacer
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column" role="region" aria-labelledby="progress-heading">
+                <h2 id="progress-heading">
+                    <span class="column-icon" aria-hidden="true">⚙️</span>
+                    En Progreso
+                </h2>
+                <div class="dropzone" 
+                     id="progress" 
+                     data-zone="progress"
+                     role="list"
+                     aria-labelledby="progress-heading"
+                     aria-describedby="progress-desc">
+                    <p id="progress-desc" class="visually-hidden">
+                        Arrastra elementos aquí para marcar como en progreso
+                    </p>
+                    
+                    <div class="item" 
+                         draggable="true" 
+                         data-id="4"
+                         role="listitem"
+                         aria-describedby="item4-desc"
+                         tabindex="0">
+                        <span class="drag-handle" aria-hidden="true">☰</span>
+                        <span class="item-text">Hacer proyecto</span>
+                        <span id="item4-desc" class="visually-hidden">
+                            Elemento arrastrable, posición 1 en En Progreso
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column" role="region" aria-labelledby="done-heading">
+                <h2 id="done-heading">
+                    <span class="column-icon" aria-hidden="true">✅</span>
+                    Completado
+                </h2>
+                <div class="dropzone" 
+                     id="done" 
+                     data-zone="done"
+                     role="list"
+                     aria-labelledby="done-heading"
+                     aria-describedby="done-desc">
+                    <p id="done-desc" class="visually-hidden">
+                        Arrastra elementos aquí para marcar como completados
+                    </p>
+                    
+                    <div class="item" 
+                         draggable="true" 
+                         data-id="5"
+                         role="listitem"
+                         aria-describedby="item5-desc"
+                         tabindex="0">
+                        <span class="drag-handle" aria-hidden="true">☰</span>
+                        <span class="item-text">Completar ejercicios</span>
+                        <span id="item5-desc" class="visually-hidden">
+                            Elemento arrastrable, posición 1 en Completado
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
